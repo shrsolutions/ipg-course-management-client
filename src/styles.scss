@@ -1,1 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f5f5f5 !important;
+}
+@import "@angular/material/theming";
+/* styles.scss */
+@include mat-core();
+
+// Define your custom primary and accent colors
+$my-primary: mat-palette($mat-blue);
+$my-accent: mat-palette($mat-green, A200, A100, A400);
+
+$my-warn: mat-palette($mat-red);
+
+// Create the theme using your custom colors
+$my-theme: mat-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+    ),
+  )
+);
+
+// Apply the custom theme to the application
+@include angular-material-theme($my-theme);
