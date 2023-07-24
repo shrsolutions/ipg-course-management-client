@@ -1,0 +1,36 @@
+@mixin flexing(
+  $mat-justify-content: center,
+  $mat-align-items: center,
+  $mat-direction: column
+) {
+  display: flex;
+  justify-content: $mat-justify-content;
+  align-items: $mat-align-items;
+  flex-direction: $mat-direction;
+}
+
+$breakpoints: (
+  "xs": 25em,
+  // 400px
+  "sm": 34em,
+  // 544px
+  "md": 48em,
+  // 768px
+  "lg": 60em,
+  // 960px
+  "xl": 80em,
+  // 1280px
+  "xxl": 90em
+);
+
+@mixin respond-above($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    @media (max-width: $breakpoint-value) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}

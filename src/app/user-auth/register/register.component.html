@@ -1,0 +1,43 @@
+<mat-card>
+    <mat-card-content>
+        <form class="login--section">
+            <mat-card-title>REGISTER</mat-card-title>
+            <div>
+                <p>
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="First Name">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Last Name">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Email">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'">
+                        <mat-icon matSuffix (click)="togglePasswordVisibility()">{{ hidePassword ? 'visibility_off' :
+                            'visibility' }}</mat-icon>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input matInput placeholder="Password" type="password">
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <button mat-raised-button color="primary">REGISTER</button>
+            <div class="register--container">
+                Already Register? <a href=""> {{' '+'Login'}}</a>
+            </div>
+        </form>
+        <div class="image--section">
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -6,18 +6,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from '../shared/shared.module';
+import { AuthRoutingModule } from './auth-routing.module';
+import { FormsModule } from '@angular/forms';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
-    LoginComponent
-
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatButtonModule,
+    SharedModule,
     MatInputModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    AuthRoutingModule,
+    FormsModule
   ],
   exports: [
     LoginComponent
