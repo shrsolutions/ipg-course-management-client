@@ -1,27 +1,30 @@
 <mat-card>
     <mat-card-content>
-        <form class="login--section">
+        <form class="login--section" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <mat-card-title>Login</mat-card-title>
             <div>
-                <p>
+                <div>
                     <mat-form-field>
-                        <input type="text" matInput placeholder="Username">
+                        <input type="email" matInput formControlName="email" placeholder="Username">
+                        <mat-error>Email is required</mat-error>
                     </mat-form-field>
-                </p>
+                </div>
                 <p>
                     <mat-form-field>
-                        <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'">
+                        <input matInput placeholder="Password" formControlName="password"
+                            [type]="hidePassword ? 'password' : 'text'">
                         <mat-icon matSuffix (click)="togglePasswordVisibility()">{{ hidePassword ? 'visibility_off' :
                             'visibility' }}</mat-icon>
+                        <mat-error>Password is required</mat-error>
                     </mat-form-field>
                 </p>
             </div>
             <div class="forgot-password">
-                <a href="#">Forgot password</a>
+                <a>Forgot password</a>
             </div>
-            <button mat-raised-button color="primary">LOGIN</button>
+            <button mat-raised-button color="primary" type="submit">LOGIN</button>
             <div class="register--container">
-                New User? <a href=""> {{' '+'Register'}}</a>
+                New User? <a [routerLink] class="btn btn-link"> {{' '+'Register'}}</a>
             </div>
         </form>
         <div class="image--section">

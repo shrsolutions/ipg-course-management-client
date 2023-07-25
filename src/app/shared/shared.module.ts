@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -13,15 +14,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
+MatInputModule,
+       MatButtonModule
 
   ],
   exports: [
     CommonModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    MatInputModule,
     MatButtonModule,
   ]
 })

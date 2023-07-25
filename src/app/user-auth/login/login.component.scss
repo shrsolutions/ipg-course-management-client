@@ -3,7 +3,7 @@
 mat-card {
   width: 100%;
   max-width: 1000px;
-  height: 70vh;
+   height: 95vh;
   @include flexing();
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -17,7 +17,7 @@ mat-card {
     .image--section {
       width: 50%;
       background-color: #00b0f0;
-      height: 70vh;
+      height: 95vh;
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
     }
@@ -87,7 +87,7 @@ button {
   display: flex;
   height: 30px;
   justify-content: center;
-  align-items: flex-end;
+ align-items: center;
   a {
     text-decoration: none;
     font-size: 16px;

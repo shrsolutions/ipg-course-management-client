@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { UserAuthModule } from './user-auth/user-auth.module';
 import { Routes } from '@angular/router';
 
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -14,6 +14,7 @@ import { Routes } from '@angular/router';
   ],
   imports: [
     BrowserModule,
+       BrowserAnimationsModule,
     AppRoutingModule,
     UserAuthModule
   ],

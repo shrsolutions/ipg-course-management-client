@@ -34,7 +34,7 @@
 
             <button mat-raised-button color="primary">REGISTER</button>
             <div class="register--container">
-                Already Register? <a href=""> {{' '+'Login'}}</a>
+                Already Register? <a [routerLink]="['/login']" class="btn btn-link"> {{' '+'Login'}}</a>
             </div>
         </form>
         <div class="image--section">

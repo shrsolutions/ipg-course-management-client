@@ -13,6 +13,7 @@ const userRoutes: Routes = [
   declarations: [],
   imports: [
     [RouterModule.forChild(userRoutes)]
-  ]
+  ],
+  exports:[RouterModule]
 })
 export class AuthRoutingModule { }
