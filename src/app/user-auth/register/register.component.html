@@ -1,43 +1,77 @@
-<mat-card>
-    <mat-card-content>
-        <form class="login--section">
-            <mat-card-title>REGISTER</mat-card-title>
-            <div>
-                <p>
-                    <mat-form-field>
-                        <input type="text" matInput placeholder="First Name">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field>
-                        <input type="text" matInput placeholder="Last Name">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field>
-                        <input type="text" matInput placeholder="Email">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field>
-                        <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'">
-                        <mat-icon matSuffix (click)="togglePasswordVisibility()">{{ hidePassword ? 'visibility_off' :
-                            'visibility' }}</mat-icon>
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field>
-                        <input matInput placeholder="Password" type="password">
-                    </mat-form-field>
-                </p>
-            </div>
+<div class="d-flex justify-content-center">
+    <mat-card>
 
-            <button mat-raised-button color="primary">REGISTER</button>
-            <div class="register--container">
-                Already Register? <a [routerLink]="['/login']" class="btn btn-link"> {{' '+'Login'}}</a>
+        <mat-card-content>
+            <form [formGroup]="registrationForm" class="login--section" (ngSubmit)="onSubmit()">
+                <mat-card-title>REGISTER</mat-card-title>
+                <div>
+                    <p>
+                        <mat-form-field>
+                            <input type="text" matInput placeholder="First Name" name="firstName"
+                                formControlName="firstName" required>
+                            <mat-error *ngIf="registrationForm.get('firstName').hasError('required') && invalid">First
+                                Name
+                                is
+                                required</mat-error>
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field>
+                            <input type="text" matInput placeholder="Last Name" formControlName="lastName" required>
+                            <mat-error *ngIf="registrationForm.get('lastName').hasError('required') && invalid">Last
+                                Name is
+                                required</mat-error>
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field>
+                            <input type="email" matInput placeholder="Email" formControlName="email" required email>
+                            <mat-error *ngIf="registrationForm.get('email').hasError('required') && invalid">Email is
+                                required</mat-error>
+                            <mat-error *ngIf="registrationForm.get('email').hasError('email') && invalid">Invalid email
+                                format</mat-error>
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field>
+                            <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'"
+                                formControlName="password" required>
+                            <mat-icon matSuffix (click)="togglePasswordVisibility()">
+                                {{ hidePassword ? 'visibility_off' : 'visibility' }}
+                            </mat-icon>
+                            <mat-error *ngIf="registrationForm.get('password').hasError('required') && invalid">Password
+                                is
+                                required</mat-error>
+                            <mat-error
+                                *ngIf="registrationForm.get('password').hasError('pattern') && registrationForm.get('password').touched">
+                                Password must contain uppercase letters and numbers
+                            </mat-error>
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field>
+                            <input matInput placeholder="Confirm Password" type="password"
+                                formControlName="confirmPassword">
+                            <mat-error
+                                *ngIf="registrationForm.get('confirmPassword').hasError('required') && invalid">Confirm
+                                Password
+                                is required</mat-error>
+                            <mat-error *ngIf="!registrationForm.errors?.['passwordMismatch'] && invalid">Passwords
+                                do not
+                                match
+                            </mat-error>
+                        </mat-form-field>
+                    </p>
+                </div>
+
+                <button class="btn btn-primary w-100 waves-effect waves-light custom-submit"
+                    [disabled]="registrationForm.invalid">REGISTER</button>
+                <div class="register--container">
+                    Already Registered? <a [routerLink]="['/login']" class="btn btn-link">Login</a>
+                </div>
+            </form>
+            <div class="image--section">
             </div>
-        </form>
-        <div class="image--section">
-        </div>
-    </mat-card-content>
-</mat-card>
+        </mat-card-content>
+    </mat-card>
+</div>

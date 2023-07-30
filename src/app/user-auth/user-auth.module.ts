@@ -10,10 +10,14 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { EmailAlertComponent } from './email-alert/email-alert.component';
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
+    ForgotPasswordComponent,
+    EmailAlertComponent,
   ],
   imports: [
     SharedModule,
