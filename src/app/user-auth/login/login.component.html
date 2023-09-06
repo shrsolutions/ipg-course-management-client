@@ -1,5 +1,5 @@
 <!-- login.component.html -->
-<div class="d-flex justify-content-center ">
+<div class="d-flex justify-content-center login-container ">
     <mat-card class="col-lg-12 mt-5">
         <mat-card-content>
             <form class="login--section" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
@@ -38,7 +38,7 @@
                     <a aria-label="Forgot password" class="btn btn-link" [routerLink]="['/forgot-password']">Forgot
                         password</a>
                 </div>
-                <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">LOGIN</button>
+                <button class="btn btn-primary waves-effect waves-light custom-btn" type="submit">LOGIN</button>
                 <div class="register--container">
                     New User? <a [routerLink]="['/register']" class="btn btn-link">Register</a>
                 </div>

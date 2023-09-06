@@ -28,7 +28,7 @@ $breakpoints: (
     $breakpoint-value: map-get($breakpoints, $breakpoint);
 
     @media (max-width: $breakpoint-value) {
-      @content;
+           @content;
     }
   } @else {
     @warn 'Invalid breakpoint: #{$breakpoint}.';

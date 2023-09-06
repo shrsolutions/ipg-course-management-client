@@ -13,7 +13,8 @@ import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { EmailAlertComponent } from './email-alert/email-alert.component';
 @NgModule({
-  declarations: [
+  declarations:
+  [
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
@@ -27,7 +28,10 @@ import { EmailAlertComponent } from './email-alert/email-alert.component';
     FormsModule
   ],
   exports: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
+    EmailAlertComponent
   ]
 
 })
