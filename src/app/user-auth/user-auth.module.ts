@@ -1,9 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '../shared/shared.module';
@@ -12,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { EmailAlertComponent } from './email-alert/email-alert.component';
+import { ConfirmAccountComponent } from './confirm-account/confirm-account.component';
 @NgModule({
   declarations:
   [
@@ -19,6 +16,7 @@ import { EmailAlertComponent } from './email-alert/email-alert.component';
     RegisterComponent,
     ForgotPasswordComponent,
     EmailAlertComponent,
+    ConfirmAccountComponent,
   ],
   imports: [
     SharedModule,

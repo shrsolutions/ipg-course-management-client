@@ -5,12 +5,14 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { EmailAlertComponent } from './email-alert/email-alert.component';
+import { ConfirmAccountComponent } from './confirm-account/confirm-account.component';
 
 const userRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'email-alert', component: EmailAlertComponent },
+  { path: 'confirm-account', component: ConfirmAccountComponent },
 ]
 
 @NgModule({

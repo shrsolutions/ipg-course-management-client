@@ -1,0 +1,43 @@
+<div class="row m-0">
+    <div class="col-lg-3 col-md-10 col-sm-10 p-0">
+        <div class="card vh-100 m-0 shadow-none">
+            <div class="card-body">
+                <div class="px-2 mt-2">
+                    <h4 class="font-size-18 mb-2 text-center">Confirm Code</h4>
+                    <p class="text-muted text-center">Enter your confirmation code</p>
+
+                    <form class="form-horizontal my-4" [formGroup]="confirmCodeForm" (ngSubmit)="onConfirmCode()">
+
+                        <div class="mb-3">
+                            <label class="form-label" for="confirmCode">Confirmation Code</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" formControlName="confirmCode" id="confirmCode"
+                                    placeholder="Enter your confirmation code" aria-describedby="confirmCodeHelp"
+                                    required>
+                            </div>
+                            <div id="confirmCodeHelp" class="form-text">Enter the code you received.</div>
+                            <div *ngIf="confirmCodeForm.get('confirmCode').hasError('required')" class="text-danger">
+                                Confirmation code is required.
+                            </div>
+                            <div *ngIf="confirmCodeForm.get('confirmCode').hasError('minlength')" class="text-danger">
+                                Confirmation code must be at least 6 characters long.
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-primary w-100 waves-effect waves-light" type="submit"
+                                    aria-label="Confirm Code">Confirm</button>
+                            </div>
+                        </div>
+                        <div class="text-danger">{{ confirmationError }}</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9 col-md-2 col-sm-2 p-0 vh-100 custom-image d-flex justify-content-center"
+        style="background-color:#44a2d2 ;">
+    </div>
+</div>

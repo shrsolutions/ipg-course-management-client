@@ -3,10 +3,10 @@
 mat-card {
   width: 100%;
   max-width: 1000px;
-   height: 95vh;  
+  height: 100vh;  
   @include flexing();
   border-radius: 10px;
-  margin-top: 15px;
+  margin-top: 5px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
@@ -18,7 +18,7 @@ mat-card {
     .image--section {
       width: 50%;
       background-color: #44a2d2;
-       height: 95vh;
+      height: 100vh;
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
     }
@@ -56,13 +56,47 @@ mat-card {
   
  
   
-  custom-btn {
+  .custom-btn {
   width: 180%!important;
+  }
 }
+
+@include respond-above("md") {
+  .register-container{
+   
+    width: 100%;
+  }
+  mat-card {
+    @include flexing($mat-direction: column);
+    width:95%;
+  }
+  mat-card-content {
+    width: 100%;
+    min-width: 0px !important;
+  }
+
+  .image--section {
+    display: none;
+  }
+  .login--section {
+    width: 92%;
+    margin: 1.2rem;
+  }
+  mat-form-field {
+    width: 90%;
+    min-width: 600px;
+  }
+  
+ 
+  
+  .custom-btn {
+  width: 180%!important;
+  }
 }
 mat-form-field {
   width: 90%;
   min-width: 400px;
+
 }
 
 mat-card-title {
@@ -116,4 +150,16 @@ mat-icon {
 }
 .submit-button{
   margin-top: 10px;
+}
+
+::ng-deep .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix{
+  padding-top: 12px;
+    padding-bottom: 10px;
+}
+
+::ng-deep mat-form-field {
+  height: 60px;
+}
+p{
+  margin-bottom: 5px;
 }
