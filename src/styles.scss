@@ -13,6 +13,7 @@ body {
 }
 @import "@angular/material/theming";
 @import "./assets/styles/mixin";
+@import "ngx-toastr/toastr";
 /* styles.scss */
 @include mat-core();
 
@@ -35,11 +36,9 @@ $my-theme: mat-light-theme(
 // Apply the custom theme to the application
 @include angular-material-theme($my-theme);
 
-
 @include respond-above("sm") {
   html,
   body {
-   
     font-size: 12px;
   }
 }

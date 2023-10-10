@@ -65,17 +65,26 @@
                                 *ngIf="registrationForm.get('confirmPassword').hasError('required') && invalid">Confirm
                                 Password
                                 is required</mat-error>
-                            <mat-error *ngIf="!registrationForm.errors?.['passwordMismatch'] && invalid">Passwords
-                                do not
-                                match
+                            <mat-error *ngIf="registrationForm.get('confirmPassword').hasError('not_matching')">
+                                The password doesn't match!
                             </mat-error>
                         </mat-form-field>
                     </p>
-                    <div class="mb-3">
-                        <label for="example-date-input" class="form-label">Date of Birth</label>
-                        <input class="form-control" formControlName="dateOfBirth" type="date" value="2019-08-19"
-                            id="example-date-input">
-                    </div>
+                    <p>
+                        <mat-form-field class="mb-3">
+                            <input matInput [matDatepicker]="dp3" formControlName="dateOfBirth"
+                                placeholder="Date of Birth">
+                            <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+
+
+                            <mat-error *ngIf="registrationForm.get('dateOfBirth').hasError('required') && invalid">
+                                Date of Birth is required.d</mat-error>
+                            <mat-error *ngIf="registrationForm.get('dateOfBirth').hasError('ageOutOfRange')">
+                                Age must be between 18 and 100.
+                            </mat-error>
+                        </mat-form-field>
+                    </p>
                     <div class="form-check mb-3 d-flex">
                         <div class="mx-2">
                             <input class="form-check-input" formControlName="gender" type="radio" name="gender"
@@ -91,13 +100,17 @@
                                 Female
                             </label>
                         </div>
+                        <div *ngIf="registrationForm.get('gender').hasError('required')  && invalid"
+                            class="text-danger">
+                            Please select a gender.
+                        </div>
                     </div>
 
                 </div>
 
                 <button class="btn btn-primary waves-effect waves-light custom-btn" type="submit">REGISTER</button>
                 <div class="register--container">
-                    Already Registered? <a [routerLink]="['/login']" class="btn btn-link">Login</a>
+                    Already Registered? <a [routerLink]="['/auth/login']" class="btn btn-link">Login</a>
                 </div>
             </form>
             <div class="image--section">

@@ -7,7 +7,7 @@
                 <div>
                     <div>
                         <mat-form-field>
-                            <input type="text" matInput formControlName="email" placeholder="Username">
+                            <input type="text" matInput formControlName="email" placeholder="Email">
                             <mat-error
                                 *ngIf="signupForm.get('email').hasError('required') && signupForm.get('email').touched">
                                 Email is required
@@ -40,7 +40,7 @@
                 </div>
                 <button class="btn btn-primary waves-effect waves-light custom-btn" type="submit">LOGIN</button>
                 <div class="register--container">
-                    New User? <a [routerLink]="['/register']" class="btn btn-link">Register</a>
+                    New User? <a [routerLink]="['/auth/register']" class="btn btn-link">Register</a>
                 </div>
             </form>
             <div class="image--section">

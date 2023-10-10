@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "./user-auth/auth.service";
+import { AuthService } from "src/app/user-auth/auth.service";
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  selector: "app-sidebar",
+  templateUrl: "./sidebar.component.html",
+  styleUrls: ["./sidebar.component.scss"],
 })
-export class AppComponent implements OnInit {
+export class SidebarComponent implements OnInit {
   isAuthenticated: boolean = false;
 
   constructor(private authService: AuthService) {}
@@ -19,10 +19,7 @@ export class AppComponent implements OnInit {
   }
 
   private handleUserData = (userData: any) => {
-    console.log(userData);
     const isAuthenticated = this.authService.isUserAuthenticated(userData);
     this.isAuthenticated = isAuthenticated;
   };
-
-  title = "IpgCourseManagement-App";
 }
