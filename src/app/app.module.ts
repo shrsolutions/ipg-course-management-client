@@ -8,7 +8,8 @@ import { MainTeacherManagementModule } from "./main-teacher-management/main-teac
 import { TeacherRoutingModule } from "./main-teacher-management/teacher-routing.module";
 import { ToastrModule } from "ngx-toastr";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { ErrorHandlingInterceptor } from "./core/error-handling.interceptor";
+import { ErrorHandlingInterceptor } from "./core/interceptors/error-handling.interceptor";
+import { HttpLoadingInterceptor } from "./core/interceptors/http-loading.interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,11 @@ import { ErrorHandlingInterceptor } from "./core/error-handling.interceptor";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlingInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpLoadingInterceptor,
       multi: true,
     },
   ],

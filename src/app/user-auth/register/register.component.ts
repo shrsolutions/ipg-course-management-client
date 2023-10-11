@@ -11,6 +11,7 @@ import {
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import ValidatorUtility from "src/app/shared/utility/validator-utility";
+import { LoadingService } from "src/app/shared/services/loading.service";
 
 @Component({
   selector: "app-register",
@@ -25,7 +26,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +40,7 @@ export class RegisterComponent implements OnInit {
         firstName: ["", Validators.required],
         lastName: ["", Validators.required],
         patronymic: ["", Validators.required],
-        dateOfBirth: ["", [Validators.required]],
+        dateOfBirth: ["2000-01-01", [Validators.required]],
         email: ["", [Validators.required, Validators.email]],
         gender: ["", Validators.required],
         password: [
@@ -66,13 +68,12 @@ export class RegisterComponent implements OnInit {
       Name: this.registrationForm.get("firstName").value,
       Surname: this.registrationForm.get("lastName").value,
       Patronymic: this.registrationForm.get("patronymic").value,
-      DateOfBirth: this.registrationForm.get("dateOfBirth").value,
+      DateOfBirth: this.registrationForm.get("dateOfBirth").value.toISOString(),
       Gender: this.registrationForm.get("gender").value,
     };
-    console.log("Valid", this.registrationForm);
+
     if (this.registrationForm.invalid) {
       this.invalid = true;
-
       return;
     }
 

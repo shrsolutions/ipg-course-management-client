@@ -12,8 +12,10 @@ import { HttpClientModule } from "@angular/common/http";
 import { ToastrModule } from "ngx-toastr";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
+import { SpinnerComponent } from "./components/spinner/spinner.component";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 @NgModule({
-  declarations: [],
+  declarations: [SpinnerComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -25,6 +27,7 @@ import { MatNativeDateModule } from "@angular/material/core";
     MatNativeDateModule,
     MatDatepickerModule,
     HttpClientModule,
+    MatProgressSpinnerModule,
     ToastrModule.forRoot(),
   ],
   exports: [
@@ -38,6 +41,8 @@ import { MatNativeDateModule } from "@angular/material/core";
     ToastrModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatProgressSpinnerModule,
+    SpinnerComponent,
   ],
 })
 export class SharedModule {}

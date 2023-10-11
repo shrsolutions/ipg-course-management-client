@@ -7,7 +7,7 @@ import {
   HttpErrorResponse,
 } from "@angular/common/http";
 import { Observable, catchError, throwError } from "rxjs";
-import { NotificationService } from "../shared/services/notification.service";
+import { NotificationService } from "../../shared/services/notification.service";
 
 @Injectable()
 export class ErrorHandlingInterceptor implements HttpInterceptor {
@@ -50,8 +50,9 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
             case 404:
               userErrorMessage = "System error";
               break;
-
-            // Add more cases for handling other status codes if needed
+            case 500:
+              userErrorMessage = "Internal Server Error";
+              break;
 
             default:
               break;
