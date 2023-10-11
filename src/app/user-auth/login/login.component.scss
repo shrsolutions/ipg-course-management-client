@@ -29,9 +29,14 @@ mat-card {
   }
 }
 @include respond-above("sm") {
+  
+  .login-container{
+   
+    width: 100%;
+  }
   mat-card {
     @include flexing($mat-direction: column);
-    width: 100%;
+    width:95%;
   }
   mat-card-content {
     width: 100%;
@@ -42,9 +47,19 @@ mat-card {
     display: none;
   }
   .login--section {
-    width: 100%;
+    width: 92%;
     margin: 1.2rem;
   }
+  mat-form-field {
+    width: 90%;
+    min-width: 300px!important;
+  }
+  
+ 
+  
+button {
+  width: 180%!important;
+}
 }
 mat-form-field {
   width: 90%;
@@ -68,7 +83,6 @@ mat-card-title {
 
 button {
   width: 90%;
-  min-width: 400px;
 }
 
 .forgot-password {
@@ -79,7 +93,7 @@ button {
 
   a {
     text-decoration: none;
-    font-size: 16px;
+    font-size: 1.2rem;
   }
 }
 
