@@ -18,6 +18,7 @@ import { AuthResult, User } from "./user-model";
 import { LocalStorageService } from "../shared/services/local-storage.service";
 import { Router } from "@angular/router";
 import { NotificationService } from "../shared/services/notification.service";
+import FormUtility from "../shared/utility/form-utility";
 
 @Injectable({
   providedIn: "root",
@@ -29,12 +30,11 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private localStorageService: LocalStorageService,
-    private router: Router,
-    private notificationService: NotificationService
+    private router: Router
   ) {}
 
   signup(registerModel) {
-    const formData = this.createFormData(registerModel);
+    const formData = FormUtility.createFormData(registerModel);
 
     return this.http
       .post<AuthResult>(`${this.baseUrl}app/users/register`, formData)
@@ -89,8 +89,8 @@ export class AuthService {
   }
 
   isUserAuthenticated(userData: any): boolean {
-    const userStatusId = userData.userStatusId ?? 1;
-    return userStatusId === 2;
+    const userStatusId = userData.userStatusId ?? 2;
+    return userStatusId === 3;
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -118,16 +118,6 @@ export class AuthService {
     const user = User.createUserInstance(userData.result);
     this.user.next(user);
     this.localStorageService.setItem("user", user);
-  }
-
-  private createFormData(data: Record<string, any>): FormData {
-    const formData = new FormData();
-    for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        formData.append(key, data[key]);
-      }
-    }
-    return formData;
   }
 
   private createAuthorizationHeader(token?: string): HttpHeaders {

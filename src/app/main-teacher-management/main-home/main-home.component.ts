@@ -12,6 +12,6 @@ export class MainHomeComponent {
    */
   constructor(private router: Router) {}
   onNavigate() {
-    this.router.navigate(["/module-category"]);
+    this.router.navigate(["/main-teacher-management/module-category"]);
   }
 }

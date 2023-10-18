@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../user-auth/auth.service";
+import { LoadingService } from "../shared/services/loading.service";
 
 @Component({
   selector: "app-main-teacher-management",
@@ -9,7 +10,10 @@ import { AuthService } from "../user-auth/auth.service";
 export class MainTeacherManagementComponent implements OnInit {
   isAuthenticated: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    public loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {
     const autoLogin = this.authService.authoLogin();
