@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { CategoriesComponent } from "./categories/categories.component";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { MainHomeComponent } from "./main-home/main-home.component";
@@ -10,10 +9,10 @@ import { SubjectComponent } from "./videos/subject/subject.component";
 import { MainTeacherManagementComponent } from "./main-teacher-management.component";
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
+import { RoleComponent } from "./admin/role/role.component";
 
 @NgModule({
   declarations: [
-    CategoriesComponent,
     MainHomeComponent,
     SubjectComponent,
     ModuleCategoryComponent,
@@ -21,8 +20,9 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
     MainTeacherManagementComponent,
     HeaderComponent,
     SidebarComponent,
+    RoleComponent,
   ],
   imports: [SharedModule, FormsModule, CommonModule, TeacherRoutingModule],
-  exports: [CategoriesComponent, MainHomeComponent, SubjectComponent],
+  exports: [MainHomeComponent, SubjectComponent],
 })
 export class MainTeacherManagementModule {}

@@ -32,11 +32,10 @@
               "src/assets/css/app.min.css",
               "src/assets/css/bootstrap.min.css",
               "src/assets/css/icons.min.css",
-              "src/assets/libs/metrojs/release/MetroJs.Full/MetroJs.min.css"
+              "src/assets/libs/metrojs/release/MetroJs.Full/MetroJs.min.css",
+              "src/assets/libs/sweetalert2/sweetalert2.min.css"
             ],
-            "scripts": [
-
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -100,9 +99,7 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": [
-            
-            ]
+            "scripts": []
           }
         }
       }

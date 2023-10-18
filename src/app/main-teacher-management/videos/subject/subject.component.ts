@@ -34,7 +34,7 @@ export class SubjectComponent {
   displayedColumns: string[] = ["Id", "SubjectName", "Edit"];
   dataSource: MatTableDataSource<Subjects>;
   onRowClick() {
-    // Implement your click behavior here, e.g., navigate to a detail page
+
     console.log("Clicked row");
   }
   constructor() {

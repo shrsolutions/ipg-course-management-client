@@ -10,6 +10,7 @@ import { ToastrModule } from "ngx-toastr";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ErrorHandlingInterceptor } from "./core/interceptors/error-handling.interceptor";
 import { HttpLoadingInterceptor } from "./core/interceptors/http-loading.interceptor";
+import { TokenInterceptor } from "./core/interceptors/token.interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,6 @@ import { HttpLoadingInterceptor } from "./core/interceptors/http-loading.interce
     BrowserAnimationsModule,
     AppRoutingModule,
     UserAuthModule,
-    MainTeacherManagementModule,
     TeacherRoutingModule,
     ToastrModule.forRoot(),
   ],
@@ -31,6 +31,11 @@ import { HttpLoadingInterceptor } from "./core/interceptors/http-loading.interce
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
       multi: true,
     },
   ],

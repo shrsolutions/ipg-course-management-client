@@ -8,7 +8,6 @@ export class NotificationService {
   constructor(private toastr: ToastrService) {}
 
   showSuccess(message: string, title: string = "") {
-    debugger;
     this.toastr.success(message, title);
   }
 

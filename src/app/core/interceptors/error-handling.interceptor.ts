@@ -31,19 +31,21 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
 
           switch (error.status) {
             case 400:
-              for (const message of serverErrorMessages) {
-                switch (message) {
-                  case "IncorrectEmailOrPassword":
-                    userErrorMessage = "Email or Password is incorrect!";
-                    break;
-                  case "EmailAlreadyRegistered":
-                    userErrorMessage = "Email already registered";
-                    break;
+              if (serverErrorMessages) {
+                for (const message of serverErrorMessages) {
+                  switch (message) {
+                    case "IncorrectEmailOrPassword":
+                      userErrorMessage = "Email or Password is incorrect!";
+                      break;
+                    case "EmailAlreadyRegistered":
+                      userErrorMessage = "Email already registered";
+                      break;
 
-                  // Add more cases for specific error messages if needed
+                    // Add more cases for specific error messages if needed
 
-                  default:
-                    break;
+                    default:
+                      break;
+                  }
                 }
               }
               break;

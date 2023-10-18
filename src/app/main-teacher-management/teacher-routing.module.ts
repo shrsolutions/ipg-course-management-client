@@ -5,6 +5,7 @@ import { MainHomeComponent } from "./main-home/main-home.component";
 import { ModuleCategoryComponent } from "./module-category/module-category.component";
 import { SubjectComponent } from "./videos/subject/subject.component";
 import { MainTeacherManagementComponent } from "./main-teacher-management.component";
+import { RoleComponent } from "./admin/role/role.component";
 
 const userRoutes: Routes = [
   {
@@ -14,6 +15,7 @@ const userRoutes: Routes = [
       { path: "module-category", component: ModuleCategoryComponent },
       { path: "main-home", component: MainHomeComponent },
       { path: "videos/subject", component: SubjectComponent },
+      { path: "admin/role", component: RoleComponent },
     ],
   },
 ];

@@ -16,7 +16,6 @@ export class LoadingService {
     this.loadingSubject.next(false);
   }
 
-  // Optionally, you can add methods to check the loading state or expose the loadingSubject.
   get isLoading(): boolean {
     return this.loadingSubject.value;
   }
