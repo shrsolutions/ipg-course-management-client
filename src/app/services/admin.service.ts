@@ -6,7 +6,10 @@ import {
   Wrapper,
   WrapperWithoutCount,
 } from "../main-teacher-management/models/Base/FetchBaseModel";
-import { Roles } from "../main-teacher-management/models/admin-models/role.model";
+import {
+  Roles,
+  Users,
+} from "../main-teacher-management/models/admin-models/role.model";
 import { environment } from "src/environments/environment.development";
 import HttpHelper from "../shared/helper/httpHelper";
 import { API_SCHEMA } from "../shared/enums/api-enum";
@@ -49,6 +52,13 @@ export class AdminService {
   removeRole(roleId: number) {
     return this.http.delete<Wrapper<any>>(
       `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/roles/${roleId}`
+    );
+  }
+
+  fetchAllUsers(paginator: PaginatorModel) {
+    const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
+    return this.http.get<Wrapper<Users>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users${pagenitorUrl}`
     );
   }
 }

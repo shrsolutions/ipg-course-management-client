@@ -121,6 +121,8 @@ export class RoleComponent implements OnInit {
         },
       });
     }
+
+    this.roleForm.reset();
   }
 
   editRole(roleData: Roles) {

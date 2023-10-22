@@ -1,0 +1,45 @@
+<div class="card p-5">
+
+    <div class="row d-flex justify-content-center p-0" style="padding: 0;">
+        <div class="mat-elevation-z8 table-responsive col-lg-10">
+            <table mat-table [dataSource]="dataSource" matSort class="table table-centered mb-0">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                    <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Eamil</th>
+                    <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+                </ng-container>
+                <ng-container matColumnDef="fullName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
+                    <td mat-cell *matCellDef="let row">{{ row.fullName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="userStatusId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>User Status Id</th>
+                    <td mat-cell *matCellDef="let row">{{ row.userStatusId }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="setRole">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Set New Role</th>
+                    <td mat-cell *matCellDef="let row"><a class="btn btn-outline-primary btn-sm">Set Role</a></td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="Edit">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Edit </th>
+                    <td mat-cell *matCellDef="let row"> <a class="btn btn-outline-secondary btn-sm edit"
+                            (click)="editRole(row)" title="Edit">
+                            <i class="fas fa-pencil-alt" title="Edit"></i>
+                        </a> </td>
+                </ng-container> -->
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+            <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChanged($event)"
+                [length]="paginatorModel.count"></mat-paginator>
+        </div>
+    </div>
+</div>

@@ -10,6 +10,7 @@ import { MainTeacherManagementComponent } from "./main-teacher-management.compon
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { RoleComponent } from "./admin/role/role.component";
+import { UserAcivateComponent } from './admin/user-acivate/user-acivate.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RoleComponent } from "./admin/role/role.component";
     HeaderComponent,
     SidebarComponent,
     RoleComponent,
+    UserAcivateComponent,
   ],
   imports: [SharedModule, FormsModule, CommonModule, TeacherRoutingModule],
   exports: [MainHomeComponent, SubjectComponent],
