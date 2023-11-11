@@ -16,6 +16,10 @@ export class User {
   get token() {
     return this._token;
   }
+
+  get fullName() {
+    return `${this.name} ${this.surname}`;
+  }
   static createUserInstance(data: any): User {
     const { email, name, surname, token, services, userStatusId } = data;
     return new User(email, name, surname, token, services, userStatusId);

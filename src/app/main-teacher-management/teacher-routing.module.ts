@@ -7,6 +7,7 @@ import { SubjectComponent } from "./videos/subject/subject.component";
 import { MainTeacherManagementComponent } from "./main-teacher-management.component";
 import { RoleComponent } from "./admin/role/role.component";
 import { UserAcivateComponent } from "./admin/user-acivate/user-acivate.component";
+import { UserRegisteredComponent } from "./account/user-registered/user-registered.component";
 
 const userRoutes: Routes = [
   {
@@ -18,6 +19,7 @@ const userRoutes: Routes = [
       { path: "videos/subject", component: SubjectComponent },
       { path: "admin/role", component: RoleComponent },
       { path: "admin/user-activate", component: UserAcivateComponent },
+      { path: "account/user-registered", component: UserRegisteredComponent },
     ],
   },
 ];

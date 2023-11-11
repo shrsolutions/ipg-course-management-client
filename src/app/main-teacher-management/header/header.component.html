@@ -214,12 +214,13 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="assets/images/users/user-1.jpg"
                         alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1">Amelia</span>
+                    <span class="d-none d-xl-inline-block ms-1">{{userFullName}}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" href="#"><i class="dripicons-user d-inline-block text-muted me-2"></i>
+                    <a class="dropdown-item" [routerLink]="['/main-teacher-management/account/user-registered']"><i
+                            class="dripicons-user d-inline-block text-muted me-2"></i>
                         Profile</a>
                     <a class="dropdown-item" href="#"><i class="dripicons-wallet d-inline-block text-muted me-2"></i> My
                         Wallet</a>

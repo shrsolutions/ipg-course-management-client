@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "src/app/user-auth/auth.service";
+import { User } from "src/app/user-auth/user-model";
 
 @Component({
   selector: "app-header",
@@ -8,7 +9,7 @@ import { AuthService } from "src/app/user-auth/auth.service";
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
-
+  userFullName: string;
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -22,8 +23,9 @@ export class HeaderComponent implements OnInit {
     this.authService.signOut();
   }
 
-  private handleUserData = (userData: any) => {
+  private handleUserData = (userData: User) => {
     const isAuthenticated = this.authService.isUserAuthenticated(userData);
+    this.userFullName = userData.fullName;
     this.isAuthenticated = isAuthenticated;
   };
 }

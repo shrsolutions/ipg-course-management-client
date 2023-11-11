@@ -29,14 +29,12 @@ mat-card {
   }
 }
 @include respond-above("sm") {
-  
-  .login-container{
-   
+  .login-container {
     width: 100%;
   }
   mat-card {
     @include flexing($mat-direction: column);
-    width:95%;
+    width: 95%;
   }
   mat-card-content {
     width: 100%;
@@ -52,14 +50,12 @@ mat-card {
   }
   mat-form-field {
     width: 90%;
-    min-width: 300px!important;
+    min-width: 300px !important;
   }
-  
- 
-  
-button {
-  width: 180%!important;
-}
+
+  button {
+    width: 180% !important;
+  }
 }
 mat-form-field {
   width: 90%;
@@ -102,7 +98,7 @@ button {
   display: flex;
   height: 30px;
   justify-content: center;
- align-items: center;
+  align-items: center;
   a {
     text-decoration: none;
     font-size: 16px;

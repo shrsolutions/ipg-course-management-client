@@ -1,0 +1,86 @@
+<div class="card">
+    <div class="card-header ">
+
+    </div>
+    <div class="card-body">
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+            <div class="row">
+                <p class="col-lg-4">
+
+                    <input type="text" class="form-control" placeholder="First Name" name="firstName"
+                        formControlName="firstName" required>
+                    <mat-error *ngIf="registrationForm.get('firstName').hasError('required') && invalid">First
+                        Name
+                        is
+                        required</mat-error>
+
+                </p>
+                <p class="col-lg-4">
+
+                    <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName">
+                    <mat-error *ngIf="registrationForm.get('lastName').hasError('required') && invalid">Last
+                        Name is
+                        required</mat-error>
+
+                </p>
+                <p class="col-lg-4">
+
+                    <input type="text" class="form-control" placeholder="Patronymic" formControlName="patronymic">
+                    <mat-error *ngIf="registrationForm.get('patronymic').hasError('required') && invalid">Patronymic
+                        required</mat-error>
+
+                </p>
+                <p class="col-lg-4">
+
+                    <input type="email" class="form-control" placeholder="Email" formControlName="email">
+                    <mat-error *ngIf="registrationForm.get('email').hasError('required') && invalid">Email is
+                        required</mat-error>
+                    <mat-error *ngIf="registrationForm.get('email').hasError('email') && invalid">Invalid email
+                        format</mat-error>
+
+                </p>
+
+
+                <p class="col-lg-4">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="dp3" formControlName="dateOfBirth" placeholder="Date of Birth">
+                        <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+
+
+                        <mat-error *ngIf="registrationForm.get('dateOfBirth').hasError('required') && invalid">
+                            Date of Birth is required.d</mat-error>
+                        <mat-error *ngIf="registrationForm.get('dateOfBirth').hasError('ageOutOfRange')">
+                            Age must be between 18 and 100.
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <div class="form-check mb-3 d-flex">
+                    <div class="mx-2">
+                        <input class="form-check-input" formControlName="gender" type="radio" name="gender" id="male"
+                            checked="" value="1">
+                        <label class="form-check-label" for="male">
+                            Male
+                        </label>
+                    </div>
+                    <div class="mx-5">
+                        <input class="form-check-input" type="radio" formControlName="gender" name="gender" id="female"
+                            checked="" value="2">
+                        <label class="form-check-label" for="female">
+                            Female
+                        </label>
+                    </div>
+                    <div *ngIf="registrationForm.get('gender').hasError('required')  && invalid" class="text-danger">
+                        Please select a gender.
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary waves-effect waves-light custom-btn" type="submit">REGISTER</button>
+
+        </form>
+
+    </div>
+</div>

@@ -14,8 +14,9 @@ import { MatNativeDateModule } from "@angular/material/core";
 import { SpinnerComponent } from "./components/spinner/spinner.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
+import { ToggleMenuDirective } from "./directive/toggle-menu.directive";
 @NgModule({
-  declarations: [SpinnerComponent],
+  declarations: [SpinnerComponent, ToggleMenuDirective],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -45,6 +46,7 @@ import { MatSelectModule } from "@angular/material/select";
     MatSelectModule,
     MatProgressSpinnerModule,
     SpinnerComponent,
+    ToggleMenuDirective,
   ],
 })
 export class SharedModule {}

@@ -19,6 +19,7 @@ import { TokenInterceptor } from "./core/interceptors/token.interceptor";
     BrowserAnimationsModule,
     AppRoutingModule,
     UserAuthModule,
+    MainTeacherManagementModule,
     TeacherRoutingModule,
     ToastrModule.forRoot(),
   ],

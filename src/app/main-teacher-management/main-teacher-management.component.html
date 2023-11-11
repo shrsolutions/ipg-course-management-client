@@ -1,4 +1,4 @@
-<div>
+<div id="layout-wrapper">
     <app-header *ngIf="isAuthenticated"></app-header>
     <app-sidebar *ngIf="isAuthenticated"></app-sidebar>
     <div class=" main-content">
@@ -9,7 +9,13 @@
         </div>
     </div>
 </div>
-
+<!-- 
 <div>
     <app-spinner *ngIf="loadingService.isLoading"></app-spinner>
-</div>
+</div> -->
+
+<script defer src="./../../assets/libs/jquery/jquery.min.js"></script>
+<script defer src="./../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script defer src="./../../assets/libs/metismenu/metisMenu.min.js"></script>
+<script defer src="./../../assets/libs/simplebar/simplebar.min.js"></script>
+<script defer src="./../../assets/libs/node-waves/waves.min.js"></script>

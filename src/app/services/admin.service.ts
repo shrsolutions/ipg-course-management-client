@@ -61,4 +61,25 @@ export class AdminService {
       `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users${pagenitorUrl}`
     );
   }
+
+  onSetNewRoleToUser(userId: number, roleIds: any) {
+    return this.http.put<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users/${userId}/roles`,
+      roleIds
+    );
+  }
+
+  onUserActivate(userId: number) {
+    return this.http.put<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users/${userId}/activate`,
+      {}
+    );
+  }
+
+  onUserBlock(userId: number) {
+    return this.http.put<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users/${userId}/block`,
+      {}
+    );
+  }
 }

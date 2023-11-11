@@ -48,7 +48,7 @@ export class AuthService {
     return this.http
       .post<AuthResult>(`${this.baseUrl}auth/login`, loginModel)
       .pipe(
-        catchError(this.handleError),
+        // catchError(this.handleError),
         tap((resData) => this.handleAuthentication(resData))
       );
   }
@@ -80,6 +80,7 @@ export class AuthService {
     if (!userData) {
       return false;
     }
+
     const loadedUser = User.createUserInstanceFromLocalStorage(userData);
     if (loadedUser.token) {
       this.user.next(loadedUser);
@@ -94,6 +95,8 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
+    console.log(errorRes.error);
+    console.log(errorRes.message);
     let errorMessage = "An Unknown error occured!";
 
     if (!errorRes.error) {
@@ -115,6 +118,7 @@ export class AuthService {
   }
 
   private handleAuthentication(userData: AuthResult) {
+    console.log(userData);
     const user = User.createUserInstance(userData.result);
     this.user.next(user);
     this.localStorageService.setItem("user", user);

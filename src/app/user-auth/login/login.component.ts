@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       Password: this.signupForm.get("password").value,
     };
     this.authService.signIn(loginModel).subscribe((res) => {
-      console.log(this.authService.user);
+      console.log(res);
       this.router.navigate(["/main-teacher-management/main-home"]);
     });
   }

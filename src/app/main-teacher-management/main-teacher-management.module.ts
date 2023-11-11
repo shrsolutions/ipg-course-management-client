@@ -10,8 +10,11 @@ import { MainTeacherManagementComponent } from "./main-teacher-management.compon
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { RoleComponent } from "./admin/role/role.component";
-import { UserAcivateComponent } from './admin/user-acivate/user-acivate.component';
-
+import { UserAcivateComponent } from "./admin/user-acivate/user-acivate.component";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatDialogModule } from "@angular/material/dialog";
+import { SetNewRoleComponent } from './admin/user-acivate/set-new-role/set-new-role.component';
+import { UserRegisteredComponent } from './account/user-registered/user-registered.component';
 @NgModule({
   declarations: [
     MainHomeComponent,
@@ -23,8 +26,17 @@ import { UserAcivateComponent } from './admin/user-acivate/user-acivate.componen
     SidebarComponent,
     RoleComponent,
     UserAcivateComponent,
+    SetNewRoleComponent,
+    UserRegisteredComponent,
   ],
-  imports: [SharedModule, FormsModule, CommonModule, TeacherRoutingModule],
+  imports: [
+    SharedModule,
+    FormsModule,
+    CommonModule,
+    TeacherRoutingModule,
+    MatTooltipModule,
+    MatDialogModule,
+  ],
   exports: [MainHomeComponent, SubjectComponent],
 })
 export class MainTeacherManagementModule {}
