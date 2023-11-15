@@ -1,0 +1,68 @@
+<div class="card p-5">
+    <div class="row d-flex justify-content-center">
+        <div class="card-body">
+            <h5 class="card-title" style="margin-left: 10px;">Added Category</h5>
+            <div class="general-label">
+                <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+                    <div class="row row-cols-lg-auto g-3 ">
+                        <div class="col-lg-8 col-sm-6">
+                            <div class="mb-0">
+                                <label class="visually-hidden" for="category">Category</label>
+                                <input type="text" class="form-control ms-2" id="category" formControlName="category">
+                                <div *ngIf="categoryForm.get('category').hasError('required') && categoryForm.get('category').touched"
+                                    class="text-danger">
+                                    Category is required
+                                </div>
+                                <div *ngIf="categoryForm.get('category').hasError('maxlength') && categoryForm.get('category').touched"
+                                    class="text-danger">
+                                    Maximum length is 50 characters
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-5">
+                            <div class="mb-0">
+                                <button type="submit" class="btn btn-primary w-50">{{btnAddOrUpdate}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="table-responsive row">
+        <table class="table table-striped table-bordered  table-centered col-lg-8 w-75 mx-4 ">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Category Name</th>
+                    <th>Language</th>
+                    <th>#</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let category of categoryList">
+                    <th>{{category.categoryId}}</th>
+                    <td>{{category.translation}}</td>
+                    <td>{{category.languageName}}</td>
+                    <td>
+                        <a class="btn btn-outline-secondary btn-sm edit" (click)="onEditCategory(category.categoryId)"
+                            title="Edit">
+                            <i class="fas fa-pencil-alt" title="Edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-secondary btn-sm remove"
+                            (click)="onRemoveCategory(category.categoryId,category.languageId)" title="Remove">
+                            <i class="fas fa-prescription-bottle" title="Remove"></i>
+                        </a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

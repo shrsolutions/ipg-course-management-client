@@ -14,6 +14,10 @@ import { environment } from "src/environments/environment.development";
 import HttpHelper from "../shared/helper/httpHelper";
 import { API_SCHEMA } from "../shared/enums/api-enum";
 import { RoleData } from "../main-teacher-management/admin/models/role";
+import {
+  Category,
+  CategoryResult,
+} from "../main-teacher-management/admin/models/category";
 
 @Injectable({
   providedIn: "root",
@@ -80,6 +84,31 @@ export class AdminService {
     return this.http.put<Wrapper<any>>(
       `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users/${userId}/block`,
       {}
+    );
+  }
+
+  onAddCategory(categoryData: Category) {
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/categories`,
+      categoryData
+    );
+  }
+
+  onRemoveCategory(categoryId: number, languageId: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/categories/${categoryId}/languages/${languageId}`
+    );
+  }
+
+  onAddSubject(categoryData: Category) {
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subjects`,
+      categoryData
+    );
+  }
+  onRemoveSubject(subjectId: number, languageId: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subjects/${subjectId}/languages/${languageId}`
     );
   }
 }

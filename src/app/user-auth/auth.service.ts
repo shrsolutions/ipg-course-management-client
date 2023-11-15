@@ -47,10 +47,7 @@ export class AuthService {
   signIn(loginModel) {
     return this.http
       .post<AuthResult>(`${this.baseUrl}auth/login`, loginModel)
-      .pipe(
-        // catchError(this.handleError),
-        tap((resData) => this.handleAuthentication(resData))
-      );
+      .pipe(tap((resData) => this.handleAuthentication(resData)));
   }
 
   signOut(): void {
@@ -95,14 +92,11 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    console.log(errorRes.error);
-    console.log(errorRes.message);
     let errorMessage = "An Unknown error occured!";
-
     if (!errorRes.error) {
       return throwError(() => errorMessage);
     }
-    console.log(errorRes.error.messages);
+
     for (const message of errorRes.error.messages) {
       switch (message) {
         case "IncorrectEmailOrPassword":

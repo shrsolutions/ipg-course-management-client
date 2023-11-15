@@ -3,11 +3,12 @@ import { CommonModule } from "@angular/common";
 import { RouterModule, Routes } from "@angular/router";
 import { MainHomeComponent } from "./main-home/main-home.component";
 import { ModuleCategoryComponent } from "./module-category/module-category.component";
-import { SubjectComponent } from "./videos/subject/subject.component";
 import { MainTeacherManagementComponent } from "./main-teacher-management.component";
 import { RoleComponent } from "./admin/role/role.component";
 import { UserAcivateComponent } from "./admin/user-acivate/user-acivate.component";
 import { UserRegisteredComponent } from "./account/user-registered/user-registered.component";
+import { CategoryComponent } from "./admin/category/category.component";
+import { SubjectsComponent } from "./admin/subjects/subjects.component";
 
 const userRoutes: Routes = [
   {
@@ -16,9 +17,10 @@ const userRoutes: Routes = [
     children: [
       { path: "module-category", component: ModuleCategoryComponent },
       { path: "main-home", component: MainHomeComponent },
-      { path: "videos/subject", component: SubjectComponent },
       { path: "admin/role", component: RoleComponent },
       { path: "admin/user-activate", component: UserAcivateComponent },
+      { path: "admin/category", component: CategoryComponent },
+      { path: "admin/subject", component: SubjectsComponent },
       { path: "account/user-registered", component: UserRegisteredComponent },
     ],
   },
