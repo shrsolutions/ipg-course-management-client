@@ -18,6 +18,9 @@ import { CategoryComponent } from "./admin/category/category.component";
 import { SubjectsComponent } from "./admin/subjects/subjects.component";
 import { TopicComponent } from "./teacher-module/topic/topic.component";
 import { SubjectListComponent } from "./admin/subjects/subject-list/subject-list.component";
+
+import { SubtopicModalComponent } from "./teacher-module/topic/topic-form/subtopic-modal/subtopic-modal.component";
+import { TopicFormComponent } from "./teacher-module/topic/topic-form/topic-form.component";
 @NgModule({
   declarations: [
     MainHomeComponent,
@@ -33,6 +36,9 @@ import { SubjectListComponent } from "./admin/subjects/subject-list/subject-list
     SubjectsComponent,
     TopicComponent,
     SubjectListComponent,
+    TopicFormComponent,
+
+    SubtopicModalComponent,
   ],
   imports: [
     SharedModule,

@@ -5,6 +5,8 @@ import { WrapperWithoutCount } from "../main-teacher-management/models/Base/Fetc
 import { CategoryResult } from "../main-teacher-management/admin/models/category";
 import { API_SCHEMA } from "../shared/enums/api-enum";
 import { SubjectList } from "../main-teacher-management/admin/models/subject";
+import { TopicList } from "../main-teacher-management/models/library-models/topic";
+import { SubtopicList } from "../main-teacher-management/models/library-models/subtopic";
 
 @Injectable({
   providedIn: "root",
@@ -22,6 +24,18 @@ export class LibraryService {
   fetchSubjectsByCategoryId(categoryId: number) {
     return this.http.get<WrapperWithoutCount<SubjectList>>(
       `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.LIBRARIES}/categories/${categoryId}/subjects`
+    );
+  }
+
+  fetchTopicsBySubjectId(subjectId: number) {
+    return this.http.get<WrapperWithoutCount<TopicList>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.LIBRARIES}/subjects/${subjectId}/topics`
+    );
+  }
+
+  fetchSubTopicsByTopicId(topicId: number) {
+    return this.http.get<WrapperWithoutCount<SubtopicList>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.LIBRARIES}/topics/${topicId}/subtopics`
     );
   }
 }

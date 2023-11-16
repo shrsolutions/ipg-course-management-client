@@ -9,6 +9,8 @@ import { UserAcivateComponent } from "./admin/user-acivate/user-acivate.componen
 import { UserRegisteredComponent } from "./account/user-registered/user-registered.component";
 import { CategoryComponent } from "./admin/category/category.component";
 import { SubjectsComponent } from "./admin/subjects/subjects.component";
+import { TopicComponent } from "./teacher-module/topic/topic.component";
+import { TopicFormComponent } from "./teacher-module/topic/topic-form/topic-form.component";
 
 const userRoutes: Routes = [
   {
@@ -21,6 +23,11 @@ const userRoutes: Routes = [
       { path: "admin/user-activate", component: UserAcivateComponent },
       { path: "admin/category", component: CategoryComponent },
       { path: "admin/subject", component: SubjectsComponent },
+      { path: "teacher-module/topics", component: TopicComponent },
+      {
+        path: "teacher-module/topics/topic-form/:id",
+        component: TopicFormComponent,
+      },
       { path: "account/user-registered", component: UserRegisteredComponent },
     ],
   },

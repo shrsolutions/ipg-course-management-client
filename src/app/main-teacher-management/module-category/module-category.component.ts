@@ -7,11 +7,13 @@ import { Router } from "@angular/router";
   styleUrls: ["./module-category.component.scss"],
 })
 export class ModuleCategoryComponent {
-  /**
-   *
-   */
   constructor(private router: Router) {}
-  onNavigate() {
-    this.router.navigate(["/videos/subject"]);
+  modulesNavs = {
+    2: "topics",
+  };
+  onNavigate(moduleId) {
+    this.router.navigate([
+      `/main-teacher-management/teacher-module/${this.modulesNavs[moduleId]}`,
+    ]);
   }
 }

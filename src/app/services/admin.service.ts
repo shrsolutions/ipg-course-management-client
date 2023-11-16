@@ -18,6 +18,8 @@ import {
   Category,
   CategoryResult,
 } from "../main-teacher-management/admin/models/category";
+import { TopicForm } from "../main-teacher-management/models/library-models/topic";
+import { SubtopicForm } from "../main-teacher-management/models/library-models/subtopic";
 
 @Injectable({
   providedIn: "root",
@@ -109,6 +111,20 @@ export class AdminService {
   onRemoveSubject(subjectId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
       `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subjects/${subjectId}/languages/${languageId}`
+    );
+  }
+
+  onAddTopic(topicData: TopicForm) {
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/topics`,
+      topicData
+    );
+  }
+
+  onAddSubtopic(topicData: SubtopicForm) {
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics`,
+      topicData
     );
   }
 }
