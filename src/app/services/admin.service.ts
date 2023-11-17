@@ -127,4 +127,10 @@ export class AdminService {
       topicData
     );
   }
+
+  onRemoveSubtopic(subtopicId: number, languageId: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics/${subtopicId}/languages/${languageId}`
+    );
+  }
 }

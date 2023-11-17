@@ -20,6 +20,7 @@ export class MainTeacherManagementComponent implements OnInit {
     if (autoLogin) {
       this.authService.user.subscribe(this.handleUserData);
     }
+    console.log(this.isAuthenticated);
   }
 
   private handleUserData = (userData: any) => {

@@ -56,7 +56,9 @@ export class LoginComponent implements OnInit {
     };
     this.authService.signIn(loginModel).subscribe((res) => {
       console.log(res);
-      this.router.navigate(["/main-teacher-management/main-home"]);
+      this.router.navigate(["/main-teacher-management/main-home"]).then(() => {
+        window.location.reload();
+      });
     });
   }
   togglePasswordVisibility(): void {

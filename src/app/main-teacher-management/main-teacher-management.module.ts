@@ -21,6 +21,11 @@ import { SubjectListComponent } from "./admin/subjects/subject-list/subject-list
 
 import { SubtopicModalComponent } from "./teacher-module/topic/topic-form/subtopic-modal/subtopic-modal.component";
 import { TopicFormComponent } from "./teacher-module/topic/topic-form/topic-form.component";
+import { SubjectVideosComponent } from "./teacher-module/videos/subject-videos/subject-videos.component";
+import { TopicVideosComponent } from './teacher-module/videos/topic-videos/topic-videos.component';
+import { SubtopicVideosComponent } from './teacher-module/videos/subtopic-videos/subtopic-videos.component';
+import { VideoFormComponent } from './teacher-module/videos/video-form/video-form.component';
+
 @NgModule({
   declarations: [
     MainHomeComponent,
@@ -37,8 +42,11 @@ import { TopicFormComponent } from "./teacher-module/topic/topic-form/topic-form
     TopicComponent,
     SubjectListComponent,
     TopicFormComponent,
-
     SubtopicModalComponent,
+    SubjectVideosComponent,
+    TopicVideosComponent,
+    SubtopicVideosComponent,
+    VideoFormComponent,
   ],
   imports: [
     SharedModule,

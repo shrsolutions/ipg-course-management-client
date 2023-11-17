@@ -42,7 +42,7 @@ export class TopicFormComponent {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.subjectId = +params["id"];
-      this.onLoadSubject(this.subjectId);
+      this.onLoadTopics(this.subjectId);
     });
 
     this.initForm();
@@ -54,7 +54,7 @@ export class TopicFormComponent {
     });
   }
 
-  onLoadSubject(subjectId: number): void {
+  onLoadTopics(subjectId: number): void {
     if (subjectId != null && subjectId !== undefined) {
       this.libraryService.fetchTopicsBySubjectId(subjectId).subscribe({
         next: (response) => {
@@ -78,7 +78,7 @@ export class TopicFormComponent {
         next: (response) => {
           if (response.messages.includes(OPERATION_MESSAGE.success)) {
             this.notificationService.showSuccess("Topic added succesfully");
-            this.onLoadSubject(this.subjectId);
+            this.onLoadTopics(this.subjectId);
           } else {
             this.notificationService.showError("Any Error happened");
           }
@@ -91,7 +91,6 @@ export class TopicFormComponent {
   }
 
   onSetSubTopic(topicId: number): void {
-    console.log(topicId);
     this.setSubtopicDialog.open(SubtopicModalComponent, {
       height: "300px",
       width: "700px",

@@ -10,6 +10,7 @@ export class ModuleCategoryComponent {
   constructor(private router: Router) {}
   modulesNavs = {
     2: "topics",
+    1: "videos/subject",
   };
   onNavigate(moduleId) {
     this.router.navigate([

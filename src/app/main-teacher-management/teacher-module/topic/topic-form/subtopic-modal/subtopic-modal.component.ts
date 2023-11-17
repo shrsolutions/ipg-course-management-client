@@ -28,10 +28,12 @@ export class SubtopicModalComponent implements OnInit {
     "subtopicId",
     "translation",
     "languageName",
+    "edit",
     "remove",
   ];
-
+  editingRoleId: number = 0;
   subtopicForm: FormGroup;
+  UpdateOrAddBtnMessage = "Add Subtopic";
   constructor(
     private libraryService: LibraryService,
     public dialogRef: MatDialogRef<SubtopicModalComponent>,
@@ -41,6 +43,7 @@ export class SubtopicModalComponent implements OnInit {
     private notificationService: NotificationService,
     private fb: FormBuilder
   ) {}
+
   ngOnInit(): void {
     this.onLoadSubtopics();
     this.initForm();
@@ -69,14 +72,18 @@ export class SubtopicModalComponent implements OnInit {
       const subtopicValue: SubtopicForm = {
         languageId: 1,
         translation: this.subtopicForm.get("subtopic").value,
-        subtopicId: 0,
+        subtopicId: this.editingRoleId || 0,
         topicId: this.data.topicId,
       };
 
       this.adminService.onAddSubtopic(subtopicValue).subscribe({
         next: (response) => {
           if (response.messages.includes(OPERATION_MESSAGE.success)) {
-            this.notificationService.showSuccess("Topic added succesfully");
+            this.notificationService.showSuccess(
+              `Topic ${this.editingRoleId ? "Updated" : "Added"} successfully`
+            );
+            this.editingRoleId = 0;
+            this.UpdateOrAddBtnMessage = "Add Subtopic";
             this.onLoadSubtopics();
           } else {
             this.notificationService.showError("Any Error happened");
@@ -87,5 +94,27 @@ export class SubtopicModalComponent implements OnInit {
       // Mark form controls as touched to display validation messages
       this.subtopicForm.markAllAsTouched();
     }
+  }
+
+  onEditSubtopic(subtopic): void {
+    this.subtopicForm.patchValue({
+      subtopic: subtopic.translation,
+    });
+
+    this.editingRoleId = subtopic.subjectId;
+    this.UpdateOrAddBtnMessage = "Update Role";
+  }
+
+  onRemoveSubtopic(subtopicId: number, languageId: number): void {
+    this.adminService.onRemoveSubtopic(subtopicId, languageId).subscribe({
+      next: (response) => {
+        if (response.messages.includes(OPERATION_MESSAGE.success)) {
+          this.notificationService.showSuccess("Subtopic deleted succesfully");
+          this.onLoadSubtopics();
+        } else {
+          this.notificationService.showError("Any Error happened");
+        }
+      },
+    });
   }
 }

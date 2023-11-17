@@ -1,0 +1,31 @@
+<div class="card p-5">
+    <div class="row d-flex justify-content-center">
+        <div class="card-body">
+
+            <div class="row d-flex justify-content-center p-0" style="padding: 0;">
+                <div class="mat-elevation-z8 table-responsive col-lg-10">
+                    <table mat-table [dataSource]="dataSource" matSort class="table table-centere table-centered mb-0">
+                        <ng-container matColumnDef="topicId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                            <td mat-cell *matCellDef="let row">{{ row.topicId }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="translation">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject Name</th>
+                            <td mat-cell *matCellDef="let row">{{ row.translation }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="languageName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Language</th>
+                            <td mat-cell *matCellDef="let row">{{ row.languageName }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                            [routerLink]="'/main-teacher-management/teacher-module/videos/subtopic/' + row.topicId">
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

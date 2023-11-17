@@ -1,0 +1,44 @@
+<div class="card p-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="margin-left: 10px;">Added Video Link</h5>
+                    <div class="general-label">
+                        <form [formGroup]="videoForm" (ngSubmit)="onSubmit()"
+                            class="row row-cols-lg-auto g-3 d-flex justify-content-center">
+                            <div style="margin-top: 20px;">
+                                <input type="checkbox" id="switch9" switch="dark" checked=""
+                                    formControlName="enableCheckbox">
+                                <label for="switch9" data-on-label="Yes" data-off-label="No"></label>
+                            </div>
+                            <div class="mb-0" *ngIf="videoForm.get('enableCheckbox').value">
+                                <label for="videolink" class="visually-hidden">Video Link</label>
+                                <input type="text" class="form-control ms-2" id="videolink" formControlName="videoLink"
+                                    placeholder="Video link">
+                                <div
+                                    *ngIf="videoForm.get('videoLink').invalid && (videoForm.get('videoLink').dirty || videoForm.get('videoLink').touched)">
+                                    <small class="text-danger">Video link is required.</small>
+                                </div>
+                            </div>
+                            <div class="mb-0" *ngIf="!videoForm.get('enableCheckbox').value">
+                                <label for="videofile" class="visually-hidden">Video File</label>
+                                <input type="file" class="form-control ms-2" id="videofile" formControlName="videoFile"
+                                    placeholder="Video file">
+                                <div
+                                    *ngIf="videoForm.get('videoFile').invalid && (videoForm.get('videoFile').dirty || videoForm.get('videoFile').touched)">
+                                    <small class="text-danger">Video file is required.</small>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 d-flex mb-4 align-items-center justify-content-center">
+                                <button type="submit" class="btn btn-primary" [disabled]="videoForm.invalid">Add Video
+                                    Link</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
