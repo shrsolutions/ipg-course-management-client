@@ -3,7 +3,7 @@
         <div class="col-lg-10">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" style="margin-left: 10px;">Added Role</h5>
+                    <h2 class="card-title" style="margin-left: 10px;">Role Page</h2>
                     <div class="general-label">
                         <form [formGroup]="roleForm" (ngSubmit)="addRole()"
                             class="row  row-cols-lg-auto g-3 d-flex justify-content-center  align-items-center">
@@ -50,7 +50,7 @@
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-center p-0" style="padding: 0;">
+    <div class=" d-flex justify-content-center p-0" style="padding: 0;">
         <div class="mat-elevation-z8 table-responsive col-lg-10">
             <table mat-table [dataSource]="dataSource" matSort class="table table-centered mb-0">
                 <ng-container matColumnDef="id">

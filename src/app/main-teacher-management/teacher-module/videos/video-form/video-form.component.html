@@ -3,7 +3,7 @@
         <div class="col-lg-10">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" style="margin-left: 10px;">Added Video Link</h5>
+                    <h5 class="card-title" style="margin-left: 10px;">Video Link Form</h5>
                     <div class="general-label">
                         <form [formGroup]="videoForm" (ngSubmit)="onSubmit()"
                             class="row row-cols-lg-auto g-3 d-flex justify-content-center">
@@ -17,28 +17,73 @@
                                 <input type="text" class="form-control ms-2" id="videolink" formControlName="videoLink"
                                     placeholder="Video link">
                                 <div
-                                    *ngIf="videoForm.get('videoLink').invalid && (videoForm.get('videoLink').dirty || videoForm.get('videoLink').touched)">
+                                    *ngIf="videoForm.get('videoLink').invalid && (videoForm.get('videoLink').dirty || videoForm.get('videoLink').touched) && !invalid">
                                     <small class="text-danger">Video link is required.</small>
                                 </div>
                             </div>
                             <div class="mb-0" *ngIf="!videoForm.get('enableCheckbox').value">
                                 <label for="videofile" class="visually-hidden">Video File</label>
-                                <input type="file" class="form-control ms-2" id="videofile" formControlName="videoFile"
-                                    placeholder="Video file">
+                                <input type="file" class="form-control ms-2" id="videofile"
+                                    (change)="onFileChange($event)">
                                 <div
                                     *ngIf="videoForm.get('videoFile').invalid && (videoForm.get('videoFile').dirty || videoForm.get('videoFile').touched)">
                                     <small class="text-danger">Video file is required.</small>
                                 </div>
                             </div>
+                            <div class="mb-0">
+                                <label for="description" class="visually-hidden">Description</label>
+                                <textarea class="form-control ms-2" id="description" formControlName="description"
+                                    placeholder="Description"></textarea>
+                                <div
+                                    *ngIf="videoForm.get('description').invalid && (videoForm.get('description').dirty || videoForm.get('description').touched)">
+                                    <small class="text-danger">Description is required.</small>
+                                </div>
+                            </div>
+
+
                             <div class="col-lg-3 col-sm-6 d-flex mb-4 align-items-center justify-content-center">
-                                <button type="submit" class="btn btn-primary" [disabled]="videoForm.invalid">Add Video
+                                <button type="submit" class="btn btn-primary">Add Video
                                     Link</button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class=" d-flex justify-content-center p-0" style="padding: 0;">
+        <div class="mat-elevation-z8 table-responsive col-lg-10">
+            <table mat-table [dataSource]="dataSource" matSort class="table table-centere table-centered mb-0">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                    <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+                    <td mat-cell *matCellDef="let row"><a *ngIf="row.attachmentTypeId === 1"
+                            class="btn btn-outline-primary btn-sm" matTooltip="{{row.value}}"
+                            (click)="onDownloadFile(row.id)">
+                            Download
+                        </a>
+
+                        <a *ngIf="row.attachmentTypeId === 2" matTooltip="{{row.value}}"
+                            class="btn btn-outline-primary btn-sm" [href]="row.value" target="_blank">
+                            Open Link
+                        </a>
+                    </td>
+
+                </ng-container>
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+                    <td mat-cell *matCellDef="let row">{{row.description ?? "Not Description"}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                </tr>
+
+            </table>
         </div>
     </div>
 </div>

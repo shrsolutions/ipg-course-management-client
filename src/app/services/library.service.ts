@@ -7,6 +7,7 @@ import { API_SCHEMA } from "../shared/enums/api-enum";
 import { SubjectList } from "../main-teacher-management/admin/models/subject";
 import { TopicList } from "../main-teacher-management/models/library-models/topic";
 import { SubtopicList } from "../main-teacher-management/models/library-models/subtopic";
+import { VideoLinkList } from "../main-teacher-management/models/library-models/video-link";
 
 @Injectable({
   providedIn: "root",
@@ -36,6 +37,12 @@ export class LibraryService {
   fetchSubTopicsByTopicId(topicId: number) {
     return this.http.get<WrapperWithoutCount<SubtopicList>>(
       `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.LIBRARIES}/topics/${topicId}/subtopics`
+    );
+  }
+
+  fetchAttachmentsBySubtopicId(subtopicId: number) {
+    return this.http.get<WrapperWithoutCount<VideoLinkList>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.LIBRARIES}/subtopics/${subtopicId}/attachments`
     );
   }
 }

@@ -20,6 +20,8 @@ import {
 } from "../main-teacher-management/admin/models/category";
 import { TopicForm } from "../main-teacher-management/models/library-models/topic";
 import { SubtopicForm } from "../main-teacher-management/models/library-models/subtopic";
+import { videoLinkForm } from "../main-teacher-management/models/library-models/video-link";
+import FormUtility from "../shared/utility/form-utility";
 
 @Injectable({
   providedIn: "root",
@@ -131,6 +133,24 @@ export class AdminService {
   onRemoveSubtopic(subtopicId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
       `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics/${subtopicId}/languages/${languageId}`
+    );
+  }
+
+  onAddVideoAttachment(attachmentData: videoLinkForm) {
+    const formData = FormUtility.createFormData(attachmentData);
+
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/subtopics/attachments`,
+      formData
+    );
+  }
+
+  onDownloadAttachment(attachmentId: number) {
+    return this.http.get(
+      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.LIBRARIES}/subtopics/attachments/${attachmentId}/download`,
+      {
+        responseType: "blob",
+      }
     );
   }
 }

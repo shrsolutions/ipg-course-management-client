@@ -16,6 +16,7 @@ export class TopicVideosComponent implements OnInit {
   dataSource: MatTableDataSource<TopicList> = new MatTableDataSource<
     TopicList
   >();
+
   constructor(
     private libraryService: LibraryService,
     private route: ActivatedRoute,

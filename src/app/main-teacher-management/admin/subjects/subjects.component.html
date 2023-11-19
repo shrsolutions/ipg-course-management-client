@@ -1,11 +1,11 @@
 <div class="card p-5">
     <div class="row d-flex justify-content-center">
         <div class="card-body">
-            <h5 class="card-title" style="margin-left: 10px;">Added Subject</h5>
+            <h5 class="card-title" style="margin-left: 10px;">Subject Form</h5>
             <div class="general-label">
                 <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
                     <div class="row row-cols-lg-auto g-3">
-                        <div class="col-lg-4 col-sm-12">
+                        <div class="col-lg-4  col-md-4 col-sm-12">
                             <div class="mb-0">
                                 <label for="subject" class="visually-hidden">Subject</label>
                                 <input type="text" class="form-control ms-2" id="subject" formControlName="subject"
@@ -18,7 +18,7 @@
                             </div>
 
                         </div>
-                        <div class="col-lg-4 col-sm-12">
+                        <div class="col-lg-4  col-md-3 col-sm-12">
                             <div class="mb-0">
                                 <select class="form-select" formControlName="category">
                                     <option *ngFor="let category of categories" [value]="category.key">{{ category.value
@@ -32,14 +32,13 @@
                                 Category is required.
                             </div>
                         </div>
-                        <div class="col-lg-2 col-sm-12">
-                            <button type="submit" class="btn btn-primary" [disabled]="subjectForm.invalid">Add
+                        <div class="col-lg-4  col-md-4 col-sm-12  ">
+                            <button type="submit" class="btn btn-primary mx-2 " [disabled]="subjectForm.invalid">Add
                                 Subject</button>
-                        </div>
-                        <div class="col-lg-2 col-sm-12">
                             <button type="submit" class="btn btn-success" (click)="onShowSubjects()">Show
                                 Subjects</button>
                         </div>
+
                     </div>
                 </form>
             </div>

@@ -31,7 +31,7 @@ export class SubtopicModalComponent implements OnInit {
     "edit",
     "remove",
   ];
-  editingRoleId: number = 0;
+  editingSubtopciId: number = 0;
   subtopicForm: FormGroup;
   UpdateOrAddBtnMessage = "Add Subtopic";
   constructor(
@@ -72,7 +72,7 @@ export class SubtopicModalComponent implements OnInit {
       const subtopicValue: SubtopicForm = {
         languageId: 1,
         translation: this.subtopicForm.get("subtopic").value,
-        subtopicId: this.editingRoleId || 0,
+        subtopicId: this.editingSubtopciId || 0,
         topicId: this.data.topicId,
       };
 
@@ -80,9 +80,11 @@ export class SubtopicModalComponent implements OnInit {
         next: (response) => {
           if (response.messages.includes(OPERATION_MESSAGE.success)) {
             this.notificationService.showSuccess(
-              `Topic ${this.editingRoleId ? "Updated" : "Added"} successfully`
+              `Topic ${
+                this.editingSubtopciId ? "Updated" : "Added"
+              } successfully`
             );
-            this.editingRoleId = 0;
+            this.editingSubtopciId = 0;
             this.UpdateOrAddBtnMessage = "Add Subtopic";
             this.onLoadSubtopics();
           } else {
@@ -101,8 +103,8 @@ export class SubtopicModalComponent implements OnInit {
       subtopic: subtopic.translation,
     });
 
-    this.editingRoleId = subtopic.subjectId;
-    this.UpdateOrAddBtnMessage = "Update Role";
+    this.editingSubtopciId = subtopic.subtopicId;
+    this.UpdateOrAddBtnMessage = "Update Subtopic";
   }
 
   onRemoveSubtopic(subtopicId: number, languageId: number): void {

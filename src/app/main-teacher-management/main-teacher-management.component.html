@@ -4,15 +4,17 @@
     <div class=" main-content">
         <div class="page-content">
             <div class="container-fluid" style="padding: 0; ">
+                <app-breadcrumb></app-breadcrumb>
+
                 <router-outlet></router-outlet>
             </div>
         </div>
     </div>
 </div>
-<!-- 
+
 <div>
     <app-spinner *ngIf="loadingService.isLoading"></app-spinner>
-</div> -->
+</div>
 
 <script defer src="./../../assets/libs/jquery/jquery.min.js"></script>
 <script defer src="./../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

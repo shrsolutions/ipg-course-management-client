@@ -20,33 +20,67 @@ const userRoutes: Routes = [
   {
     path: "main-teacher-management",
     component: MainTeacherManagementComponent,
+    data: { breadcrumb: "Main" },
     children: [
-      { path: "module-category", component: ModuleCategoryComponent },
-      { path: "main-home", component: MainHomeComponent },
-      { path: "admin/role", component: RoleComponent },
-      { path: "admin/user-activate", component: UserAcivateComponent },
-      { path: "admin/category", component: CategoryComponent },
-      { path: "admin/subject", component: SubjectsComponent },
-      { path: "teacher-module/topics", component: TopicComponent },
+      {
+        path: "module-category",
+        component: ModuleCategoryComponent,
+        data: { breadcrumb: "Home" },
+      },
+      {
+        path: "main-home",
+        component: MainHomeComponent,
+        data: { breadcrumb: "Categories" },
+      },
+      {
+        path: "admin/role",
+        component: RoleComponent,
+        data: { breadcrumb: "Role" },
+      },
+      {
+        path: "admin/user-activate",
+        component: UserAcivateComponent,
+        data: { breadcrumb: "user-activate" },
+      },
+      {
+        path: "admin/category",
+        component: CategoryComponent,
+        data: { breadcrumb: "category-form" },
+      },
+      {
+        path: "admin/subject",
+        component: SubjectsComponent,
+        data: { breadcrumb: "subject-form" },
+      },
+      {
+        path: "teacher-module/topics",
+        component: TopicComponent,
+        data: { breadcrumb: "subject-topic-list" },
+      },
       {
         path: "teacher-module/videos/subject",
         component: SubjectVideosComponent,
+        data: { breadcrumb: "videos-subject-list" },
       },
       {
         path: "teacher-module/videos/topic/:id",
         component: TopicVideosComponent,
+        data: { breadcrumb: "videos-topic-list" },
       },
       {
         path: "teacher-module/videos/subtopic/:id",
         component: SubtopicVideosComponent,
+        data: { breadcrumb: "videos-subtopic-list" },
       },
       {
         path: "teacher-module/videos/video-form/:id",
         component: VideoFormComponent,
+        data: { breadcrumb: "video-form" },
       },
       {
         path: "teacher-module/topics/topic-form/:id",
         component: TopicFormComponent,
+        data: { breadcrumb: "subtopic-list" },
       },
       { path: "account/user-registered", component: UserRegisteredComponent },
     ],

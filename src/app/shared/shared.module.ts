@@ -15,8 +15,10 @@ import { SpinnerComponent } from "./components/spinner/spinner.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
 import { ToggleMenuDirective } from "./directive/toggle-menu.directive";
+import { BreadcrumbComponent } from "./components/breadcrumb/breadcrumb.component";
+import { RouterModule } from "@angular/router";
 @NgModule({
-  declarations: [SpinnerComponent, ToggleMenuDirective],
+  declarations: [SpinnerComponent, ToggleMenuDirective, BreadcrumbComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -31,6 +33,7 @@ import { ToggleMenuDirective } from "./directive/toggle-menu.directive";
     MatProgressSpinnerModule,
     MatSelectModule,
     ToastrModule.forRoot(),
+    RouterModule,
   ],
   exports: [
     CommonModule,
@@ -46,6 +49,7 @@ import { ToggleMenuDirective } from "./directive/toggle-menu.directive";
     MatSelectModule,
     MatProgressSpinnerModule,
     SpinnerComponent,
+    BreadcrumbComponent,
     ToggleMenuDirective,
   ],
 })

@@ -53,7 +53,7 @@ export class SubjectsComponent implements OnInit {
       const subjectValue = this.subjectForm.get("subject").value;
       const subjectModel: Subject = {
         languageId: 1,
-        categoryId: 1,
+        categoryId: this.subjectForm.get("category").value,
         subjectId: 0,
         translation: subjectValue,
       };

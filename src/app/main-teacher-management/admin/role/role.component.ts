@@ -104,6 +104,8 @@ export class RoleComponent implements OnInit {
           if (responseData.messages.includes(OPERATION_MESSAGE.success)) {
             this.notificationService.showSuccess("Role updated succesfully");
             this.loadRoles();
+            this.editingRoleId = 0;
+            this.UpdateOrAddBtnMessage = "Add Role";
           } else {
             this.notificationService.showError("Any Error happened");
           }
