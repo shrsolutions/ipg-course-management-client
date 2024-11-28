@@ -17,7 +17,7 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const user = this.localStorageService.getItem<any>("user");
-    // console.log(user._token);
+    
     console.log(user);
     if (user) {
       request = request.clone({

@@ -122,6 +122,8 @@ export class VideoFormComponent implements OnInit {
           }
         },
       });
+
+      this.videoForm.reset();
     } else {
       this.invalid = false;
       // Mark form controls as touched to display validation messages

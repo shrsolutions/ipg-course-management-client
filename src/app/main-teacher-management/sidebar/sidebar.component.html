@@ -1,0 +1,64 @@
+<div class="vertical-menu">
+
+    <div data-simplebar="init" class="h-100">
+        <div class="simplebar-wrapper" style="margin: 0px;">
+            <div class="simplebar-height-auto-observer-wrapper">
+                <div class="simplebar-height-auto-observer"></div>
+            </div>
+            <div class="simplebar-mask">
+                <div class="simplebar-offset" style="right: -16.6667px; bottom: 0px;">
+                    <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
+                        <div class="simplebar-content" style="padding: 0px;">
+
+                            <!--- Sidemenu -->
+                            <div id="sidebar-menu" class="mm-active">
+                                <!-- Left Menu Start -->
+                                <ul class="metismenu list-unstyled mm-show" id="side-menu">
+
+
+                                    <li class="mm-active">
+                                        <a href="javascript: void(0);" class="waves-effect mm-active">
+                                            <i class="mdi mdi-speedometer"></i>
+                                            <span class="badge rounded-pill bg-danger float-end">9+</span>
+                                            <span>Teachers</span>
+                                        </a>
+                                        <ul class="sub-menu mm-collapse mm-show" aria-expanded="false">
+                                            <li><a [routerLink]="['/main-teacher-management/main-home']">Home</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                            <i class="mdi mdi-email-variant"></i>
+                                            <span>Admin</span>
+                                        </a>
+                                        <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                            <li><a [routerLink]="['/main-teacher-management/admin/role']">Roles</a>
+                                            </li>
+                                            <li><a [routerLink]="['/main-teacher-management/admin/user-activate']">User
+                                                    Activated</a></li>
+                                            <li><a [routerLink]="['/main-teacher-management/admin/category']">Add New
+                                                    Category</a></li>
+                                            <li><a [routerLink]="['/main-teacher-management/admin/subject']">Add New
+                                                    Subject</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Sidebar -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="simplebar-placeholder" style="width: auto; height: 978px;"></div>
+        </div>
+        <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+            <div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div>
+        </div>
+        <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+            <div class="simplebar-scrollbar"
+                style="height: 298px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+        </div>
+    </div>
+</div>
