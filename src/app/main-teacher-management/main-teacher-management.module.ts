@@ -25,6 +25,12 @@ import { SubjectVideosComponent } from "./teacher-module/videos/subject-videos/s
 import { TopicVideosComponent } from "./teacher-module/videos/topic-videos/topic-videos.component";
 import { SubtopicVideosComponent } from "./teacher-module/videos/subtopic-videos/subtopic-videos.component";
 import { VideoFormComponent } from "./teacher-module/videos/video-form/video-form.component";
+import { GroupComponent } from "./teacher-module/group/group.component";
+import { NewGroupComponent } from "./teacher-module/group/new-group/new-group.component";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -47,6 +53,8 @@ import { VideoFormComponent } from "./teacher-module/videos/video-form/video-for
     TopicVideosComponent,
     SubtopicVideosComponent,
     VideoFormComponent,
+    GroupComponent,
+    NewGroupComponent
   ],
   imports: [
     SharedModule,
@@ -55,6 +63,7 @@ import { VideoFormComponent } from "./teacher-module/videos/video-form/video-for
     TeacherRoutingModule,
     MatTooltipModule,
     MatDialogModule,
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,
   ],
   exports: [MainHomeComponent],
 })

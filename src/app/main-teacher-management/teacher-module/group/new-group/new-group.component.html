@@ -1,0 +1,28 @@
+<div class="modal-1 bs-example-modal">
+
+    <form [formGroup]="groupForm" (ngSubmit)="onSetRole()" class="modal-content">
+        <div class="modal-header mb-2">
+            <h5 class="modal-title align-self-center" *ngIf="data.id==0">New Group</h5>
+            <h5 class="modal-title align-self-center" *ngIf="data.id!=0">Update Group</h5>
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="onClose()"></button>
+        </div>
+            <div class="modal-body ">
+                <label class="visually-hidden" for="group">Group</label>
+                <input type="text" class="form-control py-3" id="Group" formControlName="group">
+                <div *ngIf="groupForm.get('group').hasError('required') && groupForm.get('group').touched"
+                    class="text-danger">
+                    Group is required
+                </div>
+                
+        </div>
+        
+        
+        <div class="modal-footer my-2 pb-2">
+            <button type="submit" class="btn btn-primary" [disabled]="groupForm.invalid">Create</button>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="onClose()">Close</button>
+        </div>
+    </form>
+
+</div>

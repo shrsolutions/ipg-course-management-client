@@ -15,6 +15,7 @@ import { SubjectVideosComponent } from "./teacher-module/videos/subject-videos/s
 import { TopicVideosComponent } from "./teacher-module/videos/topic-videos/topic-videos.component";
 import { SubtopicVideosComponent } from "./teacher-module/videos/subtopic-videos/subtopic-videos.component";
 import { VideoFormComponent } from "./teacher-module/videos/video-form/video-form.component";
+import { GroupComponent } from "./teacher-module/group/group.component";
 
 const userRoutes: Routes = [
   {
@@ -52,6 +53,7 @@ const userRoutes: Routes = [
         component: SubjectsComponent,
         data: { breadcrumb: "subject-form" },
       },
+    
       {
         path: "teacher-module/topics",
         component: TopicComponent,
@@ -81,6 +83,11 @@ const userRoutes: Routes = [
         path: "teacher-module/topics/topic-form/:id",
         component: TopicFormComponent,
         data: { breadcrumb: "subtopic-list" },
+      },
+      {
+        path: "teacher-module/group",
+        component: GroupComponent,
+        data: { breadcrumb: "group-form" },
       },
       { path: "account/user-registered", component: UserRegisteredComponent },
     ],
