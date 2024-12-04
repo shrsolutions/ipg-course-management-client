@@ -92,10 +92,41 @@
     position: relative;
     top: -10px;
   }
+.buttonDiff{
+  text-align: end;
+}
 
   @media only screen and (max-width: 992px){
     .form-control,button{
       margin-bottom: 20px;
     }
+    .buttonDiff,.buttonDiff button{
+      width: 100%;
+    }
+    }
+
+    
+   .groupForm::ng-deep .mat-datepicker-toggle button {
+      height: 24px!important; /* Kiçik ölçü */
+      width: 24px!important; /* Kiçik ölçü */
+      padding: 0; /* Lazımsız boşluqları azaldın */
     }
     
+   .groupForm ::ng-deep.mat-datepicker-toggle svg {
+      height: 16px!important; /* İkonun ölçüsü */
+      width: 16px!important; /* İkonun ölçüsü */
+    }
+   .groupForm ::ng-deep mat-form-field {
+      width: 100%; /* Lazım gələrsə genişliyi təyin edin */
+    }
+    
+   .groupForm ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+      padding: 0;
+    }
+  .groupForm  button.btn-lg {
+      min-width: 120px; /* Düymənin genişliyini təyin edin */
+      margin-right: 0; 
+      height: 37.1px;
+      line-height: 20px;
+  /* Sağ tərəfdə sıfır boşluq */
+    }

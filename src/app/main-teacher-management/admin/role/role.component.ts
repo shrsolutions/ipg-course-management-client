@@ -21,13 +21,14 @@ import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
 export class RoleComponent implements OnInit {
   pageSize = 5;
   currentPage = 1;
+  length!: number
   displayedColumns: string[] = [
     "id",
     "name",
     "selectedSystemServicesString",
     "edit",
     "remove",
-  ]; // Adjust columns accordingly
+  ]; 
   dataSource: MatTableDataSource<Roles> = new MatTableDataSource<Roles>();
   paginatorModel: PaginatorModel;
   invalid: boolean = false;
@@ -66,10 +67,7 @@ export class RoleComponent implements OnInit {
       next: (responseData) => {
         const data = responseData.result.data;
         this.dataSource.data = this.formatRolesData(data);
-        this.paginator.pageIndex = this.currentPage;
-        this.paginator.pageSize = responseData.result.count;
-        this.pageSize = responseData.result.count;
-      },
+        this.length = responseData.result.count      },
     });
   }
 

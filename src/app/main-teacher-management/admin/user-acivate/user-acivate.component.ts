@@ -23,6 +23,7 @@ export class UserAcivateComponent implements OnInit {
   currentPage = 1;
   dataSource: MatTableDataSource<Users> = new MatTableDataSource<Users>();
   paginatorModel: PaginatorModel;
+  length!: number
   invalid: boolean = false;
   systemServices: SelectBoxModel[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -69,6 +70,8 @@ export class UserAcivateComponent implements OnInit {
   onPageChanged(event: PageEvent) {
     this.paginatorModel.page = event.pageIndex + 1;
     this.paginatorModel.count = event.pageSize;
+    this.onLoadUsers();
+
   }
 
   onLoadUsers() {
@@ -80,9 +83,8 @@ export class UserAcivateComponent implements OnInit {
           ...data.map((resData) => resData.userRoles.map((x) => x.roleId)),
         ];
         this.dataSource.data = data;
-        this.paginator.pageIndex = this.currentPage;
-        this.paginator.pageSize = responseData.result.count;
-        this.pageSize = responseData.result.count;
+       this.length = responseData.result.count
+
       },
     });
   }

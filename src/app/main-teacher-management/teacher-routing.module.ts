@@ -41,17 +41,17 @@ const userRoutes: Routes = [
       {
         path: "admin/user-activate",
         component: UserAcivateComponent,
-        data: { breadcrumb: "user-activate" },
+        data: { breadcrumb: "User Activated" },
       },
       {
         path: "admin/category",
         component: CategoryComponent,
-        data: { breadcrumb: "category-form" },
+        data: { breadcrumb: "New Category" },
       },
       {
         path: "admin/subject",
         component: SubjectsComponent,
-        data: { breadcrumb: "subject-form" },
+        data: { breadcrumb: "New Subject" },
       },
     
       {
@@ -85,9 +85,9 @@ const userRoutes: Routes = [
         data: { breadcrumb: "subtopic-list" },
       },
       {
-        path: "teacher-module/group",
+        path: "group",
         component: GroupComponent,
-        data: { breadcrumb: "group-form" },
+        data: { breadcrumb: "Groups" },
       },
       { path: "account/user-registered", component: UserRegisteredComponent },
     ],

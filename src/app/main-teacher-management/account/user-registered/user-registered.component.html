@@ -43,8 +43,9 @@
 
 
                 <p class="col-lg-4">
-                    <mat-form-field>
-                        <input matInput [matDatepicker]="dp3" formControlName="dateOfBirth" placeholder="Date of Birth">
+                    <mat-form-field class="custom-date-range custom-border px-0 w-100" appearance="outline">
+                        <input matInput style="position: relative;
+  top: -10px;" [matDatepicker]="dp3" formControlName="dateOfBirth" placeholder="Date of Birth">
                         <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
                         <mat-datepicker #dp3 disabled="false"></mat-datepicker>
 
@@ -78,7 +79,8 @@
 
             </div>
 
-            <button class="btn btn-primary waves-effect waves-light custom-btn" type="submit">REGISTER</button>
+            <button *ngIf="type!=1" class="btn btn-primary waves-effect waves-light custom-btn" type="submit">REGISTER</button>
+            <button *ngIf="type==1" class="btn btn-primary waves-effect waves-light custom-btn" type="submit">SAVE</button>
 
         </form>
 

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-user-registered",
@@ -11,7 +11,12 @@ export class UserRegisteredComponent {
   registrationForm: FormGroup;
   hidePassword = true;
   invalid: boolean = false;
-  constructor(private fb: FormBuilder, private router: Router) {
+  type:number;
+  constructor(
+    private fb: FormBuilder, private router: Router,
+    private route: ActivatedRoute,
+
+  ) {
     this.registrationForm = this.fb.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
@@ -50,6 +55,13 @@ export class UserRegisteredComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.type=params['type']
+ 
+    });
+    
+  }
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
   }

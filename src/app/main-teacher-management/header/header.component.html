@@ -219,20 +219,17 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" [routerLink]="['/main-teacher-management/account/user-registered']"><i
+                    <a class="dropdown-item" [routerLink]="['/main-teacher-management/account/user-registered']"  [queryParams]="{type:1}"><i
                             class="dripicons-user d-inline-block text-muted me-2"></i>
                         Profile</a>
-                    <a class="dropdown-item" aria-disabled="true" ><i class="dripicons-wallet d-inline-block text-muted me-2"></i> My
-                        Wallet</a>
-                    <a class="dropdown-item d-block" ><i
-                            class="dripicons-gear d-inline-block text-muted me-2"></i> Settings</a>
-                    <a class="dropdown-item" aria-disabled="true"><i class="dripicons-lock d-inline-block text-muted me-2"></i>
-                        Lock
-                        screen</a>
+          
+     
                     <div class="dropdown-divider"></div>
-                    <!-- <a class="dropdown-item" (click)="onSignOut()"><i
+                    
+               
+                    <a class="dropdown-item" (click)="onSignOut()"><i
                             class="dripicons-exit d-inline-block text-muted me-2"></i>
-                        Logout</a> -->
+                        Logout</a>
                 </div>
             </div>
 

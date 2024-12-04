@@ -88,7 +88,7 @@ export class AuthService {
 
   isUserAuthenticated(userData: any): boolean {
     debugger
-    const userStatusId = userData.userStatusId ?? 2;
+    const userStatusId = userData?.userStatusId ?? 2;
     return userStatusId === 3;
   }
 

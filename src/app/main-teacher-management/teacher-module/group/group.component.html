@@ -1,6 +1,6 @@
 <div class="card p-5">
     <div class="row d-flex justify-content-center">
-        <div class="col-lg-10">
+        <div class="col-lg-11 px-0">
             <div class="">
                 <div class="card-body pb-0">
                     <h2 class="card-title" style="margin-left: 10px;">Group Page</h2>
@@ -8,15 +8,10 @@
                         <form [formGroup]="GroupForm" 
                             class="row groupForm ">
 <!--     -->
-<div class="row-cols-lg-auto g-3 d-flex justify-content-center  align-items-center">
-    <div class="col-lg-12 col-sm-12 d-flex mb-4 align-items-end justify-content-end ">
-       
-    </div>
-</div>
+
                            
-<div class="row">
-    <div style="width:18px"></div>
-    <div class="col-lg-2">
+<div class="row p-0">
+    <div class="col-lg-2 pe-0">
       <input
         type="text"
         class="form-control py-2"
@@ -25,23 +20,23 @@
         formControlName="group"
       />
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-2 pe-0">
         <mat-form-field class="custom-date-range custom-border px-0" appearance="outline" style="width: -webkit-fill-available;">
             <mat-label>Begin Date</mat-label>
             <input matInput [matDatepicker]="picker1"  [formControl]="beghinDate">
-            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matIconSuffix class="custom-calendar-icon" [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
     </div>
-    <div class="col-lg-2">
-        <mat-form-field class="custom-date-range custom-border px-0" appearance="outline" style="width: -webkit-fill-available;">
+    <div class="col-lg-2 pe-0">
+        <mat-form-field class="custom-date-range custom-border px-0" appearance="outline">
             <mat-label>End Date</mat-label>
             <input matInput [matDatepicker]="picker2"  [formControl]="endDate">
             <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-2 pe-0">
       <input
         type="text"
         class="form-control py-2"
@@ -51,8 +46,9 @@
       />
     </div>
     
-    <div class="col-lg-2">
-        <button type="button" class="btn-lg w-100  btn-primary" (click)="onSetNewGroup(0)"
+    <div class="buttonDiff col-lg-4 pe-0">
+
+        <button type="button" class="btn-lg  btn-primary" (click)="onSetNewGroup(0)"
         >{{UpdateOrAddBtnMessage}}</button>
     </div>
 
@@ -66,7 +62,7 @@
         </div>
     </div>
     <div class=" d-flex justify-content-center p-0" style="padding: 0;">
-        <div class="mat-elevation-z8 table-responsive col-lg-10">
+        <div class="mat-elevation-z8 table-responsive col-lg-11">
             <table mat-table [dataSource]="dataSource" matSort class="table table-centered mb-0">
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
