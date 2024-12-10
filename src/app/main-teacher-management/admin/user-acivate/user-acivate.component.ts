@@ -75,13 +75,13 @@ export class UserAcivateComponent implements OnInit {
   }
 
   onLoadUsers() {
+    debugger
+
     this.adminService.fetchAllUsers(this.paginatorModel).subscribe({
       next: (responseData) => {
         const data = responseData.result.data;
         console.log(data);
-        this.roleIds = [
-          ...data.map((resData) => resData.userRoles.map((x) => x.roleId)),
-        ];
+      
         this.dataSource.data = data;
        this.length = responseData.result.count
 
@@ -90,7 +90,7 @@ export class UserAcivateComponent implements OnInit {
   }
 
   onSetNewRole(id: number, roleIds: any[]) {
-    roleIds = roleIds.map((role) => role.roleId);
+    // roleIds = roleIds.map((role) => role.roleId);
     console.log(roleIds);
     let dialogRef = this.setRoleDialog.open(SetNewRoleComponent, {
       height: "240px",

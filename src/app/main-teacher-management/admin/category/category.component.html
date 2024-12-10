@@ -45,18 +45,18 @@
             <tbody>
 
                 <tr *ngFor="let category of categoryList">
-                    <th>{{category.categoryId}}</th>
-                    <td>{{category.translation}}</td>
-                    <td>{{category.languageName}}</td>
+                    <th>{{category.id}}</th>
+                    <td>{{category.translationInCurrentLanguage}}</td>
+                    <td>Azərbaycanca</td>
                     <td>
-                        <a class="btn btn-outline-secondary btn-sm edit" (click)="onEditCategory(category.categoryId)"
+                        <a class="btn btn-outline-secondary btn-sm edit" (click)="onEditCategory(category.id)"
                             title="Edit">
                             <i class="fas fa-pencil-alt" title="Edit"></i>
                         </a>
                     </td>
                     <td>
                         <a class="btn btn-outline-secondary btn-sm remove"
-                            (click)="onRemoveCategory(category.categoryId,category.languageId)" title="Remove">
+                            (click)="onRemoveCategory(category.id,1)" title="Remove">
                             <i class="fas fa-prescription-bottle" title="Remove"></i>
                         </a>
                     </td>

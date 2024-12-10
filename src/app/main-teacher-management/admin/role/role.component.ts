@@ -65,8 +65,9 @@ export class RoleComponent implements OnInit {
   loadRoles() {
     this.adminService.fetchRoles(this.paginatorModel).subscribe({
       next: (responseData) => {
+        debugger
         const data = responseData.result.data;
-        this.dataSource.data = this.formatRolesData(data);
+        this.dataSource.data =data;
         this.length = responseData.result.count      },
     });
   }
@@ -152,10 +153,10 @@ export class RoleComponent implements OnInit {
     });
   }
 
-  private formatRolesData(data: Roles[]): Roles[] {
-    return data.map((role) => ({
-      ...role,
-      selectedSystemServicesString: role.selectedSystemServices.join(", "),
-    }));
-  }
+  // private formatRolesData(data: Roles[]): Roles[] {
+  //   return data.map((role) => ({
+  //     ...role,
+  //     selectedSystemServicesString: role.selectedSystemServices.join(", "),
+  //   }));
+  // }
 }

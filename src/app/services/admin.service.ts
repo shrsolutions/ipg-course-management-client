@@ -33,106 +33,106 @@ export class AdminService {
   fetchRoles(paginator: PaginatorModel) {
     const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
     return this.http.get<Wrapper<Roles>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/roles${pagenitorUrl}`
+      `${this.baseUrl}roles${pagenitorUrl}`
     );
   }
 
   getSystemServices() {
     return this.http.get<WrapperWithoutCount<SelectBoxModel>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/system-services`
+      `${this.baseUrl}system-services`
     );
   }
 
   addRole(roleData: RoleData) {
     return this.http.post<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/roles`,
+      `${this.baseUrl}roles`,
       roleData
     );
   }
 
   updateRole(roleData: RoleData) {
     return this.http.put<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/roles`,
+      `${this.baseUrl}roles`,
       roleData
     );
   }
 
   removeRole(roleId: number) {
     return this.http.delete<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/roles/${roleId}`
+      `${this.baseUrl}roles/${roleId}`
     );
   }
 
   fetchAllUsers(paginator: PaginatorModel) {
     const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
     return this.http.get<Wrapper<Users>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users${pagenitorUrl}`
+      `${this.baseUrl}users${pagenitorUrl}`
     );
   }
 
   onSetNewRoleToUser(userId: number, roleIds: any) {
-    return this.http.put<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users/${userId}/roles`,
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}users/${userId}/set-roles`,
       roleIds
     );
   }
 
   onUserActivate(userId: number) {
     return this.http.put<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users/${userId}/activate`,
+      `${this.baseUrl}users/${userId}/activate`,
       {}
     );
   }
 
   onUserBlock(userId: number) {
     return this.http.put<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/users/${userId}/block`,
+      `${this.baseUrl}users/${userId}/block`,
       {}
     );
   }
 
-  onAddCategory(categoryData: Category) {
+  onAddCategory(categoryData: any) {
     return this.http.post<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/categories`,
+      `${this.baseUrl}categories`,
       categoryData
     );
   }
 
   onRemoveCategory(categoryId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/categories/${categoryId}/languages/${languageId}`
+      `${this.baseUrl}categories/${categoryId}/translations/${languageId}`
     );
   }
 
   onAddSubject(categoryData: Category) {
     return this.http.post<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subjects`,
+      `${this.baseUrl}subjects`,
       categoryData
     );
   }
   onRemoveSubject(subjectId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subjects/${subjectId}/languages/${languageId}`
+      `${this.baseUrl}subjects/${subjectId}/translations/${languageId}`
     );
   }
 
   onAddTopic(topicData: TopicForm) {
     return this.http.post<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/topics`,
+      `${this.baseUrl}topics`,
       topicData
     );
   }
 
   onAddSubtopic(topicData: SubtopicForm) {
     return this.http.post<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics`,
+      `${this.baseUrl}${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics`,
       topicData
     );
   }
 
   onRemoveSubtopic(subtopicId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics/${subtopicId}/languages/${languageId}`
+      `${this.baseUrl}${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics/${subtopicId}/languages/${languageId}`
     );
   }
 
@@ -140,14 +140,14 @@ export class AdminService {
     const formData = FormUtility.createFormData(attachmentData);
 
     return this.http.post<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.ADMIN}/subtopics/attachments`,
+      `${this.baseUrl}${API_SCHEMA.ADMIN}/subtopics/attachments`,
       formData
     );
   }
 
   onDownloadAttachment(attachmentId: number) {
     return this.http.get(
-      `${this.baseUrl}${API_SCHEMA.APP}/${API_SCHEMA.LIBRARIES}/subtopics/attachments/${attachmentId}/download`,
+      `${this.baseUrl}${API_SCHEMA.LIBRARIES}/subtopics/attachments/${attachmentId}/download`,
       {
         responseType: "blob",
       }

@@ -6,6 +6,7 @@ import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 import { LibraryService } from "src/app/services/library.service";
 import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
+import { PaginatorModel } from "../../models/Base/FetchBaseModel";
 
 @Component({
   selector: "app-category",
@@ -14,16 +15,23 @@ import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
 })
 export class CategoryComponent implements OnInit {
   categoryForm: FormGroup;
-  categoryList: CategoryResult[] = [];
+  categoryList: any[] = [];
   editedCategoryId = 0;
   btnAddOrUpdate: string = "Add Category";
+  paginatorModel: PaginatorModel;
+
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
     private notificationService: NotificationService,
     private libraryService: LibraryService,
     private saService: SweatAlertService
-  ) {}
+  ) {
+    this.paginatorModel = {
+      count: 100,
+      page: 1,
+    };
+  }
   ngOnInit(): void {
     this.initForm();
     this.getAllCategories();
@@ -36,19 +44,19 @@ export class CategoryComponent implements OnInit {
   }
 
   getAllCategories(): void {
-    this.libraryService.fetchAllCategories().subscribe({
+    this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
       next: (response) => {
-        this.categoryList = response.result;
+        this.categoryList = response.result.data;
       },
     });
   }
 
   onEditCategory(id: number): void {
-    const editedCategory = this.categoryList.find((c) => c.categoryId === id);
+    const editedCategory = this.categoryList.find((c) => c.id === id);
     if (!editedCategory) return;
-    this.editedCategoryId = editedCategory.categoryId;
+    this.editedCategoryId = editedCategory.id;
     this.categoryForm.patchValue({
-      category: editedCategory.translation,
+      category: editedCategory.translationInCurrentLanguage,
     });
     this.btnAddOrUpdate = "Update Category";
   }
@@ -72,10 +80,13 @@ export class CategoryComponent implements OnInit {
   onSubmit(): void {
     if (this.categoryForm.valid) {
       const categoryValue = this.categoryForm.get("category").value;
-      const categoryData: Category = {
-        categoryId: this.editedCategoryId || 0,
-        languageId: 1,
-        translation: categoryValue,
+      const categoryData: any = {
+        id: this.editedCategoryId || null,
+        translation: {
+          languageId:1,
+          translation: categoryValue,
+
+        },
       };
 
       this.adminService.onAddCategory(categoryData).subscribe({

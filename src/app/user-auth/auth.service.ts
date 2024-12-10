@@ -37,7 +37,7 @@ export class AuthService {
     const formData = FormUtility.createFormData(registerModel);
 
     return this.http
-      .post<AuthResult>(`${this.baseUrl}app/users/register`, formData)
+      .post<AuthResult>(`${this.baseUrl}users/register`, formData)
       .pipe(
         catchError(this.handleError),
         tap((resData) => this.handleAuthentication(resData))
@@ -64,7 +64,7 @@ export class AuthService {
         const options = { headers };
 
         return this.http.post<AuthResult>(
-          `${this.baseUrl}app/users/confirm-email/${confirmCode}`,
+          `${this.baseUrl}users/confirm-email/${confirmCode}`,
           null,
           options
         );

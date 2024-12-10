@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subject } from "../models/subject";
 import { AdminService } from "src/app/services/admin.service";
-import { SelectBoxModel } from "../../models/Base/FetchBaseModel";
+import { PaginatorModel, SelectBoxModel } from "../../models/Base/FetchBaseModel";
 import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 import { LibraryService } from "src/app/services/library.service";
@@ -17,13 +17,21 @@ import { SubjectListComponent } from "./subject-list/subject-list.component";
 export class SubjectsComponent implements OnInit {
   subjectForm: FormGroup;
   categories: SelectBoxModel[] = [];
+  paginatorModel: PaginatorModel;
+
+  
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
     private libraryService: LibraryService,
     private notificationService: NotificationService,
     public subjectDialog: MatDialog
-  ) {}
+  ) {
+    this.paginatorModel = {
+      count: 100,
+      page: 1,
+    };
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -38,11 +46,12 @@ export class SubjectsComponent implements OnInit {
   }
 
   fillCategorySelectBox() {
-    this.libraryService.fetchAllCategories().subscribe({
+    debugger
+    this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
       next: ({ result }) => {
-        this.categories = result.map((v) => ({
-          key: v.categoryId,
-          value: v.translation,
+        this.categories = result.data.map((v) => ({
+          key: v.id,
+          value: v.translationInCurrentLanguage,
         }));
       },
     });
@@ -51,17 +60,18 @@ export class SubjectsComponent implements OnInit {
   onSubmit(): void {
     if (this.subjectForm.valid) {
       const subjectValue = this.subjectForm.get("subject").value;
-      const subjectModel: Subject = {
-        languageId: 1,
+      const subjectModel: any = {
         categoryId: this.subjectForm.get("category").value,
-        subjectId: 0,
-        translation: subjectValue,
-      };
+        id: null,
+        translation: {
+          languageId: 1,
+          translation:subjectValue
+      }};
 
       this.adminService.onAddSubject(subjectModel).subscribe({
         next: (response) => {
           if (response.messages.includes(OPERATION_MESSAGE.success)) {
-            this.notificationService.showSuccess("Category added succesfully");
+            this.notificationService.showSuccess("Subject added succesfully");
           } else {
             this.notificationService.showError("Any Error happened");
           }

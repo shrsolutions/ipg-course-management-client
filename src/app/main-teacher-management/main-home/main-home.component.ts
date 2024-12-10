@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { LibraryService } from "src/app/services/library.service";
 import { CategoryResult } from "../admin/models/category";
 import { LocalStorageService } from "src/app/shared/services/local-storage.service";
+import { PaginatorModel } from "../models/Base/FetchBaseModel";
 
 @Component({
   selector: "app-main-home",
@@ -10,11 +11,19 @@ import { LocalStorageService } from "src/app/shared/services/local-storage.servi
   styleUrls: ["./main-home.component.scss"],
 })
 export class MainHomeComponent implements OnInit {
+  paginatorModel: PaginatorModel;
+
   constructor(
     private router: Router,
     private libraryService: LibraryService,
     private localStorageService: LocalStorageService
-  ) {}
+  ) {
+    this.paginatorModel = {
+    count: 100,
+    page: 1,
+  };
+
+  }
   ngOnInit(): void {
     this.onGetAllCategories();
   }
@@ -25,9 +34,9 @@ export class MainHomeComponent implements OnInit {
   }
 
   onGetAllCategories(): void {
-    this.libraryService.fetchAllCategories().subscribe({
+    this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
       next: (response) => {
-        this.categories = response.result;
+        this.categories = response.result.data;
       },
     });
   }

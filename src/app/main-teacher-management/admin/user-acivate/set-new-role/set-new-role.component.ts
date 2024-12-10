@@ -58,13 +58,17 @@ export class SetNewRoleComponent implements OnInit {
   }
 
   onSetRole() {
+    debugger
+    let model={
+      roleIds:this.roleForm.get("role").value
+    }
     const roleData = Array.from(this.roleForm.get("role").value).map(
-      (roleId) => ({
-        roleId,
+      (roleIds) => ({
+        roleIds,
       })
     );
 
-    this.adminService.onSetNewRoleToUser(this.data.userId, roleData).subscribe({
+    this.adminService.onSetNewRoleToUser(this.data.userId, model).subscribe({
       next: (response) => {
         if (response.messages.includes(OPERATION_MESSAGE.success)) {
           this.notificationService.showSuccess("Role set to user succesfully");
