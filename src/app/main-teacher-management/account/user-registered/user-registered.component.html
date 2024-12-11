@@ -60,14 +60,14 @@
                 <div class="form-check mb-3 d-flex">
                     <div class="mx-2">
                         <input class="form-check-input" formControlName="gender" type="radio" name="gender" id="male"
-                            checked="" value="1">
+                            [checked]="editData?.gender==1" value="1">
                         <label class="form-check-label" for="male">
                             Male
                         </label>
                     </div>
                     <div class="mx-5">
                         <input class="form-check-input" type="radio" formControlName="gender" name="gender" id="female"
-                            checked="" value="2">
+                            [checked]="editData?.gender==2" value="2">
                         <label class="form-check-label" for="female">
                             Female
                         </label>

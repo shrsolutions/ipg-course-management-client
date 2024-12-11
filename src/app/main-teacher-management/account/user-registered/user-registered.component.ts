@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { LibraryService } from "src/app/services/library.service";
+import ValidatorUtility from "src/app/shared/utility/validator-utility";
 
 @Component({
   selector: "app-user-registered",
@@ -15,6 +17,7 @@ export class UserRegisteredComponent {
   constructor(
     private fb: FormBuilder, private router: Router,
     private route: ActivatedRoute,
+    private libraryService: LibraryService
 
   ) {
     this.registrationForm = this.fb.group({
@@ -60,7 +63,32 @@ export class UserRegisteredComponent {
       this.type=params['type']
  
     });
-    
+    this.onGetAllCategories()
+    this.initialForm();
+
+  }
+  initialForm() {
+    this.registrationForm = this.fb.group(
+      {
+        firstName: [ this.editData.name ||"", Validators.required],
+        lastName: [ this.editData.surname ||"", Validators.required],
+        patronymic: [ this.editData.patronymic||"", Validators.required],
+        dateOfBirth: [ this.editData.dateOfBirth ||"2000-01-01", [Validators.required]],
+        email: [ this.editData.email ||"", [Validators.required, Validators.email]],
+        gender: [this.editData.gender ||"", Validators.required],
+       
+      }
+    );
+  }
+  editData:any
+  onGetAllCategories(): void {
+    this.libraryService.fetchUserData().subscribe({
+      next: (response) => {
+        debugger
+        this.editData=response.result
+        this.initialForm()
+      },
+    });
   }
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;

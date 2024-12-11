@@ -116,31 +116,31 @@ export class AdminService {
     );
   }
 
-  onAddTopic(topicData: TopicForm) {
+  onAddTopic(topicData: any) {
     return this.http.post<Wrapper<any>>(
       `${this.baseUrl}topics`,
       topicData
     );
   }
 
-  onAddSubtopic(topicData: SubtopicForm) {
+  onAddSubtopic(topicData: any) {
     return this.http.post<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics`,
+      `${this.baseUrl}subtopics`,
       topicData
     );
   }
 
   onRemoveSubtopic(subtopicId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.ADMIN}/${API_SCHEMA.TRANSLATION}/subtopics/${subtopicId}/languages/${languageId}`
+      `${this.baseUrl}subtopics/${subtopicId}/translations/${languageId}`
     );
   }
 
-  onAddVideoAttachment(attachmentData: videoLinkForm) {
+  onAddVideoAttachment(id:any,attachmentData: videoLinkForm) {
     const formData = FormUtility.createFormData(attachmentData);
 
     return this.http.post<Wrapper<any>>(
-      `${this.baseUrl}${API_SCHEMA.ADMIN}/subtopics/attachments`,
+      `${this.baseUrl}subtopics/${id}/attachments`,
       formData
     );
   }

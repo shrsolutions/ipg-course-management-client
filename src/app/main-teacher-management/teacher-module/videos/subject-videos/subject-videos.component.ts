@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { SubjectList } from "src/app/main-teacher-management/admin/models/subject";
+import { PaginatorModel } from "src/app/main-teacher-management/models/Base/FetchBaseModel";
 import { LibraryService } from "src/app/services/library.service";
 import { LocalStorageService } from "src/app/shared/services/local-storage.service";
 
@@ -14,20 +15,27 @@ export class SubjectVideosComponent implements OnInit {
   dataSource: MatTableDataSource<SubjectList> = new MatTableDataSource<
     SubjectList
   >();
+  paginatorModel: PaginatorModel
 
   constructor(
     private libraryService: LibraryService,
     private locaStorageService: LocalStorageService
-  ) {}
+  ) {
+    this.paginatorModel = {
+      count: 100,
+      page: 1,
+    };
+  }
   ngOnInit(): void {
     this.onLoadSubject();
   }
 
   onLoadSubject(): void {
+    debugger
     const categoryId = this.locaStorageService.getItem<number>("categoryId");
-    this.libraryService.fetchSubjectsByCategoryId(categoryId).subscribe({
+    this.libraryService.fetchSubjectsByCategoryId(categoryId,this.paginatorModel).subscribe({
       next: (responseData) => {
-        const data = responseData.result;
+        const data = responseData.result.data;
         this.dataSource.data = data;
       },
     });

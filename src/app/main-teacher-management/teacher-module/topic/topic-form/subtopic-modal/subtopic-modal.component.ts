@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
+import { PaginatorModel } from "src/app/main-teacher-management/models/Base/FetchBaseModel";
 import {
   SubtopicForm,
   SubtopicList,
@@ -23,7 +24,7 @@ export class SubtopicModalComponent implements OnInit {
 
   categoryId = 0;
   editedSubject;
-
+  paginatorModel: PaginatorModel
   displayedColumns: string[] = [
     "subtopicId",
     "translation",
@@ -42,7 +43,12 @@ export class SubtopicModalComponent implements OnInit {
     private adminService: AdminService,
     private notificationService: NotificationService,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this.paginatorModel = {
+      count: 100,
+      page: 1,
+    };
+  }
 
   ngOnInit(): void {
     this.onLoadSubtopics();
@@ -55,9 +61,9 @@ export class SubtopicModalComponent implements OnInit {
     });
   }
   onLoadSubtopics() {
-    this.libraryService.fetchSubTopicsByTopicId(this.data.topicId).subscribe({
+    this.libraryService.fetchSubTopicsByTopicId(this.data.topicId,this.paginatorModel).subscribe({
       next: (response) => {
-        const responseData = response.result;
+        const responseData = response.result.data;
         this.dataSource.data = responseData;
       },
     });
@@ -69,10 +75,12 @@ export class SubtopicModalComponent implements OnInit {
 
   onSubmit() {
     if (this.subtopicForm.valid) {
-      const subtopicValue: SubtopicForm = {
-        languageId: 1,
-        translation: this.subtopicForm.get("subtopic").value,
-        subtopicId: this.editingSubtopciId || 0,
+      const subtopicValue: any = {
+        translation:{
+          languageId: 1,
+          translation: this.subtopicForm.get("subtopic").value,
+        },
+        id: this.editingSubtopciId || null,
         topicId: this.data.topicId,
       };
 
@@ -100,10 +108,10 @@ export class SubtopicModalComponent implements OnInit {
 
   onEditSubtopic(subtopic): void {
     this.subtopicForm.patchValue({
-      subtopic: subtopic.translation,
+      subtopic: subtopic.translationInCurrentLanguage,
     });
 
-    this.editingSubtopciId = subtopic.subtopicId;
+    this.editingSubtopciId = subtopic.id;
     this.UpdateOrAddBtnMessage = "Update Subtopic";
   }
 

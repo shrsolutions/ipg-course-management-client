@@ -22,7 +22,7 @@
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                                [routerLink]="'/main-teacher-management/teacher-module/topics/topic-form/' + row.subjectId">
+                                [routerLink]="'/main-teacher-management/teacher-module/topics/topic-form/' + row.id">
                             </tr>
 
                         </table>

@@ -12,6 +12,7 @@ import { LibraryService } from "src/app/services/library.service";
 import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 import { SubtopicModalComponent } from "./subtopic-modal/subtopic-modal.component";
+import { PaginatorModel } from "src/app/main-teacher-management/models/Base/FetchBaseModel";
 
 @Component({
   selector: "app-topic-form",
@@ -29,6 +30,7 @@ export class TopicFormComponent {
   dataSource: MatTableDataSource<TopicList> = new MatTableDataSource<
     TopicList
   >();
+  paginatorModel: PaginatorModel;
   topicForm: FormGroup;
   constructor(
     private fb: FormBuilder,
@@ -37,11 +39,17 @@ export class TopicFormComponent {
     private adminService: AdminService,
     private notificationService: NotificationService,
     public setSubtopicDialog: MatDialog
-  ) {}
+  ) {
+    this.paginatorModel = {
+      count: 100,
+      page: 1,
+    };
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.subjectId = +params["id"];
+      debugger
+      this.subjectId = params["id"];
       this.onLoadTopics(this.subjectId);
     });
 
@@ -56,9 +64,9 @@ export class TopicFormComponent {
 
   onLoadTopics(subjectId: number): void {
     if (subjectId != null && subjectId !== undefined) {
-      this.libraryService.fetchTopicsBySubjectId(subjectId).subscribe({
+      this.libraryService.fetchTopicsBySubjectId(subjectId,this.paginatorModel).subscribe({
         next: (response) => {
-          const data = response.result;
+          const data = response.result.data;
           this.dataSource.data = data;
         },
       });
@@ -68,11 +76,13 @@ export class TopicFormComponent {
   onSubmit() {
     if (this.topicForm.valid) {
       const topicName = this.topicForm.get("topic").value;
-      const topicValue: TopicForm = {
-        languageId: 1,
-        translation: topicName,
+      const topicValue: any = {
+        id: null,
         subjectId: this.subjectId,
-        topicId: 0,
+        translation:{
+          languageId: 1,
+          translation: topicName,
+        },
       };
       this.adminService.onAddTopic(topicValue).subscribe({
         next: (response) => {

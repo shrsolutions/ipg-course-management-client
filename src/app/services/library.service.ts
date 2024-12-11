@@ -24,6 +24,10 @@ export class LibraryService {
       `${this.baseUrl}categories${pagenitorUrl}`
     );
   }
+  fetchUserData() {
+    return this.http.get<any>( `${this.baseUrl}users/profile`
+    );
+  }
 
   fetchSubjectsByCategoryId(categoryId: number,paginator?: PaginatorModel) {
     const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
@@ -33,21 +37,21 @@ export class LibraryService {
     );
   }
 
-  fetchTopicsBySubjectId(subjectId: number) {
-    return this.http.get<WrapperWithoutCount<TopicList>>(
-      `${this.baseUrl}${API_SCHEMA.LIBRARIES}/subjects/${subjectId}/topics`
+  fetchTopicsBySubjectId(subjectId: number,paginator?: PaginatorModel) {
+    return this.http.get<any>(
+      `${this.baseUrl}topics?SubjectId=${subjectId}&Page=${paginator.page}&Count=${paginator.count}`
     );
   }
 
-  fetchSubTopicsByTopicId(topicId: number) {
-    return this.http.get<WrapperWithoutCount<SubtopicList>>(
-      `${this.baseUrl}${API_SCHEMA.LIBRARIES}/topics/${topicId}/subtopics`
+  fetchSubTopicsByTopicId(topicId: number,paginator?: PaginatorModel) {
+    return this.http.get<any>(
+      `${this.baseUrl}subtopics?TopicId=${topicId}&Page=${paginator.page}&Count=${paginator.count}`
     );
   }
 
   fetchAttachmentsBySubtopicId(subtopicId: number) {
     return this.http.get<WrapperWithoutCount<VideoLinkList>>(
-      `${this.baseUrl}${API_SCHEMA.LIBRARIES}/subtopics/${subtopicId}/attachments`
+      `${this.baseUrl}subtopics/${subtopicId}/attachments`
     );
   }
 }

@@ -38,7 +38,7 @@ export class VideoFormComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.subtopicId = +params["id"];
+      this.subtopicId = params["id"];
       this.onLoadVideos(this.subtopicId);
     });
     this.initForm();
@@ -106,10 +106,10 @@ export class VideoFormComponent implements OnInit {
         value: this.videoForm.get("videoLink").value,
         subtopicId: this.subtopicId,
         description: this.videoForm.get("description").value,
-        subtopicAttachmentFile: this.videoForm.get("videoFile").value,
+        subtopicAttachmentFile: this.videoForm.get("videoFile").value||0,
         id: 0,
       };
-      this.adminService.onAddVideoAttachment(subtopicValue).subscribe({
+      this.adminService.onAddVideoAttachment(this.subtopicId, subtopicValue).subscribe({
         next: (response) => {
           if (response.messages.includes(OPERATION_MESSAGE.success)) {
             this.notificationService.showSuccess(
