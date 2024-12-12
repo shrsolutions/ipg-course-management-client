@@ -74,6 +74,7 @@ export class SubtopicModalComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     if (this.subtopicForm.valid) {
       const subtopicValue: any = {
         translation:{
@@ -86,11 +87,9 @@ export class SubtopicModalComponent implements OnInit {
 
       this.adminService.onAddSubtopic(subtopicValue).subscribe({
         next: (response) => {
-          if (response.messages.includes(OPERATION_MESSAGE.success)) {
+          if (response.statusCode==200) {
             this.notificationService.showSuccess(
-              `Topic ${
-                this.editingSubtopciId ? "Updated" : "Added"
-              } successfully`
+              response.messages
             );
             this.editingSubtopciId = 0;
             this.UpdateOrAddBtnMessage = "Add Subtopic";

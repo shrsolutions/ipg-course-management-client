@@ -107,7 +107,7 @@ export class VideoFormComponent implements OnInit {
         subtopicId: this.subtopicId,
         description: this.videoForm.get("description").value,
         subtopicAttachmentFile: this.videoForm.get("videoFile").value||0,
-        id: 0,
+        id: null,
       };
       this.adminService.onAddVideoAttachment(this.subtopicId, subtopicValue).subscribe({
         next: (response) => {

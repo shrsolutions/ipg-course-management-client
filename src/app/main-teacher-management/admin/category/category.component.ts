@@ -66,11 +66,14 @@ export class CategoryComponent implements OnInit {
       if (result.isConfirmed) {
         this.adminService.onRemoveCategory(categoryId, languageId).subscribe({
           next: (responseData) => {
-            if (responseData.messages.includes(OPERATION_MESSAGE.success)) {
-              this.notificationService.showSuccess("Role deleted succesfully");
+            if (responseData.statusCode==200) {
+              this.notificationService.showSuccess(
+                responseData.messages
+              );
               this.getAllCategories();
             } else {
-              this.notificationService.showError("Any Error happened");
+              debugger
+              this.notificationService.showError(  responseData.messages);
             }
           },
         });
@@ -91,8 +94,10 @@ export class CategoryComponent implements OnInit {
 
       this.adminService.onAddCategory(categoryData).subscribe({
         next: (response) => {
-          if (response.messages.includes(OPERATION_MESSAGE.success)) {
-            this.notificationService.showSuccess("Category added succesfully");
+          if (response.statusCode==200) {
+            this.notificationService.showSuccess(
+              response.messages
+            );
             this.getAllCategories();
           } else {
             this.notificationService.showError("Any Error happened");

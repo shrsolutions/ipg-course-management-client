@@ -70,8 +70,11 @@ export class SetNewRoleComponent implements OnInit {
 
     this.adminService.onSetNewRoleToUser(this.data.userId, model).subscribe({
       next: (response) => {
-        if (response.messages.includes(OPERATION_MESSAGE.success)) {
-          this.notificationService.showSuccess("Role set to user succesfully");
+        if (response.statusCode==200) {
+          this.notificationService.showSuccess(
+            response.messages
+          );
+          
           this.dialogRef.close({ result: true });
         } else {
           this.notificationService.showError("Any Error happened");

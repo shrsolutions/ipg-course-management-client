@@ -124,7 +124,7 @@ export class AdminService {
   }
 
   onAddSubtopic(topicData: any) {
-    return this.http.post<Wrapper<any>>(
+    return this.http.post<any>(
       `${this.baseUrl}subtopics`,
       topicData
     );

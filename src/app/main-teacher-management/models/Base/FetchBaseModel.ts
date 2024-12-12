@@ -1,6 +1,6 @@
 export interface Wrapper<T> {
   statusCode: number;
-  messages: string[];
+  messages: any;
   result: Result<T>;
 }
 

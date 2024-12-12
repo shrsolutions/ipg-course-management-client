@@ -86,8 +86,10 @@ export class TopicFormComponent {
       };
       this.adminService.onAddTopic(topicValue).subscribe({
         next: (response) => {
-          if (response.messages.includes(OPERATION_MESSAGE.success)) {
-            this.notificationService.showSuccess("Topic added succesfully");
+          if (response.statusCode==200) {
+            this.notificationService.showSuccess(
+              response.messages
+            );
             this.onLoadTopics(this.subjectId);
           } else {
             this.notificationService.showError("Any Error happened");
