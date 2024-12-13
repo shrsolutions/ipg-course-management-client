@@ -43,7 +43,12 @@ export class AuthService {
         tap((resData) => this.handleAuthentication(resData))
       );
   }
+  editProfile(registerModel:any) {
 
+    return this.http
+      .put<any>(`${this.baseUrl}users/profile`, registerModel)
+
+  }
   signIn(loginModel) {
     return this.http
       .post<AuthResult>(`${this.baseUrl}auth/login`, loginModel)

@@ -81,7 +81,7 @@ export class UserAcivateComponent implements OnInit {
       next: (responseData) => {
         const data = responseData.result.data;
         console.log(data);
-      
+
         this.dataSource.data = data;
        this.length = responseData.result.count
 
@@ -109,8 +109,10 @@ export class UserAcivateComponent implements OnInit {
     if (userStatusId == 4) {
       this.adminService.onUserActivate(id).subscribe({
         next: (response) => {
-          if (response.messages.includes(OPERATION_MESSAGE.success)) {
-            this.notificationService.showSuccess("User activated succesfully");
+          if (response.statusCode==200) {
+            this.notificationService.showSuccess(
+              response.messages
+            );
             this.onLoadUsers();
           } else {
             this.notificationService.showError("Any Error happened");
@@ -122,8 +124,10 @@ export class UserAcivateComponent implements OnInit {
 
     this.adminService.onUserBlock(id).subscribe({
       next: (response) => {
-        if (response.messages.includes(OPERATION_MESSAGE.success)) {
-          this.notificationService.showSuccess("User Blocked succesfully");
+        if (response.statusCode==200) {
+          this.notificationService.showSuccess(
+            response.messages
+          );
           this.onLoadUsers();
         } else {
           this.notificationService.showError("Any Error happened");

@@ -10,7 +10,6 @@ import { AdminService } from "src/app/services/admin.service";
 import { LibraryService } from "src/app/services/library.service";
 import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
-import { saveAs } from "file-saver";
 import { HttpResponse } from "@angular/common/http";
 @Component({
   selector: "app-video-form",
@@ -111,9 +110,9 @@ export class VideoFormComponent implements OnInit {
       };
       this.adminService.onAddVideoAttachment(this.subtopicId, subtopicValue).subscribe({
         next: (response) => {
-          if (response.messages.includes(OPERATION_MESSAGE.success)) {
+          if (response.statusCode==200) {
             this.notificationService.showSuccess(
-              `Topic ${this.editingVideoId ? "Updated" : "Added"} successfully`
+              response.messages
             );
 
             this.onLoadVideos(this.subtopicId);

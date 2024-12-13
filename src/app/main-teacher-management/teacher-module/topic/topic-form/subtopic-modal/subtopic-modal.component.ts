@@ -117,8 +117,10 @@ export class SubtopicModalComponent implements OnInit {
   onRemoveSubtopic(subtopicId: number, languageId: number): void {
     this.adminService.onRemoveSubtopic(subtopicId, languageId).subscribe({
       next: (response) => {
-        if (response.messages.includes(OPERATION_MESSAGE.success)) {
-          this.notificationService.showSuccess("Subtopic deleted succesfully");
+        if (response.statusCode==200) {
+          this.notificationService.showSuccess(
+            response.messages
+          );
           this.onLoadSubtopics();
         } else {
           this.notificationService.showError("Any Error happened");

@@ -69,8 +69,10 @@ export class SubjectListComponent implements OnInit {
   onRemoveSubject(subjectId: number, languageId: number): void {
     this.adminService.onRemoveSubject(subjectId, languageId).subscribe({
       next: (response) => {
-        if (response.messages.includes(OPERATION_MESSAGE.success)) {
-          this.notificationService.showSuccess("Subject deleted succesfully");
+        if (response.statusCode==200) {
+          this.notificationService.showSuccess(
+            response.messages
+          );
           this.onLoadSubject(this.categoryId);
         } else {
           this.notificationService.showError("Any Error happened");

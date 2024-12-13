@@ -19,7 +19,7 @@ export class SubjectsComponent implements OnInit {
   categories: SelectBoxModel[] = [];
   paginatorModel: PaginatorModel;
 
-  
+
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
@@ -70,8 +70,10 @@ export class SubjectsComponent implements OnInit {
 
       this.adminService.onAddSubject(subjectModel).subscribe({
         next: (response) => {
-          if (response.messages.includes(OPERATION_MESSAGE.success)) {
-            this.notificationService.showSuccess("Subject added succesfully");
+          if (response.statusCode==200) {
+            this.notificationService.showSuccess(
+              response.messages
+            );
           } else {
             this.notificationService.showError("Any Error happened");
           }

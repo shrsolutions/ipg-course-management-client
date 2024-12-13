@@ -2,7 +2,9 @@ import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LibraryService } from "src/app/services/library.service";
+import { NotificationService } from "src/app/shared/services/notification.service";
 import ValidatorUtility from "src/app/shared/utility/validator-utility";
+import { AuthService } from "src/app/user-auth/auth.service";
 
 @Component({
   selector: "app-user-registered",
@@ -17,12 +19,14 @@ export class UserRegisteredComponent {
   constructor(
     private fb: FormBuilder, private router: Router,
     private route: ActivatedRoute,
-    private libraryService: LibraryService
+    private libraryService: LibraryService,
+    private notificationService: NotificationService,
+    private authService: AuthService
 
   ) {
     this.registrationForm = this.fb.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
+      name: ["", Validators.required],
+      surname: ["", Validators.required],
       patronymic: [""],
       email: ["", [Validators.required, Validators.email]],
       password: [
@@ -61,7 +65,7 @@ export class UserRegisteredComponent {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.type=params['type']
- 
+
     });
     this.onGetAllCategories()
     this.initialForm();
@@ -70,13 +74,13 @@ export class UserRegisteredComponent {
   initialForm() {
     this.registrationForm = this.fb.group(
       {
-        firstName: [ this.editData.name ||"", Validators.required],
-        lastName: [ this.editData.surname ||"", Validators.required],
+        name: [ this.editData.name ||"", Validators.required],
+        surname: [ this.editData.surname ||"", Validators.required],
         patronymic: [ this.editData.patronymic||"", Validators.required],
         dateOfBirth: [ this.editData.dateOfBirth ||"2000-01-01", [Validators.required]],
-        email: [ this.editData.email ||"", [Validators.required, Validators.email]],
+        email: [ this.editData.email ||"", [ Validators.email]],
         gender: [this.editData.gender ||"", Validators.required],
-       
+
       }
     );
   }
@@ -97,7 +101,21 @@ export class UserRegisteredComponent {
   onSubmit(): void {
     if (this.registrationForm.valid) {
       // Perform registration logic here
-      console.log("Registration form submitted:", this.registrationForm.value);
+      this.registrationForm.value.email=undefined
+debugger
+      this.authService.editProfile(this.registrationForm.value).subscribe({
+        next: (response) => {
+          if (response.statusCode==200) {
+            this.notificationService.showSuccess(
+              response.messages
+            );
+
+          } else {
+            this.notificationService.showError("Any Error happened");
+          }
+        },
+      });
+
       // For example, you might want to navigate to a different page after successful registration
       this.router.navigate(["/dashboard"]);
     } else {
