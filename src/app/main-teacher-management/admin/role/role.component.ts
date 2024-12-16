@@ -23,11 +23,11 @@ export class RoleComponent implements OnInit {
   currentPage = 1;
   length!: number
   displayedColumns: string[] = [
-    
+
     "name",
     // "edit",
     "remove",
-  ]; 
+  ];
   dataSource: MatTableDataSource<Roles> = new MatTableDataSource<Roles>();
   paginatorModel: PaginatorModel;
   paginatorModel1: PaginatorModel;
@@ -146,8 +146,7 @@ export class RoleComponent implements OnInit {
   }
 
   onRemoveRole(id: number) {
-    this.saService.confirmDialog().then((result) => {
-      if (result.isConfirmed) {
+
         this.adminService.removeRole(id).subscribe({
           next: (responseData) => {
             if (responseData.statusCode==200) {
@@ -160,8 +159,7 @@ export class RoleComponent implements OnInit {
             }
           },
         });
-      }
-    });
+
   }
 
   // private formatRolesData(data: Roles[]): Roles[] {

@@ -23,11 +23,11 @@ pageSize = 5;
   currentPage = 1;
   length!: number
   displayedColumns: string[] = [
-    
+
     "name",
     "edit",
     "remove",
-  ]; 
+  ];
   dataSource: MatTableDataSource<Roles> = new MatTableDataSource<Roles>();
   paginatorModel: PaginatorModel;
   paginatorModel1: PaginatorModel;
@@ -101,7 +101,7 @@ this.id=elementWithMaxId.id
       this.invalid = true;
       return;
     }
-   
+
 
     if (this.editingRoleId) {
       this.adminService.updateLanguage(this.languageForm.value).subscribe({
@@ -137,15 +137,14 @@ this.id=elementWithMaxId.id
   }
 
   editRole(roleData: Roles) {
-   
+
     this.initialForm(roleData)
     this.editingRoleId = roleData.id;
     this.UpdateOrAddBtnMessage = "Update Language";
   }
 
   onRemoveRole(id: number) {
-    this.saService.confirmDialog().then((result) => {
-      if (result.isConfirmed) {
+
         this.adminService.removeLang(id).subscribe({
           next: (responseData) => {
             if (responseData.statusCode==200) {
@@ -158,8 +157,7 @@ this.id=elementWithMaxId.id
             }
           },
         });
-      }
-    });
+
   }
 
   // private formatRolesData(data: Roles[]): Roles[] {

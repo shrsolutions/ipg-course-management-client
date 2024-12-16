@@ -62,16 +62,16 @@ export class GroupComponent {
     start: new FormControl(new Date(this.year, this.month, this.today.getDate()-30)),
     end: new FormControl(new Date(this.year, this.month, this.today.getDate())),
   });
-  
+
   readonly beghinDate = new FormControl(new Date(this.year, this.month, this.today.getDate()-30));
   readonly endDate = new FormControl(new Date());
 
   ngOnInit(): void {
-    
+
     this.loadGroups();
     this.initialForm();
     this.fillServicesSelectBox();
-    
+
   }
 
   initialForm(): void {
@@ -83,7 +83,7 @@ export class GroupComponent {
   length!: number
 
   loadGroups() {
-   
+
     this.adminService.fetchGroups(this.paginatorModel).subscribe({
       next: (responseData) => {
          this.data =new MatTableDataSource<any>( responseData.result.data);
@@ -112,7 +112,7 @@ export class GroupComponent {
     //   this.invalid = true;
     //   return;
     // }
-    
+
     // const GroupData: any = {
     //   id: this.editingGroupId || 0,
     //   name: this.GroupForm.get("name").value,
@@ -159,8 +159,7 @@ export class GroupComponent {
   }
 
   onRemoveGroup(id: number) {
-    this.saService.confirmDialog().then((result) => {
-      if (result.isConfirmed) {
+
         this.adminService.removeGroup(id).subscribe({
           next: (responseData) => {
             if (responseData.statusCode==200) {
@@ -173,8 +172,7 @@ export class GroupComponent {
             }
           },
         });
-      }
-    });
+
   }
   applyFilter(event: Event) {
 
@@ -196,7 +194,7 @@ export class GroupComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
         this.loadGroups();
-      
+
     });
   }
 }

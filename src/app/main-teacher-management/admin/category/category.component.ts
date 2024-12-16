@@ -24,11 +24,11 @@ pageSize = 5;
   currentPage = 1;
   length!: number
   displayedColumns: string[] = [
-    
+
     "name",
     "edit",
     "remove",
-  ]; 
+  ];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   paginatorModel: PaginatorModel;
   constructor(
@@ -63,7 +63,7 @@ pageSize = 5;
         this.categoryList=response.result.data
         const data = response.result.data;
         this.dataSource.data =data;
-        this.length = response.result.count   
+        this.length = response.result.count
       },
     });
   }
@@ -98,16 +98,15 @@ pageSize = 5;
         debugger
         this.notificationService.showError("Xəta baş verdi'");
       }
-    
+
     });
-  
+
     this.btnAddOrUpdate = "Update Category";
   }
 
   onRemoveCategory(categoryId: number) {
     debugger
-    this.saService.confirmDialog().then((result) => {
-      if (result.isConfirmed) {
+
         this.adminService.getByIdCategory(categoryId).subscribe({
           next: (response) => {
             if (response.statusCode==200) {
@@ -136,12 +135,11 @@ pageSize = 5;
               this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
             }
           },
-         
-        
+
+
         });
 
-      }
-    });
+
   }
   languages:any
   loadLanguage() {
