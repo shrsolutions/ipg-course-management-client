@@ -1,45 +1,29 @@
 <div class="card p-5">
     <div class="row d-flex justify-content-center">
         <div class="col-lg-10">
-            <div class="">
-                <div class="card-body ">
-                    <h2 class="card-title" style="margin-left: 10px;">Role Page</h2>
+            <div class="p-0">
+                <div class="card-body p-0">
+                    <h2 class="card-title" style="margin-left: 10px;">Language Page</h2>
                     <div class="general-label">
-                        <form [formGroup]="roleForm" (ngSubmit)="addRole()"
+                        <form [formGroup]="languageForm" (ngSubmit)="addLanguage()"
                             class="row  row-cols-lg-auto g-3 d-flex justify-content-center  align-items-center">
 
 
-                            <mat-form-field appearance="outline" class="col-lg-4 col-sm-6">
+                            <mat-form-field appearance="outline" class="col-lg-8">
                                 <div class="mb-0">
 
                                     <input matInput type="text" class=" ms-2" id="name" formControlName="name"
-                                        placeholder="Admin,User etc.">
+                                        placeholder="Language name">
 
 
-                                    <span *ngIf="roleForm.get('name').hasError('required')  && invalid"
+                                    <span *ngIf="languageForm.get('name').hasError('required')  && invalid"
                                         class="text-danger mx-2 mt-2">
-                                        Role Name is required.
+                                        Language Name is required.
                                     </span>
                                 </div>
                             </mat-form-field>
 
-
-
-
-                            <mat-form-field class="col-lg-5 col-sm-6" appearance="outline">
-                                <div class="mb-0">
-                                    <mat-select formControlName="selectedSystemServices" multiple disableRipple>
-                                        <mat-option *ngFor="let service of systemServices" [value]="service.id">{{
-                                            service.name }}</mat-option>
-                                    </mat-select>
-                                    <span
-                                        *ngIf="roleForm.get('selectedSystemServices').hasError('required') && roleForm.get('selectedSystemServices').touched"
-                                        class="text-danger mx-2 mt-2">
-                                        Services is required.
-                                    </span>
-                                </div>
-                            </mat-form-field>
-                            <div class="col-lg-3 col-sm-6 d-flex mb-4 align-items-center justify-content-center ">
+                            <div class="col-lg-4  d-flex mb-4 align-items-center justify-content-center ">
                                 <button type="submit" class="btn-lg  btn-primary"
                                     style="width: 400px; height: 50px;">{{UpdateOrAddBtnMessage}}</button>
                             </div>
@@ -58,12 +42,8 @@
                     <td mat-cell *matCellDef="let row">{{ row.id }}</td>
                 </ng-container>
                 <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject Name</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Language Name</th>
                     <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-                </ng-container>
-                <ng-container matColumnDef="selectedSystemServicesString">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Selected System Services</th>
-                    <td mat-cell *matCellDef="let row">{{ row.selectedSystemServicesString }}</td>
                 </ng-container>
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Edit </th>

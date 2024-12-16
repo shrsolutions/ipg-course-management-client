@@ -7,6 +7,8 @@ import { NotificationService } from "src/app/shared/services/notification.servic
 import { LibraryService } from "src/app/services/library.service";
 import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
 import { PaginatorModel } from "../../models/Base/FetchBaseModel";
+import { MatTableDataSource } from "@angular/material/table";
+import { PageEvent } from "@angular/material/paginator";
 
 @Component({
   selector: "app-category",
@@ -18,8 +20,17 @@ export class CategoryComponent implements OnInit {
   categoryList: any[] = [];
   editedCategoryId = 0;
   btnAddOrUpdate: string = "Add Category";
+pageSize = 5;
+  currentPage = 1;
+  length!: number
+  displayedColumns: string[] = [
+    
+    "name",
+    "edit",
+    "remove",
+  ]; 
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   paginatorModel: PaginatorModel;
-
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
@@ -28,17 +39,20 @@ export class CategoryComponent implements OnInit {
     private saService: SweatAlertService
   ) {
     this.paginatorModel = {
-      count: 100,
-      page: 1,
+      count: this.pageSize,
+      page: this.currentPage,
     };
   }
   ngOnInit(): void {
     this.initForm();
     this.getAllCategories();
+    this.loadLanguage()
+
   }
 
   initForm(): void {
     this.categoryForm = this.fb.group({
+      langId: [0, Validators.required],
       category: ["", [Validators.required, Validators.maxLength(50)]],
     });
   }
@@ -46,38 +60,97 @@ export class CategoryComponent implements OnInit {
   getAllCategories(): void {
     this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
       next: (response) => {
-        this.categoryList = response.result.data;
+        this.categoryList=response.result.data
+        const data = response.result.data;
+        this.dataSource.data =data;
+        this.length = response.result.count   
       },
     });
   }
 
-  onEditCategory(id: number): void {
+  onPageChanged(event: PageEvent) {
+    this.paginatorModel.page = event.pageIndex + 1;
+    this.paginatorModel.count = event.pageSize;
+    this.getAllCategories();
+  }
+
+  onEditCategory(id: any): void {
+    debugger
     const editedCategory = this.categoryList.find((c) => c.id === id);
     if (!editedCategory) return;
     this.editedCategoryId = editedCategory.id;
-    this.categoryForm.patchValue({
-      category: editedCategory.translationInCurrentLanguage,
+    this.adminService.getByIdCategory(id).subscribe({
+      next: (response) => {
+        if (response.statusCode==200) {
+          const nonLanguageId1 = response.result.translations.find(
+            translation => translation.languageId !== 1
+        );
+        this.categoryForm.patchValue({
+          category: editedCategory.translationInCurrentLanguage,
+          langId:nonLanguageId1 ? nonLanguageId1.languageId : 1
+        });
+        } else {
+          debugger
+          this.notificationService.showError("Xəta baş verdi'");
+        }
+      },
+      error: err => {
+        debugger
+        this.notificationService.showError("Xəta baş verdi'");
+      }
+    
     });
+  
     this.btnAddOrUpdate = "Update Category";
   }
 
-  onRemoveCategory(categoryId: number, languageId: number) {
+  onRemoveCategory(categoryId: number) {
+    debugger
     this.saService.confirmDialog().then((result) => {
       if (result.isConfirmed) {
-        this.adminService.onRemoveCategory(categoryId, languageId).subscribe({
-          next: (responseData) => {
-            if (responseData.statusCode==200) {
-              this.notificationService.showSuccess(
-                responseData.messages
-              );
+        this.adminService.getByIdCategory(categoryId).subscribe({
+          next: (response) => {
+            if (response.statusCode==200) {
+              const nonLanguageId1 = response.result.translations.find(
+                translation => translation.languageId !== 1
+            );
+              this.adminService.onRemoveCategory(categoryId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
+                next: (responseData) => {
+                  if (responseData.statusCode==200) {
+                    this.notificationService.showSuccess(
+                      responseData.messages
+                    );
+                    this.getAllCategories();
+                  } else {
+                    debugger
+                    this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
+                  }
+                }, error: err => {
+                  debugger
+                  this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
+                }
+              });
               this.getAllCategories();
             } else {
               debugger
-              this.notificationService.showError(  responseData.messages);
+              this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
             }
           },
+         
+        
         });
+
       }
+    });
+  }
+  languages:any
+  loadLanguage() {
+    this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
+      next: (responseData) => {
+        debugger
+        const data = responseData.result.data;
+        this.languages =data;
+ },
     });
   }
   onSubmit(): void {
@@ -86,7 +159,7 @@ export class CategoryComponent implements OnInit {
       const categoryData: any = {
         id: this.editedCategoryId || null,
         translation: {
-          languageId:1,
+          languageId: Number(this.categoryForm.get("langId").value),
           translation: categoryValue,
 
         },

@@ -22,9 +22,7 @@ import { PaginatorModel } from "src/app/main-teacher-management/models/Base/Fetc
 export class TopicFormComponent {
   subjectId: number;
   displayedColumns: string[] = [
-    "topicId",
     "translation",
-    "languageName",
     "setSubtopic",
   ];
   dataSource: MatTableDataSource<TopicList> = new MatTableDataSource<

@@ -13,7 +13,7 @@ import { LibraryService } from "src/app/services/library.service";
 })
 export class TopicVideosComponent implements OnInit {
   subjectId: number;
-  displayedColumns: string[] = ["topicId", "translation", "languageName"];
+  displayedColumns: string[] = [ "translation"];
   dataSource: MatTableDataSource<TopicList> = new MatTableDataSource<
     TopicList
   >();

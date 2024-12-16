@@ -14,18 +14,18 @@ import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
 
 @Component({
-  selector: "app-role",
-  templateUrl: "./role.component.html",
-  styleUrls: ["./role.component.scss"],
+  selector: 'app-languages',
+  templateUrl: './languages.component.html',
+  styleUrls: ['./languages.component.scss']
 })
-export class RoleComponent implements OnInit {
-  pageSize = 5;
+export class LanguagesComponent {
+pageSize = 5;
   currentPage = 1;
   length!: number
   displayedColumns: string[] = [
     
     "name",
-    // "edit",
+    "edit",
     "remove",
   ]; 
   dataSource: MatTableDataSource<Roles> = new MatTableDataSource<Roles>();
@@ -35,9 +35,9 @@ export class RoleComponent implements OnInit {
   invalid: boolean = false;
   systemServices: SelectBoxModel[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  roleForm: FormGroup;
+  languageForm: FormGroup;
   editingRoleId;
-  UpdateOrAddBtnMessage: string = "Add Role";
+  UpdateOrAddBtnMessage: string = "Add Language";
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
@@ -55,30 +55,35 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadRoles();
+    this.loadLanguage();
+
     this.initialForm();
-    this.fillServicesSelectBox();
   }
 
-  initialForm(): void {
-    this.roleForm = this.fb.group({
-      name: ["", Validators.required],
-      selectedSystemServices: [[], Validators.required],
+  initialForm(editData?:any): void {
+    this.languageForm = this.fb.group({
+      id: [editData?.id||this.id++],
+      name: [editData?.name||"", Validators.required],
     });
   }
-
-  loadRoles() {
-    this.adminService.fetchRoles(this.paginatorModel).subscribe({
+  id:any
+  loadLanguage() {
+    this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
       next: (responseData) => {
         debugger
         const data = responseData.result.data;
         this.dataSource.data =data;
+
+        const elementWithMaxId = data.reduce((max, current) => {
+  return current.id > max.id ? current : max;
+}, data[0]);
+this.id=elementWithMaxId.id
         this.length = responseData.result.count      },
     });
   }
 
   fillServicesSelectBox() {
-    this.adminService.getSystemServices(this.paginatorModel1).subscribe({
+    this.adminService.fetchAllLanguage(this.paginatorModel1).subscribe({
       next: (responseData) => {
         this.systemServices = responseData.result.data;
       },
@@ -88,43 +93,39 @@ export class RoleComponent implements OnInit {
   onPageChanged(event: PageEvent) {
     this.paginatorModel.page = event.pageIndex + 1;
     this.paginatorModel.count = event.pageSize;
-    this.loadRoles();
+    this.loadLanguage();
   }
 
-  addRole() {
-    if (this.roleForm.invalid) {
+  addLanguage() {
+    if (this.languageForm.invalid) {
       this.invalid = true;
       return;
     }
-    const roleData: RoleData = {
-      id: this.editingRoleId || null,
-      name: this.roleForm.get("name").value,
-      selectedPermissions: this.roleForm.get("selectedSystemServices").value,
-    };
+   
 
     if (this.editingRoleId) {
-      this.adminService.updateRole(roleData).subscribe({
+      this.adminService.updateLanguage(this.languageForm.value).subscribe({
         next: (responseData) => {
           if (responseData.statusCode==200) {
             this.notificationService.showSuccess(
               responseData.messages
             );
-            this.loadRoles();
+            this.loadLanguage();
             this.editingRoleId = 0;
-            this.UpdateOrAddBtnMessage = "Add Role";
+            this.UpdateOrAddBtnMessage = "Add Language";
           } else {
             this.notificationService.showError("Any Error happened");
           }
         },
       });
     } else {
-      this.adminService.addRole(roleData).subscribe({
+      this.adminService.addLanguage(this.languageForm.value).subscribe({
         next: (responseData) => {
           if (responseData.statusCode==200) {
             this.notificationService.showSuccess(
               responseData.messages
             );
-            this.loadRoles();
+            this.loadLanguage();
           } else {
             this.notificationService.showError("Any Error happened");
           }
@@ -132,29 +133,26 @@ export class RoleComponent implements OnInit {
       });
     }
 
-    this.roleForm.reset();
+    this.languageForm.reset();
   }
 
   editRole(roleData: Roles) {
-    this.roleForm.patchValue({
-      name: roleData.name,
-      selectedSystemServices: roleData.selectedSystemServices,
-    });
-
+   
+    this.initialForm(roleData)
     this.editingRoleId = roleData.id;
-    this.UpdateOrAddBtnMessage = "Update Role";
+    this.UpdateOrAddBtnMessage = "Update Language";
   }
 
   onRemoveRole(id: number) {
     this.saService.confirmDialog().then((result) => {
       if (result.isConfirmed) {
-        this.adminService.removeRole(id).subscribe({
+        this.adminService.removeLang(id).subscribe({
           next: (responseData) => {
             if (responseData.statusCode==200) {
               this.notificationService.showSuccess(
                 responseData.messages
               );
-              this.loadRoles();
+              this.loadLanguage();
             } else {
               this.notificationService.showError("Any Error happened");
             }

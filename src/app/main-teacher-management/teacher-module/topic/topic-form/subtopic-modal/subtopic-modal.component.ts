@@ -26,9 +26,7 @@ export class SubtopicModalComponent implements OnInit {
   editedSubject;
   paginatorModel: PaginatorModel
   displayedColumns: string[] = [
-    "subtopicId",
     "translation",
-    "languageName",
     "edit",
     "remove",
   ];

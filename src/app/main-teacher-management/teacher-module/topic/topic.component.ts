@@ -11,7 +11,7 @@ import { PaginatorModel } from "../../models/Base/FetchBaseModel";
   styleUrls: ["./topic.component.scss"],
 })
 export class TopicComponent implements OnInit {
-  displayedColumns: string[] = ["subjectId", "translation", "languageName"];
+  displayedColumns: string[] = [ "translation"];
   dataSource: MatTableDataSource<SubjectList> = new MatTableDataSource<
     SubjectList
   >();

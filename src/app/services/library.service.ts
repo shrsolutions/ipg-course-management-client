@@ -50,7 +50,7 @@ export class LibraryService {
   }
 
   fetchAttachmentsBySubtopicId(subtopicId: number) {
-    return this.http.get<WrapperWithoutCount<VideoLinkList>>(
+    return this.http.get<any>(
       `${this.baseUrl}subtopics/${subtopicId}/attachments`
     );
   }

@@ -31,6 +31,8 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { LanguagesComponent } from "./admin/languages/languages.component";
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     SubtopicVideosComponent,
     VideoFormComponent,
     GroupComponent,
+    LanguagesComponent,
     NewGroupComponent
   ],
   imports: [
@@ -63,7 +66,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     TeacherRoutingModule,
     MatTooltipModule,
     MatDialogModule,
-    MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule
   ],
   exports: [MainHomeComponent],
 })

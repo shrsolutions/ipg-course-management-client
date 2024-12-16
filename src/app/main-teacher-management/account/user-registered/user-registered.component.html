@@ -3,10 +3,10 @@
 
     </div>
     <div class="card-body">
-        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="registrationForm" class="userProfile" >
 
             <div class="row">
-                <p class="col-lg-4">
+                <p class="col-lg-3">
 
                     <input type="text" class="form-control" placeholder="First Name"
                         formControlName="name" >
@@ -16,7 +16,7 @@
                         required</mat-error>
 
                 </p>
-                <p class="col-lg-4">
+                <p class="col-lg-3">
 
                     <input type="text" class="form-control" placeholder="Last Name" formControlName="surname">
                     <mat-error *ngIf="registrationForm.get('surname').hasError('required') && invalid">Last
@@ -24,33 +24,24 @@
                         required</mat-error>
 
                 </p>
-                <p class="col-lg-4">
+                <p class="col-lg-3">
 
                     <input type="text" class="form-control" placeholder="Patronymic" formControlName="patronymic">
                     <mat-error *ngIf="registrationForm.get('patronymic').hasError('required') && invalid">Patronymic
                         required</mat-error>
 
                 </p>
-                <p class="col-lg-4">
+           
 
-                    <input type="email" class="form-control" placeholder="Email" formControlName="email">
-
-                    <mat-error *ngIf="registrationForm.get('email').hasError('email') && invalid">Invalid email
-                        format</mat-error>
-
-                </p>
-
-
-                <p class="col-lg-4">
+                <p class="col-lg-3">
                     <mat-form-field class="custom-date-range custom-border px-0 w-100" appearance="outline">
-                        <input matInput style="position: relative;
-  top: -10px;" [matDatepicker]="dp3" formControlName="dateOfBirth" placeholder="Date of Birth">
+                        <input matInput style="position: relative;" [matDatepicker]="dp3" formControlName="dateOfBirth" placeholder="Date of Birth">
                         <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
                         <mat-datepicker #dp3 disabled="false"></mat-datepicker>
 
 
                         <mat-error *ngIf="registrationForm.get('dateOfBirth').hasError('required') && invalid">
-                            Date of Birth is required.d</mat-error>
+                            Date of Birth is required</mat-error>
                         <mat-error *ngIf="registrationForm.get('dateOfBirth').hasError('ageOutOfRange')">
                             Age must be between 18 and 100.
                         </mat-error>
@@ -77,11 +68,30 @@
                 </div>
 
             </div>
-
-            <button *ngIf="type!=1" class="btn btn-primary waves-effect waves-light custom-btn" type="submit">REGISTER</button>
-            <button *ngIf="type==1" class="btn btn-primary waves-effect waves-light custom-btn" type="submit">SAVE</button>
+            <div class="row d-flex justify-content-between" >
+                <div class="col-lg-6">
+                    <button *ngIf="type!=1" (click)="onSubmit()" class="btn btn-primary waves-effect waves-light custom-btn" type="submit">REGISTER</button>
+            <button *ngIf="type==1" (click)="onSubmit()" class="btn btn-primary waves-effect waves-light custom-btn" type="submit">SAVE</button>
+                </div>
+                <div class="col-lg-6 d-flex flex-row-reverse">
+                    <div class="download">
+                        <label class="custom-file-upload">
+                          <input
+                            accept="image/png, image/gif, image/jpeg, application/pdf"
+                            type="file"
+                            (change)="onUpload($event)"
+                          />
+                       Change profil image
+                          
+                        </label>
+                      </div>
+                </div>
+            </div>
+            
+          
 
         </form>
+        
 
     </div>
 </div>

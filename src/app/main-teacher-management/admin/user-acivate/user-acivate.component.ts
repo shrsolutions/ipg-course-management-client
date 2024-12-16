@@ -31,7 +31,7 @@ export class UserAcivateComponent implements OnInit {
   editingRoleId;
   UpdateOrAddBtnMessage: string = "Add Role";
   displayedColumns: string[] = [
-    "id",
+    
     "email",
     "fullName",
     "userStatusId",

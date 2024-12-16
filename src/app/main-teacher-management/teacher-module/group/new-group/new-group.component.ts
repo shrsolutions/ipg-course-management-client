@@ -33,7 +33,8 @@ export class NewGroupComponent {
 
   initalForm(): void {
     this.groupForm = this.fb.group({
-      group: [this.data.name||"", Validators.required],
+      id: [this.data?.id||null],
+      name: [this.data?.name||"", Validators.required],
     });
   }
 
@@ -44,16 +45,18 @@ export class NewGroupComponent {
     //   })
     // );
 
-    // this.adminService.onSetNewRoleToUser(this.data.id, roleData).subscribe({
-    //   next: (response) => {
-    //     if (response.messages.includes(OPERATION_MESSAGE.success)) {
-    //       this.notificationService.showSuccess("Role set to user succesfully");
-    //       this.dialogRef.close({ result: true });
-    //     } else {
-    //       this.notificationService.showError("Any Error happened");
-    //     }
-    //   },
-    // });
+    this.adminService.onAddGroup(this.groupForm.value).subscribe({
+      next: (response) => {
+        if (response.statusCode==200) {
+          this.notificationService.showSuccess(
+            response.messages
+          );
+          this.dialogRef.close();
+        } else {
+          this.notificationService.showError("Any Error happened");
+        }
+      },
+    });
   }
 
   onClose() {

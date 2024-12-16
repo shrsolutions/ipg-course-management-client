@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
 import {
-  VideoLinkList,
-  videoLinkForm,
+  VideoLinkList
 } from "src/app/main-teacher-management/models/library-models/video-link";
 import { AdminService } from "src/app/services/admin.service";
 import { LibraryService } from "src/app/services/library.service";
@@ -22,7 +21,7 @@ export class VideoFormComponent implements OnInit {
   subtopicId: number;
   editingVideoId: 0;
   subjectId: number;
-  displayedColumns: string[] = ["id", "value", "description"];
+  displayedColumns: string[] = [ "value", "description"];
   dataSource: MatTableDataSource<VideoLinkList> = new MatTableDataSource<
     VideoLinkList
   >();
@@ -99,14 +98,13 @@ export class VideoFormComponent implements OnInit {
       (this.videoForm.get("enableCheckbox").value &&
         this.videoForm.get("videoLink").valid)
     ) {
-      const subtopicValue: videoLinkForm = {
+      const subtopicValue: any = {
         languageId: 1,
         AttachmentTypeId: this.videoForm.get("enableCheckbox").value ? 2 : 1,
         value: this.videoForm.get("videoLink").value,
         subtopicId: this.subtopicId,
         description: this.videoForm.get("description").value,
         subtopicAttachmentFile: this.videoForm.get("videoFile").value||0,
-        id: null,
       };
       this.adminService.onAddVideoAttachment(this.subtopicId, subtopicValue).subscribe({
         next: (response) => {

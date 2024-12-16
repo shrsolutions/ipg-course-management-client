@@ -22,9 +22,8 @@ export class SubjectListComponent implements OnInit {
   editedSubject;
 
   displayedColumns: string[] = [
-    "subjectId",
+    
     "translation",
-    "languageName",
     "remove",
   ];
   paginatorModel: PaginatorModel;
@@ -66,18 +65,36 @@ export class SubjectListComponent implements OnInit {
   onClose() {
     this.dialogRef.close();
   }
-  onRemoveSubject(subjectId: number, languageId: number): void {
-    this.adminService.onRemoveSubject(subjectId, languageId).subscribe({
+  onRemoveSubject(subjectId: number): void {
+    this.adminService.getByIdSubject(subjectId).subscribe({
       next: (response) => {
         if (response.statusCode==200) {
-          this.notificationService.showSuccess(
-            response.messages
-          );
-          this.onLoadSubject(this.categoryId);
+          const nonLanguageId1 = response.result.translations.find(
+            translation => translation.languageId !== 1
+        );
+          this.adminService.onRemoveSubject(subjectId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
+            next: (response) => {
+              debugger
+              if (response.statusCode==200) {
+                this.notificationService.showSuccess(
+                  response.messages
+                );
+                this.onLoadSubject(this.categoryId);
+              } else {
+                this.notificationService.showError("Any Error happened");
+              }
+            },
+            error: err => {
+              debugger
+              this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
+            }
+          
+          });
         } else {
-          this.notificationService.showError("Any Error happened");
+          this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
         }
       },
     });
+  
   }
 }

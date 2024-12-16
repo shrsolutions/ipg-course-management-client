@@ -19,7 +19,7 @@ export class SubtopicVideosComponent implements OnInit {
   categoryId = 0;
   editedSubject;
   topicId: number;
-  displayedColumns: string[] = ["subtopicId", "translation", "languageName"];
+  displayedColumns: string[] = [ "translation"];
   paginatorModel: PaginatorModel
 
   constructor(

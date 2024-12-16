@@ -19,7 +19,7 @@ export class GroupComponent {
   pageSize = 5;
   currentPage = 1;
   displayedColumns: string[] = [
-    "id",
+
     "name",
     "createDate",
     "studentCount",
@@ -28,8 +28,10 @@ export class GroupComponent {
     "addStudent",
 
   ]; // Adjust columns accordingly
-  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+  data: MatTableDataSource<any> = new MatTableDataSource<any>();
   paginatorModel: PaginatorModel;
+  paginatorModel1: PaginatorModel;
+
   invalid: boolean = false;
   systemServices: SelectBoxModel[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -49,6 +51,10 @@ export class GroupComponent {
     this.paginatorModel = {
       count: this.pageSize,
       page: this.currentPage,
+    };
+    this.paginatorModel1 = {
+      count: 100,
+      page: 1,
     };
   }
 
@@ -77,23 +83,18 @@ export class GroupComponent {
   length!: number
 
   loadGroups() {
-    this.dataSource.data =[{
-      id:1,name:'Group1',date:'01.12.2024',count:2
-    }]
-       this.length = 1
+   
+    this.adminService.fetchGroups(this.paginatorModel).subscribe({
+      next: (responseData) => {
+         this.data =new MatTableDataSource<any>( responseData.result.data);
+        this.length = responseData.result.count
 
-    // this.adminService.fetchRoles(this.paginatorModel).subscribe({
-    //   next: (responseData) => {
-    //     const data = responseData.result.data;
-    //     this.dataSource.data = this.formatGroupsData(data);
-    //     this.length = responseData.result.count
-
-    //   },
-    // });
+      },
+    });
   }
 
   fillServicesSelectBox() {
-    this.adminService.getSystemServices().subscribe({
+    this.adminService.getSystemServices(this.paginatorModel1).subscribe({
       next: (responseData) => {
         this.systemServices = responseData.result;
       },
@@ -158,22 +159,28 @@ export class GroupComponent {
   }
 
   onRemoveGroup(id: number) {
-    // this.saService.confirmDialog().then((result) => {
-    //   if (result.isConfirmed) {
-    //     this.adminService.removeRole(id).subscribe({
-    //       next: (responseData) => {
-    //         if (responseData.messages.includes(OPERATION_MESSAGE.success)) {
-    //           this.notificationService.showSuccess("Group deleted succesfully");
-    //           this.loadGroups();
-    //         } else {
-    //           this.notificationService.showError("Any Error happened");
-    //         }
-    //       },
-    //     });
-    //   }
-    // });
+    this.saService.confirmDialog().then((result) => {
+      if (result.isConfirmed) {
+        this.adminService.removeGroup(id).subscribe({
+          next: (responseData) => {
+            if (responseData.statusCode==200) {
+              this.notificationService.showSuccess(
+                responseData.messages
+              );
+              this.loadGroups();
+            } else {
+              this.notificationService.showError("Any Error happened");
+            }
+          },
+        });
+      }
+    });
   }
+  applyFilter(event: Event) {
 
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.data.filter = filterValue.trim().toLowerCase();
+  }
   private formatGroupsData(data: any[]): any[] {
     return data.map((Group) => ({
       ...Group,
@@ -188,9 +195,8 @@ export class GroupComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
         this.loadGroups();
-      }
+      
     });
   }
 }

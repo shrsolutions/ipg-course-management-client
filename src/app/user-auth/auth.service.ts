@@ -19,7 +19,7 @@ import { LocalStorageService } from "../shared/services/local-storage.service";
 import { Router } from "@angular/router";
 import { NotificationService } from "../shared/services/notification.service";
 import FormUtility from "../shared/utility/form-utility";
-
+import { Observable } from 'rxjs'
 @Injectable({
   providedIn: "root",
 })
@@ -47,6 +47,12 @@ export class AuthService {
 
     return this.http
       .put<any>(`${this.baseUrl}users/profile`, registerModel)
+
+  }
+  postProfileImage(image:any) {
+
+    return this.http
+      .post<any>(`${this.baseUrl}users/profile/image`, image)
 
   }
   signIn(loginModel) {
@@ -130,4 +136,11 @@ export class AuthService {
       Authorization: `Bearer ${token || ""}`,
     });
   }
+   getProfileImage() {
+      return this.http.get(
+        `${this.baseUrl}users/profile/image`, {
+      responseType: 'blob',
+    })
+
+    }
 }

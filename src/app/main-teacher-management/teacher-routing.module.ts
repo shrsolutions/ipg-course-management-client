@@ -16,6 +16,7 @@ import { TopicVideosComponent } from "./teacher-module/videos/topic-videos/topic
 import { SubtopicVideosComponent } from "./teacher-module/videos/subtopic-videos/subtopic-videos.component";
 import { VideoFormComponent } from "./teacher-module/videos/video-form/video-form.component";
 import { GroupComponent } from "./teacher-module/group/group.component";
+import { LanguagesComponent } from "./admin/languages/languages.component";
 
 const userRoutes: Routes = [
   {
@@ -37,6 +38,11 @@ const userRoutes: Routes = [
         path: "admin/role",
         component: RoleComponent,
         data: { breadcrumb: "Role" },
+      },
+      {
+        path: "admin/language",
+        component: LanguagesComponent,
+        data: { breadcrumb: "Language" },
       },
       {
         path: "admin/user-activate",

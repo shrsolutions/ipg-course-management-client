@@ -11,7 +11,7 @@ import { LocalStorageService } from "src/app/shared/services/local-storage.servi
   styleUrls: ["./subject-videos.component.scss"],
 })
 export class SubjectVideosComponent implements OnInit {
-  displayedColumns: string[] = ["subjectId", "translation", "languageName"];
+  displayedColumns: string[] = [ "translation"];
   dataSource: MatTableDataSource<SubjectList> = new MatTableDataSource<
     SubjectList
   >();

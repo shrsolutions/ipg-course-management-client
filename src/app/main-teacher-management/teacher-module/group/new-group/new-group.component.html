@@ -10,8 +10,8 @@
         </div>
             <div class="modal-body ">
                 <label class="visually-hidden" for="group">Group</label>
-                <input type="text" class="form-control py-3" id="Group" formControlName="group">
-                <div *ngIf="groupForm.get('group').hasError('required') && groupForm.get('group').touched"
+                <input type="text" class="form-control py-3" id="Group" formControlName="name">
+                <div *ngIf="groupForm.get('name').hasError('required') && groupForm.get('name').touched"
                     class="text-danger">
                     Group is required
                 </div>

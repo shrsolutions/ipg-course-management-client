@@ -12,6 +12,7 @@ import { ErrorHandlingInterceptor } from "./core/interceptors/error-handling.int
 import { HttpLoadingInterceptor } from "./core/interceptors/http-loading.interceptor";
 import { TokenInterceptor } from "./core/interceptors/token.interceptor";
 import { SharedModule } from "./shared/shared.module";
+import { LanguagesComponent } from './main-teacher-management/admin/languages/languages.component';
 
 @NgModule({
   declarations: [AppComponent],

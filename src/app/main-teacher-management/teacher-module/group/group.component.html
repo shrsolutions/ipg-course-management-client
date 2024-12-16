@@ -17,7 +17,7 @@
         class="form-control py-2"
         id="Group"
         placeholder="Group Name"
-        formControlName="group"
+        (keyup)="applyFilter($event)"
       />
     </div>
     <div class="col-lg-2 pe-0">
@@ -42,7 +42,6 @@
         class="form-control py-2"
         id="GroupCount"
         placeholder="Group's Student Count"
-        formControlName="groupCount"
       />
     </div>
     
@@ -63,7 +62,7 @@
     </div>
     <div class=" d-flex justify-content-center p-0" style="padding: 0;">
         <div class="mat-elevation-z8 table-responsive col-lg-11">
-            <table mat-table [dataSource]="dataSource" matSort class="table table-centered mb-0">
+            <table mat-table [dataSource]="data" matSort class="table table-centered mb-0">
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
                     <td mat-cell *matCellDef="let row">{{ row.id }}</td>
@@ -74,7 +73,7 @@
                 </ng-container>
                 <ng-container matColumnDef="createDate">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Group`s Create Date</th>
-                    <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+                    <td mat-cell *matCellDef="let row">{{ row.createDate | date : "dd-MM-YYYY HH:mm:ss"  }}</td>
                 </ng-container>
                 <ng-container matColumnDef="studentCount">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Group`s Student Count</th>

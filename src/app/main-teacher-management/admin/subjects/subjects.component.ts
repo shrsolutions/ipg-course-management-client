@@ -36,15 +36,27 @@ export class SubjectsComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.fillCategorySelectBox();
+    this.loadLanguage()
+
   }
 
   initForm(): void {
     this.subjectForm = this.fb.group({
+      langId: [0, Validators.required],
       subject: ["", Validators.required],
       category: [null, Validators.required],
     });
   }
-
+  languages:any
+  loadLanguage() {
+    this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
+      next: (responseData) => {
+        debugger
+        const data = responseData.result.data;
+        this.languages =data;
+ },
+    });
+  }
   fillCategorySelectBox() {
     debugger
     this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
@@ -64,7 +76,7 @@ export class SubjectsComponent implements OnInit {
         categoryId: this.subjectForm.get("category").value,
         id: null,
         translation: {
-          languageId: 1,
+          languageId: Number(this.subjectForm.get("langId").value),
           translation:subjectValue
       }};
 

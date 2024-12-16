@@ -36,10 +36,28 @@ export class AdminService {
       `${this.baseUrl}roles${pagenitorUrl}`
     );
   }
+  fetchGroups(paginator: PaginatorModel) {
+    const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
+    return this.http.get<any>(
+      `${this.baseUrl}groups${pagenitorUrl}`
+    );
+  }
+  onAddGroup(groupData: any) {
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}groups`,
+      groupData
+    );
+  }
+  removeGroup(id: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}groups/${id}`
+    );
+  }
+  getSystemServices(paginator: PaginatorModel) {
+    const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
 
-  getSystemServices() {
-    return this.http.get<WrapperWithoutCount<SelectBoxModel>>(
-      `${this.baseUrl}system-services`
+    return this.http.get<any>(
+      `${this.baseUrl}permissions${pagenitorUrl}`
     );
   }
 
@@ -49,7 +67,24 @@ export class AdminService {
       roleData
     );
   }
-
+  addLanguage(languages: any) {
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}languages`,
+      languages
+    );
+  }
+  updateLanguage(languages: any) {
+    return this.http.put<Wrapper<any>>(
+      `${this.baseUrl}languages`,
+      languages
+    );
+  }
+  fetchAllLanguage(paginator: PaginatorModel) {
+    const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
+    return this.http.get<Wrapper<any>>(
+      `${this.baseUrl}languages${pagenitorUrl}`
+    );
+  }
   updateRole(roleData: RoleData) {
     return this.http.put<Wrapper<any>>(
       `${this.baseUrl}roles`,
@@ -57,9 +92,19 @@ export class AdminService {
     );
   }
 
+  removeLang(id: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}languages/${id}`
+    );
+  }
   removeRole(roleId: number) {
     return this.http.delete<Wrapper<any>>(
       `${this.baseUrl}roles/${roleId}`
+    );
+  }
+  getByIdSubject(roleId: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}subjects/${roleId}`
     );
   }
 
@@ -104,6 +149,12 @@ export class AdminService {
     );
   }
 
+  getByIdCategory(categoryId: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}categories/${categoryId}`
+    );
+  }
+
   onAddSubject(categoryData: Category) {
     return this.http.post<Wrapper<any>>(
       `${this.baseUrl}subjects`,
@@ -138,7 +189,7 @@ export class AdminService {
 
   onAddVideoAttachment(id:any,attachmentData: videoLinkForm) {
     const formData = FormUtility.createFormData(attachmentData);
-
+debugger
     return this.http.post<Wrapper<any>>(
       `${this.baseUrl}subtopics/${id}/attachments`,
       formData

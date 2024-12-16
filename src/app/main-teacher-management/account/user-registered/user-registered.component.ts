@@ -28,7 +28,6 @@ export class UserRegisteredComponent {
       name: ["", Validators.required],
       surname: ["", Validators.required],
       patronymic: [""],
-      email: ["", [Validators.required, Validators.email]],
       password: [
         "",
         [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{8,}$/)],
@@ -67,19 +66,20 @@ export class UserRegisteredComponent {
       this.type=params['type']
 
     });
-    this.onGetAllCategories()
     this.initialForm();
+
+    this.onGetAllCategories()
 
   }
   initialForm() {
+    debugger
     this.registrationForm = this.fb.group(
       {
-        name: [ this.editData.name ||"", Validators.required],
-        surname: [ this.editData.surname ||"", Validators.required],
-        patronymic: [ this.editData.patronymic||"", Validators.required],
-        dateOfBirth: [ this.editData.dateOfBirth ||"2000-01-01", [Validators.required]],
-        email: [ this.editData.email ||"", [ Validators.email]],
-        gender: [this.editData.gender ||"", Validators.required],
+        name: [ this.editData?.name ||"", Validators.required],
+        surname: [ this.editData?.surname ||"", Validators.required],
+        patronymic: [ this.editData?.patronymic||"", Validators.required],
+        dateOfBirth: [ this.editData?.dateOfBirth ||"2000-01-01", [Validators.required]],
+        gender: [this.editData?.gender ||"", Validators.required],
 
       }
     );
@@ -94,14 +94,49 @@ export class UserRegisteredComponent {
       },
     });
   }
+  file: any = 0
+type1: boolean = false
+choosenFile: any
+EditType: boolean = false
+  onUpload(event: any): void {
+    debugger
+    this.file = event.target.files[0];
+    this.EditType = false
+    if (event.target.files[0].name != " ") {
+      this.type1 = true
+      this.choosenFile = event.target.files[0].name
+    }
+    this.saveFile()
+  }
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
   }
+  EditFile: any = []
 
+saveFile(){
+  const formData = new FormData();
+
+  formData.append('image', this.file ? this.file : this.EditFile[0]?.downloadKey);
+  this.authService.postProfileImage(formData).subscribe({
+    next: (response) => {
+      if (response.statusCode==200) {
+        this.notificationService.showSuccess(
+          response.messages
+        );
+        window.location.reload();
+
+      } else {
+        this.notificationService.showError("Any Error happened");
+      }
+    },
+  });
+
+}
   onSubmit(): void {
     if (this.registrationForm.valid) {
       // Perform registration logic here
-      this.registrationForm.value.email=undefined
+      this.registrationForm.value.file=null
+
 debugger
       this.authService.editProfile(this.registrationForm.value).subscribe({
         next: (response) => {
