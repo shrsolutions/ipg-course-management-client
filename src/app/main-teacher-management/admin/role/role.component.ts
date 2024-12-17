@@ -8,9 +8,7 @@ import {
   SelectBoxModel,
 } from "../../models/Base/FetchBaseModel";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { RoleData } from "../models/role";
 import { NotificationService } from "src/app/shared/services/notification.service";
-import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
 
 @Component({
@@ -25,7 +23,7 @@ export class RoleComponent implements OnInit {
   displayedColumns: string[] = [
 
     "name",
-    // "edit",
+    "edit",
     "remove",
   ];
   dataSource: MatTableDataSource<Roles> = new MatTableDataSource<Roles>();
@@ -38,6 +36,8 @@ export class RoleComponent implements OnInit {
   roleForm: FormGroup;
   editingRoleId;
   UpdateOrAddBtnMessage: string = "Add Role";
+  editData:any
+
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
@@ -59,11 +59,11 @@ export class RoleComponent implements OnInit {
     this.initialForm();
     this.fillServicesSelectBox();
   }
-
   initialForm(): void {
     this.roleForm = this.fb.group({
-      name: ["", Validators.required],
-      selectedSystemServices: [[], Validators.required],
+      id: [this.editData?.id||null],
+      name: [this.editData?.name||"", Validators.required],
+      selectedPermissions: [this.editData?.permissions||[], Validators.required],
     });
   }
 
@@ -96,14 +96,9 @@ export class RoleComponent implements OnInit {
       this.invalid = true;
       return;
     }
-    const roleData: RoleData = {
-      id: this.editingRoleId || null,
-      name: this.roleForm.get("name").value,
-      selectedPermissions: this.roleForm.get("selectedSystemServices").value,
-    };
 
     if (this.editingRoleId) {
-      this.adminService.updateRole(roleData).subscribe({
+      this.adminService.updateRole(this.roleForm.value).subscribe({
         next: (responseData) => {
           if (responseData.statusCode==200) {
             this.notificationService.showSuccess(
@@ -118,7 +113,7 @@ export class RoleComponent implements OnInit {
         },
       });
     } else {
-      this.adminService.addRole(roleData).subscribe({
+      this.adminService.addRole(this.roleForm.value).subscribe({
         next: (responseData) => {
           if (responseData.statusCode==200) {
             this.notificationService.showSuccess(
@@ -131,18 +126,28 @@ export class RoleComponent implements OnInit {
         },
       });
     }
-
     this.roleForm.reset();
   }
 
-  editRole(roleData: Roles) {
-    this.roleForm.patchValue({
-      name: roleData.name,
-      selectedSystemServices: roleData.selectedSystemServices,
-    });
+  editRole(roleData: any) {
+    this.adminService.getByIdRole(roleData.id).subscribe({
+      next: (response) => {
+        if (response.statusCode==200) {
+          this.editData=response.result
+          this.initialForm()
+          this.editingRoleId = roleData.id;
+          this.UpdateOrAddBtnMessage = "Update Role";
 
-    this.editingRoleId = roleData.id;
-    this.UpdateOrAddBtnMessage = "Update Role";
+        } else {
+          debugger
+          this.notificationService.showError("Xəta baş verdi'");
+        }
+      },
+      error: err => {
+        debugger
+        this.notificationService.showError("Xəta baş verdi'");
+      }
+    });
   }
 
   onRemoveRole(id: number) {
@@ -159,13 +164,5 @@ export class RoleComponent implements OnInit {
             }
           },
         });
-
   }
-
-  // private formatRolesData(data: Roles[]): Roles[] {
-  //   return data.map((role) => ({
-  //     ...role,
-  //     selectedSystemServicesString: role.selectedSystemServices.join(", "),
-  //   }));
-  // }
 }

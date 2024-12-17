@@ -67,6 +67,12 @@ export class AdminService {
       roleData
     );
   }
+  getByIdRole(id: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}roles/${id}`
+    );
+  }
+
   addLanguage(languages: any) {
     return this.http.post<Wrapper<any>>(
       `${this.baseUrl}languages`,
