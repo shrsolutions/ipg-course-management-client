@@ -30,6 +30,7 @@ export class MainHomeComponent implements OnInit {
   categories: CategoryResult[] = [];
   onNavigate(categoryId: number) {
     this.localStorageService.setItem("categoryId", categoryId);
+    debugger
     this.router.navigate(["/main-teacher-management/module-category"]);
   }
 

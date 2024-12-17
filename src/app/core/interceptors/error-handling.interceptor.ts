@@ -29,6 +29,7 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
         let errorMessage = error.message;
         if (error.status==401) {
           this.localStorageService.removeItem("user");
+          this.localStorageService.removeItem("userPermission");
 
           this.router.navigate(["/auth/login"]);
         }

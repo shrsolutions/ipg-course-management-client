@@ -21,7 +21,7 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const user = this.localStorageService.getItem<any>("user");
-    
+
     console.log(user);
     if (user && user._token) {
       request = request.clone({
@@ -32,6 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
     }
     else{
       this.localStorageService.removeItem("user");
+      this.localStorageService.removeItem("userPermission");
 
       this.router.navigate(["/auth/login"]);
     }

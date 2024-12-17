@@ -65,6 +65,8 @@ export class AuthService {
     this.user.next(null);
     this.router.navigate(["/auth/login"]);
     this.localStorageService.removeItem("user");
+    this.localStorageService.removeItem("userPermission");
+
   }
 
   confirmCode(confirmCode: string) {
@@ -123,11 +125,15 @@ export class AuthService {
     return throwError(() => errorMessage);
   }
 
-  private handleAuthentication(userData: AuthResult) {
+  private handleAuthentication(userData: any) {
     console.log(userData);
     const user = User.createUserInstance(userData.result);
+    debugger
+    const userPermission = userData.result.permissions;
     this.user.next(user);
     this.localStorageService.setItem("user", user);
+    this.localStorageService.setItem("userPermission",userPermission);
+
   }
 
   private createAuthorizationHeader(token?: string): HttpHeaders {

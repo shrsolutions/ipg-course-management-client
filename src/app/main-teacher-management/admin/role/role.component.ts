@@ -10,6 +10,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NotificationService } from "src/app/shared/services/notification.service";
 import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
+import { LocalStorageService } from "src/app/shared/services/local-storage.service";
 
 @Component({
   selector: "app-role",
@@ -42,6 +43,7 @@ export class RoleComponent implements OnInit {
     private adminService: AdminService,
     private fb: FormBuilder,
     private notificationService: NotificationService,
+    private localStorageService: LocalStorageService,
     private saService: SweatAlertService
   ) {
     this.paginatorModel = {
@@ -53,8 +55,18 @@ export class RoleComponent implements OnInit {
       page: 1,
     };
   }
+  permission:any
 
   ngOnInit(): void {
+    const storedPermissions = localStorage.getItem('userPermission');
+    if (storedPermissions) {
+      try {
+        this.permission= JSON.parse(storedPermissions);
+      } catch (e) {
+        console.error('Error parsing permissions:', e);
+        this.permission= [];
+      }
+    }
     this.loadRoles();
     this.initialForm();
     this.fillServicesSelectBox();
