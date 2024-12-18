@@ -31,7 +31,7 @@ export class UserAcivateComponent implements OnInit {
   editingRoleId;
   UpdateOrAddBtnMessage: string = "Add Role";
   displayedColumns: string[] = [
-    
+
     "email",
     "fullName",
     "userStatusId",
@@ -73,10 +73,19 @@ export class UserAcivateComponent implements OnInit {
     this.onLoadUsers();
 
   }
+  permission:any
 
   onLoadUsers() {
     debugger
-
+    const storedPermissions = localStorage.getItem('userPermission');
+    if (storedPermissions) {
+      try {
+        this.permission= JSON.parse(storedPermissions);
+      } catch (e) {
+        console.error('Error parsing permissions:', e);
+        this.permission= [];
+      }
+    }
     this.adminService.fetchAllUsers(this.paginatorModel).subscribe({
       next: (responseData) => {
         const data = responseData.result.data;

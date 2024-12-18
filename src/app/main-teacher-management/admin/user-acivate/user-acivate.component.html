@@ -1,4 +1,4 @@
-<div class="card p-5">
+<div class="card p-5" *ngIf="permission?.includes('GetUsers') ">
     <div class="card-body">
         <h2 class="card-title" style="margin-left: 10px;">User Activated</h2>
         <div class="general-label">
@@ -29,7 +29,7 @@
                         <ng-container matColumnDef="setRole">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Set Role</th>
                             <td mat-cell *matCellDef="let row"><a class="btn btn-outline-primary "
-                                    (click)="onSetNewRole(row.id,row.userRoles)">Set Role</a></td>
+                                    (click)="onSetNewRole(row.id,row.roleNames)">Set Role</a></td>
                         </ng-container>
 
                         <ng-container matColumnDef="blockedUser">

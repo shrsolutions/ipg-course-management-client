@@ -39,7 +39,7 @@
                                         <ul class="sub-menu mm-collapse" aria-expanded="false">
                                             <li *ngIf="permission?.includes('GetRole') && permission?.includes('AddRole')"><a [routerLink]="['/main-teacher-management/admin/role']">Roles</a>
                                             </li>
-                                            <li><a [routerLink]="['/main-teacher-management/admin/user-activate']">User
+                                            <li *ngIf="permission?.includes('GetUsers')"><a [routerLink]="['/main-teacher-management/admin/user-activate']">User
                                                     Activated</a></li>
                                                     <li><a [routerLink]="['/main-teacher-management/admin/language']">Add New Language
                                                         </a></li>

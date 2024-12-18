@@ -31,28 +31,46 @@ export class SetNewRoleComponent implements OnInit {
   ngOnInit(): void {
     this.fillRoleSelectBox();
     this.initalForm();
-    this.setFormDataToSelectBox();
   }
-
-  initalForm(): void {
+  editdata:any
+  initalForm() {
+    debugger
     this.roleForm = this.fb.group({
-      role: ["", Validators.required],
+      role: [this.editdata||"", Validators.required],
     });
   }
 
   setFormDataToSelectBox() {
     // let [ids] = this.data.roleIds;
     // console.log(this.data.roleIds);
+    debugger
     if (this.data && this.data.roleIds) {
-      this.roleForm.patchValue({
-        role: this.data.roleIds,
-      });
+const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
+
+// Uyğun `key`-ləri götürmək üçün `map` istifadə edirik
+const keys = matches.map(item => item.id);
+this.editdata=keys
+
+this.initalForm()
+    //  this.roleForm.patchValue({
+    //     role: found.key,
+    //   });
     }
   }
   fillRoleSelectBox() {
     this.adminService.fetchRoles(this.paginatorModel).subscribe({
       next: (response) => {
         this.roles = response.result.data;
+
+          // let [ids] = this.data.roleIds;
+          // console.log(this.data.roleIds);
+          debugger
+          const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
+
+          // Uyğun `key`-ləri götürmək üçün `map` istifadə edirik
+          const keys = matches.map(item => item.id);
+          this.editdata=keys
+          this.initalForm()
       },
     });
   }
@@ -74,7 +92,7 @@ export class SetNewRoleComponent implements OnInit {
           this.notificationService.showSuccess(
             response.messages
           );
-          
+
           this.dialogRef.close({ result: true });
         } else {
           this.notificationService.showError("Any Error happened");
