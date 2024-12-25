@@ -82,7 +82,7 @@
                 <ng-container matColumnDef="addStudent">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
                     <td mat-cell *matCellDef="let row"><a class="btn btn-outline-primary "
-                            (click)="onSetNewRole(row.id,row.userRoles)">Add Student</a></td>
+                        (click)="onSetNewStudent(row.id,row.name)">Add Student</a></td>
                 </ng-container>
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>

@@ -17,6 +17,7 @@ import { SubtopicVideosComponent } from "./teacher-module/videos/subtopic-videos
 import { VideoFormComponent } from "./teacher-module/videos/video-form/video-form.component";
 import { GroupComponent } from "./teacher-module/group/group.component";
 import { LanguagesComponent } from "./admin/languages/languages.component";
+import { StudentComponent } from "./admin/student/student.component";
 
 const userRoutes: Routes = [
   {
@@ -48,6 +49,11 @@ const userRoutes: Routes = [
         path: "admin/user-activate",
         component: UserAcivateComponent,
         data: { breadcrumb: "User Activated" },
+      },
+      {
+        path: "admin/student",
+        component: StudentComponent,
+        data: { breadcrumb: "Student" },
       },
       {
         path: "admin/category",

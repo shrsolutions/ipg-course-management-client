@@ -9,6 +9,7 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { SweatAlertService } from 'src/app/shared/services/sweat-alert.service';
 import { NewGroupComponent } from './new-group/new-group.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AssignStudentComponent } from './assign-student/assign-student.component';
 
 @Component({
   selector: 'app-group',
@@ -197,4 +198,19 @@ export class GroupComponent {
 
     });
   }
+   onSetNewStudent(id: number, roleIds: any[]) {
+      // roleIds = roleIds.map((role) => role.roleId);
+      console.log(roleIds);
+      let dialogRef = this.setRoleDialog.open(AssignStudentComponent, {
+        height: "240px",
+        width: "600px",
+        data: { userId: id, roleIds: roleIds },
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.loadGroups();
+        }
+      });
+    }
 }

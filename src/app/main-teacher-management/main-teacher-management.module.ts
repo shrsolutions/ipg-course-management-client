@@ -33,6 +33,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { LanguagesComponent } from "./admin/languages/languages.component";
+import { StudentComponent } from "./admin/student/student.component";
+import { AssignStudentComponent } from "./teacher-module/group/assign-student/assign-student.component";
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import { LanguagesComponent } from "./admin/languages/languages.component";
     VideoFormComponent,
     GroupComponent,
     LanguagesComponent,
-    NewGroupComponent
+    NewGroupComponent, 
+    StudentComponent,
+    AssignStudentComponent
   ],
   imports: [
     SharedModule,
