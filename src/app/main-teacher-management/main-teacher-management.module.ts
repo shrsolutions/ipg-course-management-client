@@ -35,6 +35,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { LanguagesComponent } from "./admin/languages/languages.component";
 import { StudentComponent } from "./admin/student/student.component";
 import { AssignStudentComponent } from "./teacher-module/group/assign-student/assign-student.component";
+import { AddStudentComponent } from "./admin/student/add-student/add-student.component";
 
 @NgModule({
   declarations: [
@@ -59,9 +60,10 @@ import { AssignStudentComponent } from "./teacher-module/group/assign-student/as
     VideoFormComponent,
     GroupComponent,
     LanguagesComponent,
-    NewGroupComponent, 
+    NewGroupComponent,
     StudentComponent,
-    AssignStudentComponent
+    AssignStudentComponent,
+    AddStudentComponent
   ],
   imports: [
     SharedModule,

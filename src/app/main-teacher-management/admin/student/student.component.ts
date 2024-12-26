@@ -9,6 +9,8 @@ import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
 import { PaginatorModel } from "../../models/Base/FetchBaseModel";
 import { MatTableDataSource } from "@angular/material/table";
 import { PageEvent } from "@angular/material/paginator";
+import { AddStudentComponent } from "./add-student/add-student.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-student',
@@ -16,12 +18,12 @@ import { PageEvent } from "@angular/material/paginator";
   styleUrls: ['./student.component.scss']
 })
 export class StudentComponent {
- categoryForm: FormGroup;
-  categoryList: any[] = [];
-  editedCategoryId = 0;
+ studentForm: FormGroup;
+  lessonList: any[] = [];
+  editedstudentId = 0;
   btnAddOrUpdate: string = "Add Student";
   systemServices: any[] = [];
-  
+
   pageSize = 5;
   currentPage = 1;
   length!: number
@@ -43,7 +45,9 @@ export class StudentComponent {
     private adminService: AdminService,
     private notificationService: NotificationService,
     private libraryService: LibraryService,
-    private saService: SweatAlertService
+    private saService: SweatAlertService,
+    public dialog: MatDialog,
+
   ) {
     this.paginatorModel = {
       count: this.pageSize,
@@ -58,7 +62,7 @@ export class StudentComponent {
   }
 
   initForm(): void {
-    this.categoryForm = this.fb.group({
+    this.studentForm = this.fb.group({
       id: [0, Validators.required],
       name: ["", [Validators.required, Validators.maxLength(50)]],
       surname: ["", [Validators.required, Validators.maxLength(50)]],
@@ -73,7 +77,7 @@ export class StudentComponent {
   getAllCategories(): void {
     this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
       next: (response) => {
-        this.categoryList=response.result.data
+        this.lessonList=response.result.data
         const data = response.result.data;
         this.dataSource.data =data;
         this.length = response.result.count
@@ -86,20 +90,31 @@ export class StudentComponent {
     this.paginatorModel.count = event.pageSize;
     this.getAllCategories();
   }
+ addStudent(id: number,name?:any) {
+    let dialogRef = this.dialog.open(AddStudentComponent, {
+      height: "390px",
+      width: "600px",
+      data: { id: id,name:name },
+    });
 
-  onEditCategory(id: any): void {
+    dialogRef.afterClosed().subscribe((result) => {
+        this.getAllCategories();
+
+    });
+  }
+  onEditStudent(id: any): void {
     debugger
-    const editedCategory = this.categoryList.find((c) => c.id === id);
-    if (!editedCategory) return;
-    this.editedCategoryId = editedCategory.id;
+    const editedstudent = this.lessonList.find((c) => c.id === id);
+    if (!editedstudent) return;
+    this.editedstudentId = editedstudent.id;
     this.adminService.getByIdCategory(id).subscribe({
       next: (response) => {
         if (response.statusCode==200) {
           const nonLanguageId1 = response.result.translations.find(
             translation => translation.languageId !== 1
         );
-        this.categoryForm.patchValue({
-          category: editedCategory.translationInCurrentLanguage,
+        this.studentForm.patchValue({
+          category: editedstudent.translationInCurrentLanguage,
           langId:nonLanguageId1 ? nonLanguageId1.languageId : 1
         });
         } else {
@@ -117,16 +132,16 @@ export class StudentComponent {
     this.btnAddOrUpdate = "Update Student";
   }
 
-  onRemoveCategory(categoryId: number) {
+  onRemoveStudent(studentId: number) {
     debugger
 
-        this.adminService.getByIdCategory(categoryId).subscribe({
+        this.adminService.getByIdCategory(studentId).subscribe({
           next: (response) => {
             if (response.statusCode==200) {
               const nonLanguageId1 = response.result.translations.find(
                 translation => translation.languageId !== 1
             );
-              this.adminService.onRemoveCategory(categoryId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
+              this.adminService.onRemoveCategory(studentId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
                 next: (responseData) => {
                   if (responseData.statusCode==200) {
                     this.notificationService.showSuccess(
@@ -165,12 +180,12 @@ export class StudentComponent {
     });
   }
   onSubmit(): void {
-    if (this.categoryForm.valid) {
-      const categoryValue = this.categoryForm.get("category").value;
+    if (this.studentForm.valid) {
+      const categoryValue = this.studentForm.get("category").value;
       const categoryData: any = {
-        id: this.editedCategoryId || null,
+        id: this.editedstudentId || null,
         translation: {
-          languageId: Number(this.categoryForm.get("langId").value),
+          languageId: Number(this.studentForm.get("langId").value),
           translation: categoryValue,
 
         },
@@ -188,13 +203,13 @@ export class StudentComponent {
           }
         },
       });
-      this.categoryForm.reset();
+      this.studentForm.reset();
       this.btnAddOrUpdate = "Add Student";
-      this.editedCategoryId = 0;
+      this.editedstudentId = 0;
     } else {
       // Mark all form controls as touched to show validation errors
-      Object.keys(this.categoryForm.controls).forEach((key) => {
-        this.categoryForm.get(key)?.markAsTouched();
+      Object.keys(this.studentForm.controls).forEach((key) => {
+        this.studentForm.get(key)?.markAsTouched();
       });
     }
   }

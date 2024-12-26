@@ -47,7 +47,8 @@ export class GroupComponent {
     private fb: FormBuilder,
     private notificationService: NotificationService,
     private saService: SweatAlertService,
-    public setRoleDialog: MatDialog
+    public setRoleDialog: MatDialog,
+
   ) {
     this.paginatorModel = {
       count: this.pageSize,
@@ -57,6 +58,32 @@ export class GroupComponent {
       count: 100,
       page: 1,
     };
+    this.data.filterPredicate = this.createFilter();
+
+  }
+  createFilter(): (data: any, filter: string) => boolean {
+    debugger
+    return (data, filter): boolean => {
+      const searchTerms = JSON.parse(filter);
+      const isNameMatching = !searchTerms.name || data.name?.toLowerCase().includes(searchTerms.name.toLowerCase());
+      const isCountMatching =
+      !searchTerms.count || (data.count !== undefined && data.count.toString().includes(searchTerms.count));
+      const isWithinDateRange =
+        (!searchTerms.beginDate || new Date(data.createDate) >= new Date(searchTerms.beginDate)) &&
+        (!searchTerms.endDate || new Date(data.createDate) <= new Date(searchTerms.endDate));
+
+      return isNameMatching && isWithinDateRange&& isCountMatching;
+
+    };
+  }
+
+  // Apply filters
+  applyFilterColumn() {
+    debugger
+    this.filters.beginDate = this.beghinDate.value ? this.beghinDate.value.toISOString().split('T')[0] : '';
+    this.filters.endDate = this.endDate.value ? this.endDate.value.toISOString().split('T')[0] : '';
+    const filterValues = JSON.stringify(this.filters);
+    this.data.filter = filterValues;
   }
 
   readonly campaignOne = new FormGroup({
@@ -72,6 +99,7 @@ export class GroupComponent {
     this.loadGroups();
     this.initialForm();
     this.fillServicesSelectBox();
+    this.data.filterPredicate = this.createFilter();
 
   }
 
@@ -81,6 +109,12 @@ export class GroupComponent {
       selectedSystemServices: [[], Validators.required],
     });
   }
+  filters = {
+    name: '',
+    beginDate : '',
+    endDate  : '',
+    count: ''
+  };
   length!: number
 
   loadGroups() {
@@ -88,6 +122,8 @@ export class GroupComponent {
     this.adminService.fetchGroups(this.paginatorModel).subscribe({
       next: (responseData) => {
          this.data =new MatTableDataSource<any>( responseData.result.data);
+         this.data.filterPredicate = this.createFilter(); // Reapply custom filter predicate
+
         this.length = responseData.result.count
 
       },
@@ -198,19 +234,20 @@ export class GroupComponent {
 
     });
   }
-   onSetNewStudent(id: number, roleIds: any[]) {
-      // roleIds = roleIds.map((role) => role.roleId);
-      console.log(roleIds);
-      let dialogRef = this.setRoleDialog.open(AssignStudentComponent, {
-        height: "240px",
-        width: "600px",
-        data: { userId: id, roleIds: roleIds },
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.loadGroups();
-        }
-      });
-    }
+  onSetNewStudent(id: number, roleIds: any[]) {
+    // roleIds = roleIds.map((role) => role.roleId);
+    console.log(roleIds);
+    let dialogRef = this.setRoleDialog.open(AssignStudentComponent, {
+      height: "240px",
+      width: "600px",
+      data: { userId: id, roleIds: roleIds },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadGroups();
+      }
+    });
+  }
 }
+
