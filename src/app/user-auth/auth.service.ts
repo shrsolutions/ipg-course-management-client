@@ -43,6 +43,13 @@ export class AuthService {
         tap((resData) => this.handleAuthentication(resData))
       );
   }
+  addStudent(registerModel) {
+    const formData = FormUtility.createFormData(registerModel);
+
+    return this.http
+      .post<any>(`${this.baseUrl}users/register/student`, formData)
+      
+  }
   editProfile(registerModel:any) {
 
     return this.http

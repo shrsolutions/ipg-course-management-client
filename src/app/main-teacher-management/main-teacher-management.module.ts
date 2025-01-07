@@ -36,6 +36,7 @@ import { LanguagesComponent } from "./admin/languages/languages.component";
 import { StudentComponent } from "./admin/student/student.component";
 import { AssignStudentComponent } from "./teacher-module/group/assign-student/assign-student.component";
 import { AddStudentComponent } from "./admin/student/add-student/add-student.component";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { AddStudentComponent } from "./admin/student/add-student/add-student.com
     CommonModule,
     TeacherRoutingModule,
     MatTooltipModule,
+    MatIconModule,
     MatDialogModule,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule
   ],

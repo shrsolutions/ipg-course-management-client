@@ -92,7 +92,7 @@ export class StudentComponent {
   }
  addStudent(id: number,name?:any) {
     let dialogRef = this.dialog.open(AddStudentComponent, {
-      height: "390px",
+      height: "470px",
       width: "600px",
       data: { id: id,name:name },
     });
