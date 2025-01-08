@@ -39,11 +39,6 @@ export class NewGroupComponent {
   }
 
   onSetRole() {
-    // const roleData = Array.from(this.groupForm.get("role").value).map(
-    //   (roleId) => ({
-    //     roleId,
-    //   })
-    // );
 
     this.adminService.onAddGroup(this.groupForm.value).subscribe({
       next: (response) => {

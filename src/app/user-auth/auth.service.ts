@@ -20,6 +20,7 @@ import { Router } from "@angular/router";
 import { NotificationService } from "../shared/services/notification.service";
 import FormUtility from "../shared/utility/form-utility";
 import { Observable } from 'rxjs'
+import { Wrapper } from "../main-teacher-management/models/Base/FetchBaseModel";
 @Injectable({
   providedIn: "root",
 })
@@ -43,12 +44,12 @@ export class AuthService {
         tap((resData) => this.handleAuthentication(resData))
       );
   }
-  addStudent(registerModel) {
+  addStudent(registerModel:any) {
     const formData = FormUtility.createFormData(registerModel);
 
     return this.http
-      .post<any>(`${this.baseUrl}users/register/student`, formData)
-      
+      .post<Wrapper<any>>(`${this.baseUrl}users/register/student`, formData)
+
   }
   editProfile(registerModel:any) {
 

@@ -144,57 +144,6 @@ export class GroupComponent {
     this.loadGroups();
   }
 
-  addGroup() {
-    // if (this.GroupForm.invalid) {
-    //   this.invalid = true;
-    //   return;
-    // }
-
-    // const GroupData: any = {
-    //   id: this.editingGroupId || 0,
-    //   name: this.GroupForm.get("name").value,
-    //   selectedSystemServices: this.GroupForm.get("selectedSystemServices").value,
-    // };
-
-    // if (this.editingGroupId) {
-    //   this.adminService.updateRole(GroupData).subscribe({
-    //     next: (responseData) => {
-    //       if (responseData.messages.includes(OPERATION_MESSAGE.success)) {
-    //         this.notificationService.showSuccess("Group updated succesfully");
-    //         this.loadGroups();
-    //         this.editingGroupId = 0;
-    //         this.UpdateOrAddBtnMessage = "Add Group";
-    //       } else {
-    //         this.notificationService.showError("Any Error happened");
-    //       }
-    //     },
-    //   });
-    // } else {
-    //   this.adminService.addRole(GroupData).subscribe({
-    //     next: (responseData) => {
-    //       if (responseData.messages.includes(OPERATION_MESSAGE.success)) {
-    //         this.notificationService.showSuccess("Group added succesfully");
-    //         this.loadGroups();
-    //       } else {
-    //         this.notificationService.showError("Any Error happened");
-    //       }
-    //     },
-    //   });
-    // }
-
-    // this.GroupForm.reset();
-  }
-
-  editGroup(GroupData: any) {
-    // this.GroupForm.patchValue({
-    //   name: GroupData.name,
-    //   selectedSystemServices: GroupData.selectedSystemServices,
-    // });
-
-    // this.editingGroupId = GroupData.id;
-    // this.UpdateOrAddBtnMessage = "Update Group";
-  }
-
   onRemoveGroup(id: number) {
 
         this.adminService.removeGroup(id).subscribe({
