@@ -48,6 +48,17 @@ export class AdminService {
       groupData
     );
   }
+  onAddMembers(id:any,memberData: any) {
+    return this.http.post<Wrapper<any>>(
+      `${this.baseUrl}groups/${id}/members`,
+      memberData
+    );
+  }
+  getByIdGroupMembers(id: any) {
+    return this.http.get<any>(
+      `${this.baseUrl}groups/${id}/members`
+    );
+  }
   removeGroup(id: number) {
     return this.http.delete<Wrapper<any>>(
       `${this.baseUrl}groups/${id}`
@@ -195,7 +206,6 @@ export class AdminService {
 
   onAddVideoAttachment(id:any,attachmentData: videoLinkForm) {
     const formData = FormUtility.createFormData(attachmentData);
-debugger
     return this.http.post<Wrapper<any>>(
       `${this.baseUrl}subtopics/${id}/attachments`,
       formData
@@ -208,6 +218,16 @@ debugger
       {
         responseType: "blob",
       }
+    );
+  }
+  autocomplete() {
+    return this.http.get<any>(
+      `${this.baseUrl}users/autocomplete`
+    );
+  }
+  autocompleteWithFilter(filter: any) {
+    return this.http.get<any>(
+      `${this.baseUrl}users/autocomplete?Filter=${filter}`
     );
   }
 }

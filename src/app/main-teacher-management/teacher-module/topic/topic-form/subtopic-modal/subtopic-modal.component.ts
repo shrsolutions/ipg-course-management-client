@@ -72,7 +72,6 @@ export class SubtopicModalComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
     if (this.subtopicForm.valid) {
       const subtopicValue: any = {
         translation:{

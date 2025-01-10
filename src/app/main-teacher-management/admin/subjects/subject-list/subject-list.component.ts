@@ -5,7 +5,6 @@ import { LibraryService } from "src/app/services/library.service";
 import { PaginatorModel, SelectBoxModel } from "src/app/main-teacher-management/models/Base/FetchBaseModel";
 import { MatDialogRef } from "@angular/material/dialog";
 import { AdminService } from "src/app/services/admin.service";
-import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 
 @Component({
@@ -22,7 +21,7 @@ export class SubjectListComponent implements OnInit {
   editedSubject;
 
   displayedColumns: string[] = [
-    
+
     "translation",
     "remove",
   ];
@@ -74,7 +73,7 @@ export class SubjectListComponent implements OnInit {
         );
           this.adminService.onRemoveSubject(subjectId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
             next: (response) => {
-              debugger
+
               if (response.statusCode==200) {
                 this.notificationService.showSuccess(
                   response.messages
@@ -85,16 +84,16 @@ export class SubjectListComponent implements OnInit {
               }
             },
             error: err => {
-              debugger
+
               this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
             }
-          
+
           });
         } else {
           this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
         }
       },
     });
-  
+
   }
 }

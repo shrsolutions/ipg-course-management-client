@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { PaginatorModel } from "src/app/main-teacher-management/models/Base/FetchBaseModel";
 import { AdminService } from "src/app/services/admin.service";
-import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 
 @Component({
@@ -32,29 +31,25 @@ export class SetNewRoleComponent implements OnInit {
     this.fillRoleSelectBox();
     this.initalForm();
   }
-  editdata:any
+  editdata: any
   initalForm() {
-    debugger
+
     this.roleForm = this.fb.group({
-      role: [this.editdata||"", Validators.required],
+      role: [this.editdata || "", Validators.required],
     });
   }
 
   setFormDataToSelectBox() {
-    // let [ids] = this.data.roleIds;
-    // console.log(this.data.roleIds);
-    debugger
+
+
     if (this.data && this.data.roleIds) {
-const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
+      const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
 
-// Uyğun `key`-ləri götürmək üçün `map` istifadə edirik
-const keys = matches.map(item => item.id);
-this.editdata=keys
+      const keys = matches.map(item => item.id);
+      this.editdata = keys
 
-this.initalForm()
-    //  this.roleForm.patchValue({
-    //     role: found.key,
-    //   });
+      this.initalForm()
+
     }
   }
   fillRoleSelectBox() {
@@ -62,23 +57,18 @@ this.initalForm()
       next: (response) => {
         this.roles = response.result.data;
 
-          // let [ids] = this.data.roleIds;
-          // console.log(this.data.roleIds);
-          debugger
-          const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
-
-          // Uyğun `key`-ləri götürmək üçün `map` istifadə edirik
-          const keys = matches.map(item => item.id);
-          this.editdata=keys
-          this.initalForm()
+        const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
+        const keys = matches.map(item => item.id);
+        this.editdata = keys
+        this.initalForm()
       },
     });
   }
 
   onSetRole() {
-    debugger
-    let model={
-      roleIds:this.roleForm.get("role").value
+
+    let model = {
+      roleIds: this.roleForm.get("role").value
     }
     const roleData = Array.from(this.roleForm.get("role").value).map(
       (roleIds) => ({
@@ -88,7 +78,7 @@ this.initalForm()
 
     this.adminService.onSetNewRoleToUser(this.data.userId, model).subscribe({
       next: (response) => {
-        if (response.statusCode==200) {
+        if (response.statusCode == 200) {
           this.notificationService.showSuccess(
             response.messages
           );

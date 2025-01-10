@@ -31,7 +31,6 @@ export class SubjectVideosComponent implements OnInit {
   }
 
   onLoadSubject(): void {
-    debugger
     const categoryId = this.locaStorageService.getItem<number>("categoryId");
     this.libraryService.fetchSubjectsByCategoryId(categoryId,this.paginatorModel).subscribe({
       next: (responseData) => {

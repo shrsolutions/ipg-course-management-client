@@ -25,7 +25,7 @@ export class AddStudentComponent {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AddStudentComponent>,
     private authService: AuthService,
-   private libraryService: LibraryService,
+    private libraryService: LibraryService,
     @Inject(MAT_DIALOG_DATA)
     public data: { userId: number; roleIds: [{ id: number }] },
     private notificationService: NotificationService
@@ -39,20 +39,19 @@ export class AddStudentComponent {
     this.onLoadSubject('0193d0b1-bd3c-7576-ba80-1a567a5108c9');
     this.initalForm();
   }
-  editdata:any
+  editdata: any
   initalForm() {
-    debugger
+
     this.studentForm = this.fb.group({
-      name: [this.editdata?.name||"", Validators.required],
-      surname: [this.editdata?.surname||"", Validators.required],
-      email: [this.editdata?.email||"", Validators.required],
-      phone: [this.editdata?.phone||"", Validators.required],
-      interestedSubjects: [this.editdata?.interestedSubjects||"", Validators.required],
+      name: [this.editdata?.name || "", Validators.required],
+      surname: [this.editdata?.surname || "", Validators.required],
+      email: [this.editdata?.email || "", Validators.required],
+      phone: [this.editdata?.phone || "", Validators.required],
+      interestedSubjects: [this.editdata?.interestedSubjects || "", Validators.required],
       patronymic: ["", Validators.required],
       gender: ["", Validators.required],
 
-      password: [
-        "",
+      password: ["",
         (Validators.required),
       ],
     });
@@ -62,58 +61,34 @@ export class AddStudentComponent {
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
   }
-  
+
   setFormDataToSelectBox() {
-    // let [ids] = this.data.roleIds;
-    // console.log(this.data.roleIds);
-    debugger
+
+
     if (this.data && this.data.roleIds) {
-const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
+      const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
 
-// Uyğun `key`-ləri götürmək üçün `map` istifadə edirik
-const keys = matches.map(item => item.id);
-this.editdata=keys
+      const keys = matches.map(item => item.id);
+      this.editdata = keys
 
-this.initalForm()
-    //  this.studentForm.patchValue({
-    //     role: found.key,
-    //   });
+      this.initalForm()
+
     }
   }
   onLoadSubject(categoryId: any): void {
-    this.libraryService.fetchSubjectsByCategoryId(categoryId,this.paginatorModel).subscribe({
+    this.libraryService.fetchSubjectsByCategoryId(categoryId, this.paginatorModel).subscribe({
       next: (responseData) => {
         this.roles = responseData.result.data;
       },
     });
   }
 
-  // fillRoleSelectBox() {
-  //   this.adminService.fetchRoles(this.paginatorModel).subscribe({
-  //     next: (response) => {
-  //       this.roles = response.result.data;
-
-  //         // let [ids] = this.data.roleIds;
-  //         // console.log(this.data.roleIds);
-  //         debugger
-  //         const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
-
-  //         // Uyğun `key`-ləri götürmək üçün `map` istifadə edirik
-  //         const keys = matches.map(item => item.id);
-  //         this.editdata=keys
-  //         this.initalForm()
-  //     },
-  //   });
-  // }
-
   addStudent() {
-    debugger
-  
-    
+
     this.authService.addStudent(this.studentForm.value).subscribe({
       next: (response) => {
-        debugger
-        if (response.statusCode==200) {
+
+        if (response.statusCode == 200) {
           this.notificationService.showSuccess(
             response.messages
           );
@@ -123,19 +98,7 @@ this.initalForm()
         }
       },
     });
-    // this.adminService.onSetNewRoleToUser(this.data.userId, model).subscribe({
-    //   next: (response) => {
-    //     if (response.statusCode==200) {
-    //       this.notificationService.showSuccess(
-    //         response.messages
-    //       );
 
-    //       this.dialogRef.close({ result: true });
-    //     } else {
-    //       this.notificationService.showError("Any Error happened");
-    //     }
-    //   },
-    // });
   }
 
   onClose() {

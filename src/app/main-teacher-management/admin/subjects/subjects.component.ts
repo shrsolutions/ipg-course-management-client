@@ -19,7 +19,6 @@ export class SubjectsComponent implements OnInit {
   categories: SelectBoxModel[] = [];
   paginatorModel: PaginatorModel;
 
-
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
@@ -51,14 +50,14 @@ export class SubjectsComponent implements OnInit {
   loadLanguage() {
     this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
       next: (responseData) => {
-        debugger
+
         const data = responseData.result.data;
         this.languages =data;
  },
     });
   }
   fillCategorySelectBox() {
-    debugger
+
     this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
       next: ({ result }) => {
         this.categories = result.data.map((v) => ({

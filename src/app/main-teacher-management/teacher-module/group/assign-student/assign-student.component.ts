@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { map, Observable, startWith } from "rxjs";
 import { PaginatorModel } from "src/app/main-teacher-management/models/Base/FetchBaseModel";
 import { AdminService } from "src/app/services/admin.service";
-import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 
 @Component({
@@ -11,84 +11,88 @@ import { NotificationService } from "src/app/shared/services/notification.servic
   templateUrl: './assign-student.component.html',
   styleUrls: ['./assign-student.component.scss']
 })
+
 export class AssignStudentComponent {
-paginatorModel: PaginatorModel;
+  paginatorModel: PaginatorModel;
   roleForm: FormGroup;
-  roles = [];
+  students: any = [];
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AssignStudentComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { userId: number; roleIds: [{ id: number }] },
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {
     this.paginatorModel = {
       count: 100,
       page: 1,
     };
   }
+
   ngOnInit(): void {
-    this.fillRoleSelectBox();
-    this.initalForm();
+    this.initalForm()
+    this.fillstudentselectBox();
+    this.getbyIdForMembers()
   }
-  editdata:any
+  editdata: any[] = []
   initalForm() {
-    debugger
+
     this.roleForm = this.fb.group({
-      role: [this.editdata||"", Validators.required],
+      role: [this.editdata[0] || [], Validators.required],
     });
   }
 
-  setFormDataToSelectBox() {
-    // let [ids] = this.data.roleIds;
-    // console.log(this.data.roleIds);
-    debugger
-    if (this.data && this.data.roleIds) {
-const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
+  getbyIdForMembers() {
 
-// Uyğun `key`-ləri götürmək üçün `map` istifadə edirik
-const keys = matches.map(item => item.id);
-this.editdata=keys
-
-this.initalForm()
-    //  this.roleForm.patchValue({
-    //     role: found.key,
-    //   });
-    }
-  }
-  fillRoleSelectBox() {
-    this.adminService.fetchRoles(this.paginatorModel).subscribe({
+    this.adminService.getByIdGroupMembers(this.data.userId).subscribe({
       next: (response) => {
-        this.roles = response.result.data;
+        if (response.statusCode == 200) {
+          let model: any[] = []
 
-          // let [ids] = this.data.roleIds;
-          // console.log(this.data.roleIds);
-          debugger
-          const matches = this.roles.filter(item => this.data.roleIds.includes(item.name));
+          for (let index = 0; index < response.result?.length; index++) {
+            model.push(response.result[index].memberId)
+          }
 
-          // Uyğun `key`-ləri götürmək üçün `map` istifadə edirik
-          const keys = matches.map(item => item.id);
-          this.editdata=keys
+          this.editdata.push(model)
           this.initalForm()
+        } else {
+          this.notificationService.showError("Any Error happened");
+        }
+      },
+    });
+  }
+  selectedOptions = [];
+  handleAutocomp(filter: string) {
+    this.lastFilter = filter;
+
+    if (filter.length > 0) {
+      this.adminService.autocompleteWithFilter(filter).subscribe({
+        next: (res) => {
+          this.students = res.result;
+        },
+      });
+    }
+
+  }
+  fillstudentselectBox() {
+    this.adminService.autocomplete().subscribe({
+      next: (response) => {
+        this.students = response.result;
+        this.initalForm()
       },
     });
   }
 
   onSetRole() {
-    debugger
-    let model={
-      roleIds:this.roleForm.get("role").value
-    }
-    const roleData = Array.from(this.roleForm.get("role").value).map(
-      (roleIds) => ({
-        roleIds,
-      })
-    );
 
-    this.adminService.onSetNewRoleToUser(this.data.userId, model).subscribe({
+    if (this.roleForm.invalid) {
+      return;
+    }
+
+    this.adminService.onAddMembers(this.data.userId, this.roleForm.value).subscribe({
       next: (response) => {
-        if (response.statusCode==200) {
+        if (response.statusCode == 200) {
           this.notificationService.showSuccess(
             response.messages
           );
@@ -100,8 +104,16 @@ this.initalForm()
       },
     });
   }
-
+  displayVal(object: any) {
+    return (object && object.value) || '';
+  }
   onClose() {
     this.dialogRef.close({ result: false });
   }
+
+  filteredUsers: Observable<any[]>;
+  lastFilter: string = '';
+
+  visible = true;
+
 }

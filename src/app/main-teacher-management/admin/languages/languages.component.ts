@@ -70,7 +70,7 @@ pageSize = 5;
   loadLanguage() {
     this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
       next: (responseData) => {
-        debugger
+
         const data = responseData.result.data;
         this.dataSource.data =data;
 

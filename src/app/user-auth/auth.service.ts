@@ -108,7 +108,6 @@ export class AuthService {
   }
 
   isUserAuthenticated(userData: any): boolean {
-    debugger
     const userStatusId = userData?.userStatusId ?? 2;
     return userStatusId === 3;
   }
@@ -136,7 +135,6 @@ export class AuthService {
   private handleAuthentication(userData: any) {
     console.log(userData);
     const user = User.createUserInstance(userData.result);
-    debugger
     const userPermission = userData.result.permissions;
     this.user.next(user);
     this.localStorageService.setItem("user", user);

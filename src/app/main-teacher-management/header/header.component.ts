@@ -10,7 +10,7 @@ import { User } from "src/app/user-auth/user-model";
 export class HeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
   userFullName: string;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     const autoLogin = this.authService.authoLogin();
@@ -18,13 +18,13 @@ export class HeaderComponent implements OnInit {
       this.authService.user.subscribe(this.handleUserData);
     }
     this.DownloadFile()
-   
+
   }
 
   onSignOut(): void {
     this.authService.signOut();
   }
-   profileImageUrl: string = 'assets/images/users/user-1.jpg'; // Default image
+  profileImageUrl: string = 'assets/images/users/user-1.jpg'; // Default image
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['profileImageUrl']) {
@@ -32,18 +32,17 @@ export class HeaderComponent implements OnInit {
     }
   }
   DownloadFile() {
-    debugger
+
     this.authService.getProfileImage().subscribe({
       next: (response) => {
-        debugger
-        const blob = new Blob([response],  { type: 'image/jpg' });
+
+        const blob = new Blob([response], { type: 'image/jpg' });
         var fileURL = URL.createObjectURL(blob)
         this.profileImageUrl = fileURL; // Update the image URL
 
-      
-            },
+      },
     });
-  
+
   }
   private handleUserData = (userData: User) => {
     const isAuthenticated = this.authService.isUserAuthenticated(userData);

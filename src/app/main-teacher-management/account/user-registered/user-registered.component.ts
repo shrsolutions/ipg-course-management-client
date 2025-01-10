@@ -72,7 +72,7 @@ export class UserRegisteredComponent {
 
   }
   initialForm() {
-    debugger
+
     this.registrationForm = this.fb.group(
       {
         name: [ this.editData?.name ||"", Validators.required],
@@ -88,7 +88,7 @@ export class UserRegisteredComponent {
   onGetAllCategories(): void {
     this.libraryService.fetchUserData().subscribe({
       next: (response) => {
-        debugger
+
         this.editData=response.result
         this.initialForm()
       },
@@ -99,7 +99,7 @@ type1: boolean = false
 choosenFile: any
 EditType: boolean = false
   onUpload(event: any): void {
-    debugger
+
     this.file = event.target.files[0];
     this.EditType = false
     if (event.target.files[0].name != " ") {
@@ -137,7 +137,7 @@ saveFile(){
       // Perform registration logic here
       this.registrationForm.value.file=null
 
-debugger
+
       this.authService.editProfile(this.registrationForm.value).subscribe({
         next: (response) => {
           if (response.statusCode==200) {

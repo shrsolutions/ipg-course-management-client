@@ -75,7 +75,7 @@ pageSize = 5;
   }
 
   onEditCategory(id: any): void {
-    debugger
+
     const editedCategory = this.categoryList.find((c) => c.id === id);
     if (!editedCategory) return;
     this.editedCategoryId = editedCategory.id;
@@ -90,12 +90,12 @@ pageSize = 5;
           langId:nonLanguageId1 ? nonLanguageId1.languageId : 1
         });
         } else {
-          debugger
+
           this.notificationService.showError("Xəta baş verdi'");
         }
       },
       error: err => {
-        debugger
+
         this.notificationService.showError("Xəta baş verdi'");
       }
 
@@ -105,7 +105,7 @@ pageSize = 5;
   }
 
   onRemoveCategory(categoryId: number) {
-    debugger
+
 
         this.adminService.getByIdCategory(categoryId).subscribe({
           next: (response) => {
@@ -121,17 +121,17 @@ pageSize = 5;
                     );
                     this.getAllCategories();
                   } else {
-                    debugger
+
                     this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
                   }
                 }, error: err => {
-                  debugger
+
                   this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
                 }
               });
               this.getAllCategories();
             } else {
-              debugger
+
               this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
             }
           },
@@ -145,7 +145,7 @@ pageSize = 5;
   loadLanguage() {
     this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
       next: (responseData) => {
-        debugger
+
         const data = responseData.result.data;
         this.languages =data;
  },

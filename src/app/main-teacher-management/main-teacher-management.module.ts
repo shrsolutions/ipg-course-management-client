@@ -37,6 +37,10 @@ import { StudentComponent } from "./admin/student/student.component";
 import { AssignStudentComponent } from "./teacher-module/group/assign-student/assign-student.component";
 import { AddStudentComponent } from "./admin/student/add-student/add-student.component";
 import { MatIconModule } from "@angular/material/icon";
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -64,6 +68,7 @@ import { MatIconModule } from "@angular/material/icon";
     NewGroupComponent,
     StudentComponent,
     AssignStudentComponent,
+
     AddStudentComponent
   ],
   imports: [
@@ -71,9 +76,13 @@ import { MatIconModule } from "@angular/material/icon";
     FormsModule,
     CommonModule,
     TeacherRoutingModule,
+    MatAutocompleteModule,
     MatTooltipModule,
     MatIconModule,
     MatDialogModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatStepperModule,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule
   ],
   exports: [MainHomeComponent],

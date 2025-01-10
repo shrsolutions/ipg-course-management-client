@@ -91,7 +91,6 @@ export class VideoFormComponent implements OnInit {
     }
   }
   onSubmit() {
-    debugger;
     if (
       (!this.videoForm.get("enableCheckbox").value &&
         this.videoForm.get("videoFile").valid) ||

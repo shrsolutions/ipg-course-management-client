@@ -4,7 +4,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
 import {
-  TopicForm,
   TopicList,
 } from "src/app/main-teacher-management/models/library-models/topic";
 import { AdminService } from "src/app/services/admin.service";
@@ -46,7 +45,6 @@ export class TopicFormComponent {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      debugger
       this.subjectId = params["id"];
       this.onLoadTopics(this.subjectId);
     });
@@ -95,7 +93,6 @@ export class TopicFormComponent {
         },
       });
     } else {
-      // Mark form controls as touched to display validation messages
       this.topicForm.markAllAsTouched();
     }
   }
@@ -104,7 +101,6 @@ export class TopicFormComponent {
     this.setSubtopicDialog.open(SubtopicModalComponent, {
       height: "300px",
       width: "700px",
-
       data: { topicId: topicId },
     });
   }

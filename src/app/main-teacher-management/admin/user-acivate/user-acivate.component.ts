@@ -76,7 +76,7 @@ export class UserAcivateComponent implements OnInit {
   permission:any
 
   onLoadUsers() {
-    debugger
+
     const storedPermissions = localStorage.getItem('userPermission');
     if (storedPermissions) {
       try {

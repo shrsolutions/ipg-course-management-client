@@ -82,7 +82,7 @@ export class RoleComponent implements OnInit {
   loadRoles() {
     this.adminService.fetchRoles(this.paginatorModel).subscribe({
       next: (responseData) => {
-        debugger
+
         const data = responseData.result.data;
         this.dataSource.data =data;
         this.length = responseData.result.count      },
@@ -142,6 +142,7 @@ export class RoleComponent implements OnInit {
   }
 
   editRole(roleData: any) {
+
     this.adminService.getByIdRole(roleData.id).subscribe({
       next: (response) => {
         if (response.statusCode==200) {
@@ -151,12 +152,12 @@ export class RoleComponent implements OnInit {
           this.UpdateOrAddBtnMessage = "Update Role";
 
         } else {
-          debugger
+
           this.notificationService.showError("Xəta baş verdi'");
         }
       },
       error: err => {
-        debugger
+
         this.notificationService.showError("Xəta baş verdi'");
       }
     });

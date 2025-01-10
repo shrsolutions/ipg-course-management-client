@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { OPERATION_MESSAGE } from 'src/app/shared/enums/api-enum';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -28,7 +27,7 @@ export class GroupComponent {
     "remove",
     "addStudent",
 
-  ]; // Adjust columns accordingly
+  ];
   data: MatTableDataSource<any> = new MatTableDataSource<any>();
   paginatorModel: PaginatorModel;
   paginatorModel1: PaginatorModel;
@@ -38,9 +37,9 @@ export class GroupComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   GroupForm: FormGroup;
   editingGroupId;
-   today :any= new Date();
-   month :any= this.today.getMonth();
-   year :any= this.today.getFullYear();
+  today: any = new Date();
+  month: any = this.today.getMonth();
+  year: any = this.today.getFullYear();
   UpdateOrAddBtnMessage: string = "Add Group";
   constructor(
     private adminService: AdminService,
@@ -62,24 +61,23 @@ export class GroupComponent {
 
   }
   createFilter(): (data: any, filter: string) => boolean {
-    debugger
+
     return (data, filter): boolean => {
       const searchTerms = JSON.parse(filter);
       const isNameMatching = !searchTerms.name || data.name?.toLowerCase().includes(searchTerms.name.toLowerCase());
       const isCountMatching =
-      !searchTerms.count || (data.count !== undefined && data.count.toString().includes(searchTerms.count));
+        !searchTerms.count || (data.count !== undefined && data.count.toString().includes(searchTerms.count));
       const isWithinDateRange =
         (!searchTerms.beginDate || new Date(data.createDate) >= new Date(searchTerms.beginDate)) &&
         (!searchTerms.endDate || new Date(data.createDate) <= new Date(searchTerms.endDate));
 
-      return isNameMatching && isWithinDateRange&& isCountMatching;
+      return isNameMatching && isWithinDateRange && isCountMatching;
 
     };
   }
 
-  // Apply filters
   applyFilterColumn() {
-    debugger
+
     this.filters.beginDate = this.beghinDate.value ? this.beghinDate.value.toISOString().split('T')[0] : '';
     this.filters.endDate = this.endDate.value ? this.endDate.value.toISOString().split('T')[0] : '';
     const filterValues = JSON.stringify(this.filters);
@@ -87,11 +85,11 @@ export class GroupComponent {
   }
 
   readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(this.year, this.month, this.today.getDate()-30)),
+    start: new FormControl(new Date(this.year, this.month, this.today.getDate() - 30)),
     end: new FormControl(new Date(this.year, this.month, this.today.getDate())),
   });
 
-  readonly beghinDate = new FormControl(new Date(this.year, this.month, this.today.getDate()-30));
+  readonly beghinDate = new FormControl(new Date(this.year, this.month, this.today.getDate() - 30));
   readonly endDate = new FormControl(new Date());
 
   ngOnInit(): void {
@@ -111,8 +109,8 @@ export class GroupComponent {
   }
   filters = {
     name: '',
-    beginDate : '',
-    endDate  : '',
+    beginDate: '',
+    endDate: '',
     count: ''
   };
   length!: number
@@ -121,9 +119,8 @@ export class GroupComponent {
 
     this.adminService.fetchGroups(this.paginatorModel).subscribe({
       next: (responseData) => {
-         this.data =new MatTableDataSource<any>( responseData.result.data);
-         this.data.filterPredicate = this.createFilter(); // Reapply custom filter predicate
-
+        this.data = new MatTableDataSource<any>(responseData.result.data);
+        this.data.filterPredicate = this.createFilter();
         this.length = responseData.result.count
 
       },
@@ -146,18 +143,18 @@ export class GroupComponent {
 
   onRemoveGroup(id: number) {
 
-        this.adminService.removeGroup(id).subscribe({
-          next: (responseData) => {
-            if (responseData.statusCode==200) {
-              this.notificationService.showSuccess(
-                responseData.messages
-              );
-              this.loadGroups();
-            } else {
-              this.notificationService.showError("Any Error happened");
-            }
-          },
-        });
+    this.adminService.removeGroup(id).subscribe({
+      next: (responseData) => {
+        if (responseData.statusCode == 200) {
+          this.notificationService.showSuccess(
+            responseData.messages
+          );
+          this.loadGroups();
+        } else {
+          this.notificationService.showError("Any Error happened");
+        }
+      },
+    });
 
   }
   applyFilter(event: Event) {
@@ -171,23 +168,21 @@ export class GroupComponent {
       selectedSystemServicesString: Group.selectedSystemServices.join(", "),
     }));
   }
-  onSetNewGroup(id: number,name?:any) {
+  onSetNewGroup(id: number, name?: any) {
     let dialogRef = this.setRoleDialog.open(NewGroupComponent, {
       height: "240px",
       width: "600px",
-      data: { id: id,name:name },
+      data: { id: id, name: name },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-        this.loadGroups();
+      this.loadGroups();
 
     });
   }
   onSetNewStudent(id: number, roleIds: any[]) {
-    // roleIds = roleIds.map((role) => role.roleId);
-    console.log(roleIds);
     let dialogRef = this.setRoleDialog.open(AssignStudentComponent, {
-      height: "240px",
+      height: "260px",
       width: "600px",
       data: { userId: id, roleIds: roleIds },
     });
@@ -199,4 +194,3 @@ export class GroupComponent {
     });
   }
 }
-

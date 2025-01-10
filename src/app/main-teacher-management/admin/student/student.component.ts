@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AdminService } from "src/app/services/admin.service";
-import { Category, CategoryResult } from "../models/category";
-import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 import { LibraryService } from "src/app/services/library.service";
 import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
@@ -72,7 +70,7 @@ export class StudentComponent {
 
   }
   createFilter(): (data: any, filter: string) => boolean {
-    debugger
+
     return (data, filter): boolean => {
       const searchTerms = JSON.parse(filter);
       const isNameMatching = !searchTerms.name || data.name?.toLowerCase().includes(searchTerms.name.toLowerCase());
@@ -86,7 +84,7 @@ export class StudentComponent {
     };
   }
   applyFilterColumn() {
-    debugger
+
 
     const filterValues = JSON.stringify(this.filters);
     this.dataSource.filter = filterValues;
@@ -133,76 +131,18 @@ export class StudentComponent {
     });
   }
   onEditStudent(id: any): void {
-    debugger
-    // const editedstudent = this.subjectList.find((c) => c.id === id);
-    // if (!editedstudent) return;
-    // this.editedstudentId = editedstudent.id;
-    // this.adminService.getByIdCategory(id).subscribe({
-    //   next: (response) => {
-    //     if (response.statusCode==200) {
-    //       const nonLanguageId1 = response.result.translations.find(
-    //         translation => translation.languageId !== 1
-    //     );
-    //     this.studentForm.patchValue({
-    //       category: editedstudent.translationInCurrentLanguage,
-    //       langId:nonLanguageId1 ? nonLanguageId1.languageId : 1
-    //     });
-    //     } else {
-    //       debugger
-    //       this.notificationService.showError("Xəta baş verdi'");
-    //     }
-    //   },
-    //   error: err => {
-    //     debugger
-    //     this.notificationService.showError("Xəta baş verdi'");
-    //   }
 
-    // });
-
-    // this.btnAddOrUpdate = "Update Student";
   }
 
   onRemoveStudent(studentId: number) {
-    debugger
 
-        // this.adminService.getByIdCategory(studentId).subscribe({
-        //   next: (response) => {
-        //     if (response.statusCode==200) {
-        //       const nonLanguageId1 = response.result.translations.find(
-        //         translation => translation.languageId !== 1
-        //     );
-        //       this.adminService.onRemoveCategory(studentId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
-        //         next: (responseData) => {
-        //           if (responseData.statusCode==200) {
-        //             this.notificationService.showSuccess(
-        //               responseData.messages
-        //             );
-        //             this.getAllCategories();
-        //           } else {
-        //             debugger
-        //             this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
-        //           }
-        //         }, error: err => {
-        //           debugger
-        //           this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
-        //         }
-        //       });
-        //       this.getAllCategories();
-        //     } else {
-        //       debugger
-        //       this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
-        //     }
-        //   },
-
-
-        // });
 
   }
   languages:any
   loadLanguage() {
     this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
       next: (responseData) => {
-        debugger
+
         const data = responseData.result.data;
         this.languages =data;
  },

@@ -19,7 +19,7 @@ export class TopicComponent implements OnInit {
   constructor(
     private libraryService: LibraryService,
     private locaStorageService: LocalStorageService,
-    
+
   ) {
     this.paginatorModel = {
       count: 100,
@@ -31,7 +31,6 @@ export class TopicComponent implements OnInit {
   }
 
   onLoadSubject(): void {
-    debugger
     const categoryId = this.locaStorageService.getItem<number>("categoryId");
     this.libraryService.fetchSubjectsByCategoryId(categoryId,this.paginatorModel).subscribe({
       next: (responseData) => {
