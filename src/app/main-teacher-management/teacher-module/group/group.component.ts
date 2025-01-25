@@ -19,7 +19,6 @@ export class GroupComponent {
   pageSize = 5;
   currentPage = 1;
   displayedColumns: string[] = [
-
     "name",
     "createDate",
     "studentCount",

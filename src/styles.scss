@@ -1,3 +1,5 @@
+@import "~quill/dist/quill.snow.css";
+
 * {
   margin: 0;
   padding: 0;
@@ -41,4 +43,55 @@ $my-theme: mat-light-theme(
   body {
     font-size: 12px;
   }
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+  height: 44px !important;
+}
+
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+  top: 22px !important;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+  --mat-mdc-form-field-label-transform: translateY(-28.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75)) !important;
+  transform: var(--mat-mdc-form-field-label-transform);
+}
+
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 11px !important;
+  padding-bottom: 11px !important;
+  min-height: 44px !important;
+}
+
+.mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 4px !important;
+  --mdc-outlined-text-field-focus-outline-width: 1px !important
+}
+
+.form-control{
+  height: 44px !important;
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,.mdc-checkbox .mdc-checkbox__native-control:enabled:focus:checked~.mdc-checkbox__background, .mdc-checkbox .mdc-checkbox__native-control:enabled:focus:indeterminate~.mdc-checkbox__background{
+  border-color: #3f51b5 !important;
+  background-color: #3f51b5 !important;
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:focus:checked~.mdc-checkbox__ripple{
+  background-color: #3f51b5 !important;
+}
+
+
+.ql-snow .ql-tooltip{
+  left: 0 !important;
+}
+
+b, strong{
+  font-weight: 600 !important;
 }

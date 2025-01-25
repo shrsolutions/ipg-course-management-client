@@ -30,7 +30,6 @@ export class BreadcrumbComponent implements AfterViewInit {
   constructor(private breadcrumbService: BreadcrumbService) {}
   ngAfterViewInit(): void {
     this.breadcrumbService.breadcrumbs$.subscribe((data) => {
-      console.log(data);
       this.breadcrumbs = data;
     });
   }

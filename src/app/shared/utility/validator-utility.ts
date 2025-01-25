@@ -8,7 +8,6 @@ import {
 export default class ValidatorUtility {
   static dateOfBirthValidator(minAge: number, maxAge: number) {
     return (control: FormGroup): ValidationErrors | null => {
-      console.log(control);
       const dateOfBirth = control.get("dateOfBirth")?.value;
       const currentErrors = control.get("dateOfBirth").errors;
       const dateOfBirthControl = control.get("dateOfBirth");

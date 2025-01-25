@@ -133,7 +133,6 @@ export class AuthService {
   }
 
   private handleAuthentication(userData: any) {
-    console.log(userData);
     const user = User.createUserInstance(userData.result);
     const userPermission = userData.result.permissions;
     this.user.next(user);

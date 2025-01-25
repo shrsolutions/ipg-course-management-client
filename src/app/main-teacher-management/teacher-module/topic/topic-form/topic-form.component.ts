@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { AfterContentChecked, Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
@@ -18,7 +18,7 @@ import { PaginatorModel } from "src/app/main-teacher-management/models/Base/Fetc
   templateUrl: "./topic-form.component.html",
   styleUrls: ["./topic-form.component.scss"],
 })
-export class TopicFormComponent {
+export class TopicFormComponent  {
   subjectId: number;
   displayedColumns: string[] = [
     "translation",
@@ -35,7 +35,7 @@ export class TopicFormComponent {
     private route: ActivatedRoute,
     private adminService: AdminService,
     private notificationService: NotificationService,
-    public setSubtopicDialog: MatDialog
+    public setSubtopicDialog: MatDialog,
   ) {
     this.paginatorModel = {
       count: 100,

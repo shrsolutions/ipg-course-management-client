@@ -53,7 +53,6 @@ export class VideoFormComponent implements OnInit {
 
   onDownloadFile(id: number) {
     this.adminService.onDownloadAttachment(id).subscribe((blob) => {
-      console.log(blob);
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.target = "_blank";

@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -17,6 +17,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { ToggleMenuDirective } from "./directive/toggle-menu.directive";
 import { BreadcrumbComponent } from "./components/breadcrumb/breadcrumb.component";
 import { RouterModule } from "@angular/router";
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   declarations: [SpinnerComponent, ToggleMenuDirective, BreadcrumbComponent],
   imports: [
@@ -34,7 +35,11 @@ import { RouterModule } from "@angular/router";
     MatSelectModule,
     ToastrModule.forRoot(),
     RouterModule,
+    NgxSpinnerModule
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+],
   exports: [
     CommonModule,
     ReactiveFormsModule,

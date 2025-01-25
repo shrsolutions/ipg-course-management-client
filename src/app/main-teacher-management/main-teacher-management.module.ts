@@ -41,6 +41,13 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatStepperModule} from '@angular/material/stepper';
+import { QuizzesComponent } from "./teacher-module/quizzes/quizzes.component";
+import { NewQuizComponent } from "./teacher-module/quizzes/new-quiz/new-quiz.component";
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
+import { QuillModule } from "ngx-quill";
+import { ReadQuestionsComponent } from "./teacher-module/quizzes/read-questions/read-questions.component";
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -69,7 +76,10 @@ import {MatStepperModule} from '@angular/material/stepper';
     StudentComponent,
     AssignStudentComponent,
 
-    AddStudentComponent
+    AddStudentComponent,
+    QuizzesComponent,
+    NewQuizComponent,
+    ReadQuestionsComponent
   ],
   imports: [
     SharedModule,
@@ -83,7 +93,9 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatCheckboxModule,
     MatChipsModule,
     MatStepperModule,
-    MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule
+    NgxSpinnerModule,
+    QuillModule.forRoot(),
+    MatFormFieldModule,MatListModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule, MatTabsModule
   ],
   exports: [MainHomeComponent],
 })

@@ -1,0 +1,24 @@
+.dialogHeader {
+    background: #F5F4F9;
+    padding: 15px 20px;
+    color: white;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    cursor: move;
+  }
+
+.dialogHeader h4 {
+    margin: 0;
+    color: #231d65;
+    font-weight: 500;
+  }
+  
+  
+  .dialogHeader img {
+    cursor: pointer;
+  }
+
+  .answers p{
+    margin-bottom: 0 !important;
+  } 

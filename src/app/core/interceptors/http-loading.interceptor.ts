@@ -16,14 +16,12 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    this.totalRequests++;
-    this.loadingService.show(); // Display loading spinner
+    this.loadingService.showSpinner(); // Display loading spinner
 
     return next.handle(request).pipe(
       finalize(() => {
-        this.totalRequests--;
         if (this.totalRequests == 0) {
-          this.loadingService.hide();
+          this.loadingService.hideSpinner();
         }
       })
     );

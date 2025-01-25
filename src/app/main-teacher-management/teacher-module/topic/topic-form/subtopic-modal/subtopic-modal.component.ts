@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { AfterContentChecked, ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
@@ -17,7 +17,7 @@ import { NotificationService } from "src/app/shared/services/notification.servic
   templateUrl: "./subtopic-modal.component.html",
   styleUrls: ["./subtopic-modal.component.scss"],
 })
-export class SubtopicModalComponent implements OnInit {
+export class SubtopicModalComponent implements OnInit, AfterContentChecked {
   dataSource: MatTableDataSource<SubtopicList> = new MatTableDataSource<
     SubtopicList
   >();
@@ -40,7 +40,8 @@ export class SubtopicModalComponent implements OnInit {
     public data: { topicId: number },
     private adminService: AdminService,
     private notificationService: NotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.paginatorModel = {
       count: 100,
@@ -53,13 +54,17 @@ export class SubtopicModalComponent implements OnInit {
     this.initForm();
   }
 
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges()
+  }
+
   initForm(): void {
     this.subtopicForm = this.fb.group({
       subtopic: ["", [Validators.required, Validators.maxLength(100)]], // Adjust max length as needed
     });
   }
   onLoadSubtopics() {
-    this.libraryService.fetchSubTopicsByTopicId(this.data.topicId,this.paginatorModel).subscribe({
+    this.libraryService.fetchSubTopicsByTopicId(this.data.topicId, this.paginatorModel).subscribe({
       next: (response) => {
         const responseData = response.result.data;
         this.dataSource.data = responseData;
@@ -74,7 +79,7 @@ export class SubtopicModalComponent implements OnInit {
   onSubmit() {
     if (this.subtopicForm.valid) {
       const subtopicValue: any = {
-        translation:{
+        translation: {
           languageId: 1,
           translation: this.subtopicForm.get("subtopic").value,
         },
@@ -84,7 +89,7 @@ export class SubtopicModalComponent implements OnInit {
 
       this.adminService.onAddSubtopic(subtopicValue).subscribe({
         next: (response) => {
-          if (response.statusCode==200) {
+          if (response.statusCode == 200) {
             this.notificationService.showSuccess(
               response.messages
             );
@@ -114,7 +119,7 @@ export class SubtopicModalComponent implements OnInit {
   onRemoveSubtopic(subtopicId: number, languageId: number): void {
     this.adminService.onRemoveSubtopic(subtopicId, languageId).subscribe({
       next: (response) => {
-        if (response.statusCode==200) {
+        if (response.statusCode == 200) {
           this.notificationService.showSuccess(
             response.messages
           );

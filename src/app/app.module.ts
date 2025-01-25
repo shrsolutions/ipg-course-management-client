@@ -14,7 +14,7 @@ import { TokenInterceptor } from "./core/interceptors/token.interceptor";
 import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -24,6 +24,7 @@ import { SharedModule } from "./shared/shared.module";
     SharedModule,
     TeacherRoutingModule,
     ToastrModule.forRoot(),
+    
   ],
   providers: [
     {

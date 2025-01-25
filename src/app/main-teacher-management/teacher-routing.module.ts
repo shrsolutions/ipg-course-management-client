@@ -18,6 +18,8 @@ import { VideoFormComponent } from "./teacher-module/videos/video-form/video-for
 import { GroupComponent } from "./teacher-module/group/group.component";
 import { LanguagesComponent } from "./admin/languages/languages.component";
 import { StudentComponent } from "./admin/student/student.component";
+import { QuizzesComponent } from "./teacher-module/quizzes/quizzes.component";
+import { NewQuizComponent } from "./teacher-module/quizzes/new-quiz/new-quiz.component";
 
 const userRoutes: Routes = [
   {
@@ -71,6 +73,21 @@ const userRoutes: Routes = [
         component: TopicComponent,
         data: { breadcrumb: "subject-topic-list" },
       },
+      {
+        path: "teacher-module/quizzes",
+        component: QuizzesComponent,
+      },
+
+      {
+        path: "teacher-module/quizzes/quizz",
+        component: NewQuizComponent,
+      },
+
+      {
+        path: "teacher-module/quizzes/quizz/:id",
+        component: NewQuizComponent,
+      },
+
       {
         path: "teacher-module/videos/subject",
         component: SubjectVideosComponent,

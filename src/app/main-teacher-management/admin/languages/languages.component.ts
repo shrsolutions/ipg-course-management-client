@@ -19,7 +19,7 @@ import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
   styleUrls: ['./languages.component.scss']
 })
 export class LanguagesComponent {
-pageSize = 5;
+  pageSize = 5;
   currentPage = 1;
   length!: number
   displayedColumns: string[] = [
@@ -60,25 +60,26 @@ pageSize = 5;
     this.initialForm();
   }
 
-  initialForm(editData?:any): void {
+  initialForm(editData?: any): void {
     this.languageForm = this.fb.group({
-      id: [editData?.id||this.id++],
-      name: [editData?.name||"", Validators.required],
+      id: [editData?.id || this.id++],
+      name: [editData?.name || "", Validators.required],
     });
   }
-  id:any
+  id: any
   loadLanguage() {
     this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
       next: (responseData) => {
 
         const data = responseData.result.data;
-        this.dataSource.data =data;
+        this.dataSource.data = data;
 
         const elementWithMaxId = data.reduce((max, current) => {
-  return current.id > max.id ? current : max;
-}, data[0]);
-this.id=elementWithMaxId.id
-        this.length = responseData.result.count      },
+          return current.id > max.id ? current : max;
+        }, data[0]);
+        this.id = elementWithMaxId.id
+        this.length = responseData.result.count
+      },
     });
   }
 
@@ -106,7 +107,7 @@ this.id=elementWithMaxId.id
     if (this.editingRoleId) {
       this.adminService.updateLanguage(this.languageForm.value).subscribe({
         next: (responseData) => {
-          if (responseData.statusCode==200) {
+          if (responseData.statusCode == 200) {
             this.notificationService.showSuccess(
               responseData.messages
             );
@@ -121,7 +122,7 @@ this.id=elementWithMaxId.id
     } else {
       this.adminService.addLanguage(this.languageForm.value).subscribe({
         next: (responseData) => {
-          if (responseData.statusCode==200) {
+          if (responseData.statusCode == 200) {
             this.notificationService.showSuccess(
               responseData.messages
             );
@@ -144,19 +145,18 @@ this.id=elementWithMaxId.id
   }
 
   onRemoveRole(id: number) {
-
-        this.adminService.removeLang(id).subscribe({
-          next: (responseData) => {
-            if (responseData.statusCode==200) {
-              this.notificationService.showSuccess(
-                responseData.messages
-              );
-              this.loadLanguage();
-            } else {
-              this.notificationService.showError("Any Error happened");
-            }
-          },
-        });
+    this.adminService.removeLang(id).subscribe({
+      next: (responseData) => {
+        if (responseData.statusCode == 200) {
+          this.notificationService.showSuccess(
+            responseData.messages
+          );
+          this.loadLanguage();
+        } else {
+          this.notificationService.showError("Any Error happened");
+        }
+      },
+    });
 
   }
 
