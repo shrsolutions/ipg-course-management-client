@@ -3,7 +3,13 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { PaginatorModel } from '../main-teacher-management/models/Base/FetchBaseModel';
 import HttpHelper from '../shared/helper/httpHelper';
-
+import { Observable } from 'rxjs';
+interface ImageUploadResponse {
+  result: {
+    id: string;
+    downloadLink: string;
+  };
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +58,10 @@ export class QuizzesService {
 
   removeQuestion( questionId: number) {
     return this.http.delete<any>(`${this.baseUrl}questions/${questionId}`);
+  }
+
+  uploadImage(formData: FormData): Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}questions/images`, formData);
   }
 
 }

@@ -39,7 +39,7 @@ export class AssignStudentComponent {
   initalForm() {
 
     this.roleForm = this.fb.group({
-      role: [this.editdata[0] || [], Validators.required],
+      memberIds: [this.editdata[0] || [], Validators.required],
     });
   }
 

@@ -1,6 +1,6 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { PaginatorModel } from "src/app/main-teacher-management/models/Base/FetchBaseModel";
 import {
@@ -11,6 +11,7 @@ import { AdminService } from "src/app/services/admin.service";
 import { LibraryService } from "src/app/services/library.service";
 import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
+import { AssignQuizzForSubtopicComponent } from "./assign-quizz-for-subtopic/assign-quizz-for-subtopic.component";
 
 @Component({
   selector: "app-subtopic-modal",
@@ -28,7 +29,6 @@ export class SubtopicModalComponent implements OnInit, AfterContentChecked {
   displayedColumns: string[] = [
     "translation",
     "edit",
-    "remove",
   ];
   editingSubtopciId: number = 0;
   subtopicForm: FormGroup;
@@ -41,7 +41,9 @@ export class SubtopicModalComponent implements OnInit, AfterContentChecked {
     private adminService: AdminService,
     private notificationService: NotificationService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+        public setRoleDialog: MatDialog,
+    
   ) {
     this.paginatorModel = {
       count: 100,
@@ -130,4 +132,16 @@ export class SubtopicModalComponent implements OnInit, AfterContentChecked {
       },
     });
   }
+
+    assignQuizz(subtopicId: number){
+      let dialogRef = this.setRoleDialog.open(AssignQuizzForSubtopicComponent, {
+        maxHeight: "95vh",
+        width: "50%",
+        data: { subtopicId: subtopicId},
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+          this.onLoadSubtopics();
+      });
+    }
 }

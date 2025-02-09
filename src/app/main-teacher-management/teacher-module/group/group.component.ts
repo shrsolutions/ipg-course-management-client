@@ -9,6 +9,8 @@ import { SweatAlertService } from 'src/app/shared/services/sweat-alert.service';
 import { NewGroupComponent } from './new-group/new-group.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AssignStudentComponent } from './assign-student/assign-student.component';
+import { AssignQuizzComponent } from './assign-quizz/assign-quizz.component';
+import { AssignContentComponent } from './assign-content/assign-content.component';
 
 @Component({
   selector: 'app-group',
@@ -24,7 +26,6 @@ export class GroupComponent {
     "studentCount",
     "edit",
     "remove",
-    "addStudent",
 
   ];
   data: MatTableDataSource<any> = new MatTableDataSource<any>();
@@ -39,7 +40,9 @@ export class GroupComponent {
   today: any = new Date();
   month: any = this.today.getMonth();
   year: any = this.today.getFullYear();
-  UpdateOrAddBtnMessage: string = "Add Group";
+  selectedRow: any ;
+  activeRow: any = -1;
+
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
@@ -92,12 +95,9 @@ export class GroupComponent {
   readonly endDate = new FormControl(new Date());
 
   ngOnInit(): void {
-
     this.loadGroups();
     this.initialForm();
-    this.fillServicesSelectBox();
     this.data.filterPredicate = this.createFilter();
-
   }
 
   initialForm(): void {
@@ -126,13 +126,6 @@ export class GroupComponent {
     });
   }
 
-  fillServicesSelectBox() {
-    this.adminService.getSystemServices(this.paginatorModel1).subscribe({
-      next: (responseData) => {
-        this.systemServices = responseData.result;
-      },
-    });
-  }
 
   onPageChanged(event: PageEvent) {
     this.paginatorModel.page = event.pageIndex + 1;
@@ -176,20 +169,65 @@ export class GroupComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.loadGroups();
+      this.activeRow = -1;
+      this.selectedRow = undefined;
 
     });
   }
-  onSetNewStudent(id: number, roleIds: any[]) {
+  onSetNewStudent() {
     let dialogRef = this.setRoleDialog.open(AssignStudentComponent, {
       height: "260px",
       width: "600px",
-      data: { userId: id, roleIds: roleIds },
+      data: { userId: this.selectedRow.id, roleIds: this.selectedRow.name },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.loadGroups();
+        this.activeRow = -1;
+        this.selectedRow = undefined;
       }
     });
   }
+
+  assignQuizz(){
+    let dialogRef = this.setRoleDialog.open(AssignQuizzComponent, {
+      maxHeight: "95vh",
+      width: "50%",
+      data: { groupId: this.selectedRow.id},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+        this.loadGroups();
+        this.activeRow = -1;
+        this.selectedRow = undefined;
+    });
+  }
+
+  assignContent(){
+    let dialogRef = this.setRoleDialog.open(AssignContentComponent, {
+      maxHeight: "95vh",
+      width: "50%",
+      data: { groupId: this.selectedRow.id},
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+        this.loadGroups();
+        this.activeRow = -1;
+        this.selectedRow = undefined;
+    });
+  }
+
+  onRowClick(index:number, row: any): void {
+    if (!this.isActive(index)) {
+      this.activeRow = index;
+      this.selectedRow = row;
+    }
+    else {
+      this.activeRow = -1;
+      this.selectedRow = 0;
+    }
+  }
+
+  isActive = (index: number) => { return this.activeRow === index };
+
 }

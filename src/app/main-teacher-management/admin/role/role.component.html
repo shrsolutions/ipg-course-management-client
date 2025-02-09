@@ -10,34 +10,32 @@
 
 
                             <mat-form-field appearance="outline" class="col-lg-4 col-sm-6">
-                                <div class="mb-0">
+                                <mat-label >Role</mat-label>
+
 
                                     <input matInput type="text" class=" ms-2" id="name" formControlName="name"
                                         placeholder="Admin,User etc.">
 
 
-                                    <span *ngIf="roleForm.get('name').hasError('required')  && invalid"
-                                        class="text-danger mx-2 mt-2">
+                                    <mat-error *ngIf="roleForm.get('name').hasError('required')  && roleForm.get('name').touched">
                                         Role Name is required.
-                                    </span>
-                                </div>
+                                    </mat-error>
                             </mat-form-field>
 
 
 
 
                             <mat-form-field class="col-lg-5 col-sm-6" appearance="outline">
-                                <div class="mb-0">
-                                    <mat-select formControlName="selectedPermissions" multiple disableRipple>
-                                        <mat-option *ngFor="let service of systemServices" [value]="service.id">{{
-                                            service.name }}</mat-option>
-                                    </mat-select>
-                                    <span
-                                        *ngIf="roleForm.get('selectedPermissions').hasError('required') && roleForm.get('selectedPermissions').touched"
-                                        class="text-danger mx-2 mt-2">
-                                        Services is required.
-                                    </span>
-                                </div>
+                                <mat-label for="">Service</mat-label>
+                                <mat-select formControlName="selectedPermissions" multiple disableRipple>
+                                    <mat-option *ngFor="let service of systemServices" [value]="service.id">{{
+                                        service.name }}</mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="roleForm.get('selectedPermissions').hasError('required') && roleForm.get('selectedPermissions').touched"
+                                    >
+                                    Services is required.
+                                </mat-error>
                             </mat-form-field>
                             <div class="col-lg-3 col-sm-6 d-flex mb-4 align-items-center justify-content-center ">
                                 <button type="submit" class="btn-lg  btn-primary"
@@ -84,8 +82,8 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             </table>
-            <mat-paginator  [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
+            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
+                (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
         </div>
     </div>
 </div>

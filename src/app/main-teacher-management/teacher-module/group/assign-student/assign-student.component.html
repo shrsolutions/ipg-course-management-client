@@ -1,5 +1,4 @@
 <div class="modal-1 bs-example-modal">
-
     <form [formGroup]="roleForm" (ngSubmit)="onSetRole()" class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title align-self-center">Assign Student</h5>
@@ -10,8 +9,8 @@
         <label >Students</label>
             <mat-form-field class="col-lg-12 col-sm-12" appearance="outline">
                 <div class="mb-0">
-                    <mat-select formControlName="role" multiple disableRipple>
-                        <mat-option *ngFor="let role of students" [value]="role.id">{{ role.value }}</mat-option>
+                    <mat-select formControlName="memberIds" multiple disableRipple>
+                        <mat-option *ngFor="let memberIds of students" [value]="memberIds.id">{{ memberIds.value }}</mat-option>
                     </mat-select>
                 </div>
             </mat-form-field>
@@ -21,5 +20,4 @@
             <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="onClose()">Close</button>
         </div>
     </form>
-
 </div>

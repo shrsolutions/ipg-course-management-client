@@ -78,7 +78,7 @@ $my-theme: mat-light-theme(
   height: 44px !important;
 }
 
-.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,.mdc-checkbox .mdc-checkbox__native-control:enabled:focus:checked~.mdc-checkbox__background, .mdc-checkbox .mdc-checkbox__native-control:enabled:focus:indeterminate~.mdc-checkbox__background{
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,.mdc-checkbox .mdc-checkbox__native-control:enabled:focus:checked~.mdc-checkbox__background, .mdc-checkbox .mdc-checkbox__native-control:enabled:focus:indeterminate~.mdc-checkbox__background{
   border-color: #3f51b5 !important;
   background-color: #3f51b5 !important;
 }
@@ -90,6 +90,7 @@ $my-theme: mat-light-theme(
 
 .ql-snow .ql-tooltip{
   left: 0 !important;
+  top: 0 !important;
 }
 
 b, strong{

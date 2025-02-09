@@ -2,13 +2,11 @@ import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit,
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModel } from 'src/app/main-teacher-management/models/Base/FetchBaseModel';
-import { LibraryService } from 'src/app/services/library.service';
 import { QuizzesService } from 'src/app/services/quizzes.service';
 import { showConfirmAlert, showErrorAlert, showInfoAlert } from 'src/app/shared/helper/alert';
-import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { ReadQuestionsComponent } from '../read-questions/read-questions.component';
 import { MatDialog } from '@angular/material/dialog';
-
+import Quill from 'quill';
 @Component({
   selector: 'app-new-quiz',
   templateUrl: './new-quiz.component.html',
@@ -28,27 +26,71 @@ export class NewQuizComponent implements OnInit {
     });
   }
 
-  quillConfig={
+  quillConfig = {
     //toolbar: '.toolbar',
     formula: true,
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
       ['code-block'],
-  
+
       [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-  
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+
       [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  
+
       [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
       [{ 'align': [] }],
       ['formula'],
-  
-      // [ 'image']                         // link and image, video
+
+      ['image']                         // link and image, video
     ]
+  }
+
+  onEditorCreated(quill, index?: number) {
+    quill.getModule('toolbar').addHandler('image', () => {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+
+      input.addEventListener('change', () => {
+        const file = input.files ? input.files[0] : null;
+        if (file) {
+          const formData = new FormData();
+          formData.append('ImageFile', file);
+
+
+          // `subscribe` ilə servisi çağırırıq
+          this.quizzService.uploadImage(formData).subscribe({
+            next: response => {
+              if (response?.result?.downloadLink) {
+                const range = quill.getSelection();
+                quill.insertEmbed(range.index, 'image', response.result.downloadLink);
+                if (index !== -1) {
+                  const answersControl = this.questionsForm.get('answers') as FormArray;
+                  const answerFormGroup = answersControl.at(index) as FormGroup;
+                  answerFormGroup.get('text')?.setValue(quill.root.innerHTML);
+                  console.log('cavab')
+                } else {
+                  console.log('sual')
+                  this.questionsForm.controls['text'].setValue(quill.root.innerHTML);
+                }
+              } else {
+                showErrorAlert('Şəkil yükləmə uğursuz oldu', undefined, 'Bağla')
+              }
+            },
+            error: err => {
+              console.log(err)
+              showErrorAlert(err, undefined, 'Bağla')
+            }
+          });
+        }
+      });
+
+      input.click();
+    });
   }
 
   paginatorModel: PaginatorModel = {
@@ -63,7 +105,7 @@ export class NewQuizComponent implements OnInit {
   btnNextPrev = {
     prev: true,
     next: false,
-    index: 1
+    index: 0
   }
 
   savedQuestions: any[] = [];
@@ -98,37 +140,6 @@ export class NewQuizComponent implements OnInit {
     }
   }
 
-  // onLoadSubject(): void {
-  //   const categoryId = this.locaStorageService.getItem<number>("categoryId");
-  //   this.libraryService.fetchSubjectsByCategoryId(categoryId, this.paginatorModel).subscribe({
-  //     next: (responseData) => {
-  //       this.subjects = responseData.result.data
-  //     },
-  //   });
-  // }
-
-  // changeSubject(event: any) {
-  //   let subjectId = event.target.value
-  //   this.libraryService.fetchTopicsBySubjectId(subjectId, this.paginatorModel).subscribe({
-  //     next: (responseData) => {
-  //       this.topics = responseData.result.data
-  //     },
-  //   });
-  // }
-
-  // changeTopic(event: any) {
-  //   let topicId = event.target.value
-
-  //   this.libraryService.fetchSubTopicsByTopicId(topicId, this.paginatorModel).subscribe({
-  //     next: (responseData) => {
-  //       this.subTopics = responseData.result.data
-  //     },
-  //   });
-  // }
-
-  // changeSubTopic(event: any) {
-
-  // }
 
   navig(n: any) {
     switch (n) {
@@ -197,6 +208,7 @@ export class NewQuizComponent implements OnInit {
     this.quizzService.getQuestionById(questionId).subscribe({
       next: res => {
         this.questionsForm.patchValue(res.result);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         this.selectedIsCorrect = true
         this.answers.clear();
         res.result.answers.forEach((answer: any) => {
@@ -308,7 +320,7 @@ export class NewQuizComponent implements OnInit {
 
   }
 
-  readMore(id: string){
+  readMore(id: string) {
     this.dialog.open(ReadQuestionsComponent, {
       data: id,
       width: '80%',

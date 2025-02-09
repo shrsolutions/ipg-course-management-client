@@ -28,7 +28,7 @@ import FormUtility from "../shared/utility/form-utility";
 })
 export class AdminService {
   baseUrl: string = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   fetchRoles(paginator: PaginatorModel) {
     const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
@@ -48,7 +48,7 @@ export class AdminService {
       groupData
     );
   }
-  onAddMembers(id:any,memberData: any) {
+  onAddMembers(id: any, memberData: any) {
     return this.http.post<Wrapper<any>>(
       `${this.baseUrl}groups/${id}/members`,
       memberData
@@ -64,6 +64,35 @@ export class AdminService {
       `${this.baseUrl}groups/${id}`
     );
   }
+
+  assignQuiz(id: string, postData: any) {
+    return this.http.post<any>(`${this.baseUrl}groups/${id}/quizzes`, postData);
+  }
+
+  getAssignQuiz(id: string) {
+    return this.http.get<any>(`${this.baseUrl}groups/${id}/quizzes`);
+  }
+
+  assignQuizForSubtopic(id: string, postData: any) {
+    return this.http.post<any>(`${this.baseUrl}subtopics/${id}/quizzes`, postData);
+  }
+
+  getAssignQuizForSubtopic(id: string) {
+    return this.http.get<any>(`${this.baseUrl}subtopics/${id}/quizzes`);
+  }
+
+  getAllAttachmentsLink(paginator: PaginatorModel) {
+    return this.http.get<any>(`${this.baseUrl}subtopics/attachments/links${HttpHelper.setPaginatorUrl(paginator)}`);
+  }
+
+  assignContent(id: string, postData: any) {
+    return this.http.post<any>(`${this.baseUrl}groups/${id}/contents`, postData);
+  }
+
+  getAssignContent(id: string) {
+    return this.http.get<any>(`${this.baseUrl}groups/${id}/contents`);
+  }
+
   getSystemServices(paginator: PaginatorModel) {
     const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
 
@@ -204,7 +233,7 @@ export class AdminService {
     );
   }
 
-  onAddVideoAttachment(id:any,attachmentData: videoLinkForm) {
+  onAddVideoAttachment(id: any, attachmentData: videoLinkForm) {
     const formData = FormUtility.createFormData(attachmentData);
     return this.http.post<Wrapper<any>>(
       `${this.baseUrl}subtopics/${id}/attachments`,

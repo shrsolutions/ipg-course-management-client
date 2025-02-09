@@ -1,33 +1,4 @@
-<!-- <div class="general-label">
-  <form>
-    <div class="row row-cols-lg-auto g-3">
-      <div class="col-lg-3  col-md-3 col-sm-12">
-        <div class="mb-0">
-          <select class="form-select" (change)="changeSubject($event)">
-            <option selected [value]="0" selected disabled>Select subject</option>
-            <option *ngFor="let item of subjects" [value]="item.id">{{item.translationInCurrentLanguage}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-lg-3  col-md-3 col-sm-12">
-        <div class="mb-0">
-          <select class="form-select" (change)="changeTopic($event)" [disabled]="topics == undefined">
-            <option selected [value]="0" selected disabled>Select topic</option>
-            <option *ngFor="let item of topics" [value]="item.id">{{item.translationInCurrentLanguage}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-lg-3  col-md-3 col-sm-12">
-        <div class="mb-0">
-          <select class="form-select" (change)="changeSubTopic($event)" [disabled]="subTopics == undefined">
-            <option selected [value]="0" selected disabled>Select subtopic</option>
-            <option *ngFor="let item of subTopics" [value]="item.id">{{item.translationInCurrentLanguage}}</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </form>
-</div> -->
+
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [selectedIndex]="btnNextPrev.index">
   <mat-tab label="Quizz" id="quizz">
     <div class="m-3">
@@ -81,7 +52,7 @@
       <form class="example-container" [formGroup]="questionsForm">
         <div class="row">
           <div class="col-lg-12">
-            <quill-editor  formControlName="text" required  [modules]="quillConfig" style="width: 100%;"></quill-editor>
+            <quill-editor  formControlName="text" required  (onEditorCreated)="onEditorCreated($event, -1)" [modules]="quillConfig" style="width: 100%;"></quill-editor>
           </div>
         </div>
         <div class="row mt-3">
@@ -102,7 +73,7 @@
           </div>
 
           <!-- Type ID -->
-          <div class="col-lg-3">
+          <!-- <div class="col-lg-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Choice type</mat-label>
               <mat-select required formControlName="typeId">
@@ -112,10 +83,10 @@
                 Type is required
               </mat-error>
             </mat-form-field>
-          </div>
+          </div> -->
 
           <!-- Language ID -->
-          <div class="col-lg-3">
+          <!-- <div class="col-lg-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Language</mat-label>
               <mat-select required formControlName="languageId">
@@ -127,7 +98,7 @@
                 Language is required
               </mat-error>
             </mat-form-field>
-          </div>
+          </div> -->
         </div>
         <!-- Answers Section -->
         <div class="row mt-3" formArrayName="answers">
@@ -139,14 +110,7 @@
             <div class="row align-items-center">
               <!-- Answer Text -->
               <div class="col-lg-9">
-                <quill-editor  formControlName="text" required  [modules]="quillConfig" style="width: 100%;"></quill-editor>
-                <!-- <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Answer Text</mat-label>
-                  <input matInput required formControlName="text" />
-                  <mat-error>
-                    Answer text is required
-                  </mat-error>
-                </mat-form-field> -->
+                <quill-editor  formControlName="text" required (onEditorCreated)="onEditorCreated($event, i)"  [modules]="quillConfig" style="width: 100%;"></quill-editor>
               </div>
 
               <!-- Is Correct -->

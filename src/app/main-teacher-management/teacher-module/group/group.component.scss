@@ -131,3 +131,8 @@
       line-height: 20px;
   /* Sağ tərəfdə sıfır boşluq */
     }
+
+    .selected {
+      background-color: #d6eaf8 !important; 
+      transition: 0.3s;/* Light blue highlight */
+    }

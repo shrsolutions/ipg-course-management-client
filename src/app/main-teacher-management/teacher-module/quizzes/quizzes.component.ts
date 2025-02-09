@@ -16,9 +16,7 @@ export class QuizzesComponent implements OnInit {
 
   constructor(
     private quizzService: QuizzesService,
-    private locaStorageService: LocalStorageService,
   ) {
-
   }
 
   pageSize = 10;
@@ -52,8 +50,6 @@ export class QuizzesComponent implements OnInit {
       }
     })
   }
-
-  
 
   onPageChanged(event: PageEvent) {
     this.paginatorModel.page = event.pageIndex + 1;

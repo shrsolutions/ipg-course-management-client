@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NewQuizComponent } from '../new-quiz/new-quiz.component';
 import { QuizzesService } from 'src/app/services/quizzes.service';
@@ -19,10 +19,19 @@ export class ReadQuestionsComponent implements OnInit, AfterContentInit {
 
   question: any = {}
 
+  @ViewChildren('answerContent') answerContents!: QueryList<ElementRef>;
+  quillConfig={
+    //toolbar: '.toolbar',
+    toolbar: false
+  }
   ngOnInit() {
     this.quizzService.getQuestionById(this.questionId).subscribe({
       next: res => {
         this.question = res.result
+        
+        setTimeout(() => {
+          this.fillAnswerContents();
+        });
       }
     })
   }
@@ -30,5 +39,15 @@ export class ReadQuestionsComponent implements OnInit, AfterContentInit {
   ngAfterContentInit(): void {
     this.cdr.detectChanges()
   }
+
+  fillAnswerContents() {
+    this.answerContents.forEach((elementRef, index) => {
+      if (this.question.answers[index]) {
+        elementRef.nativeElement.innerHTML = this.question.answers[index].text;
+      }
+    });
+  }
+
+
 
 }

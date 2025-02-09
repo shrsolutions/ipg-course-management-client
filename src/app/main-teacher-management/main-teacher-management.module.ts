@@ -48,7 +48,10 @@ import {MatListModule} from '@angular/material/list';
 import { QuillModule } from "ngx-quill";
 import { ReadQuestionsComponent } from "./teacher-module/quizzes/read-questions/read-questions.component";
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import {MatMenuModule} from '@angular/material/menu';
+import { AssignQuizzComponent } from "./teacher-module/group/assign-quizz/assign-quizz.component";
+import { AssignContentComponent } from "./teacher-module/group/assign-content/assign-content.component";
+import { AssignQuizzForSubtopicComponent } from "./teacher-module/topic/topic-form/subtopic-modal/assign-quizz-for-subtopic/assign-quizz-for-subtopic.component";
 @NgModule({
   declarations: [
     MainHomeComponent,
@@ -75,7 +78,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NewGroupComponent,
     StudentComponent,
     AssignStudentComponent,
-
+    AssignQuizzComponent,
+    AssignContentComponent,
+    AssignQuizzForSubtopicComponent,
     AddStudentComponent,
     QuizzesComponent,
     NewQuizComponent,
@@ -95,7 +100,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     MatStepperModule,
     NgxSpinnerModule,
     QuillModule.forRoot(),
-    MatFormFieldModule,MatListModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule, MatTabsModule
+    MatFormFieldModule,MatListModule, MatMenuModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule, MatTabsModule
   ],
   exports: [MainHomeComponent],
 })

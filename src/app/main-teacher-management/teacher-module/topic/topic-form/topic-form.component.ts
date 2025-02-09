@@ -99,8 +99,8 @@ export class TopicFormComponent  {
 
   onSetSubTopic(topicId: number): void {
     this.setSubtopicDialog.open(SubtopicModalComponent, {
-      height: "300px",
-      width: "700px",
+      maxHeight: "95%",
+      width: "45%",
       data: { topicId: topicId },
     });
   }
