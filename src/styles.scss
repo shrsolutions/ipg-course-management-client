@@ -96,3 +96,34 @@ $my-theme: mat-light-theme(
 b, strong{
   font-weight: 600 !important;
 }
+
+
+
+.ql-snow .ql-font .ql-picker-options .ql-picker-item {
+  font-family: #{attr(data-value)};
+  &::before {
+    content: attr(data-value) !important;
+  }
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+  content: attr(data-value) !important;
+}
+
+$text-editor-fonts: 'Calibri', 'TimesNewRoman', 'Arial',  'Monospace';
+
+@each $text-editor-font in $text-editor-fonts {
+  .ql-font-#{$text-editor-font} {
+    font-family: $text-editor-font;
+  }
+}
+
+.ql-snow .ql-picker.ql-font, .ql-snow .ql-picker.ql-size, .ql-snow .ql-picker.ql-header{
+  width: fit-content !important;
+}
+
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg{
+  right: inherit !important;
+}
+

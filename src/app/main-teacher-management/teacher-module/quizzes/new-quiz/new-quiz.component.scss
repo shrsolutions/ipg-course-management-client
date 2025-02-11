@@ -89,18 +89,8 @@
           line-clamp: 4;
           -webkit-line-clamp: 4; /* mətnin neçə sətirdən ibarət olacağını təyin edir */
           -webkit-box-orient: vertical;
-          p{
-            img{
-              // width: 100%;
-              height: 60px;
-            }
-          }
+
         }
       }
     }
-  }
-
-
-  ::ng-deep.ql-snow .ql-editor img{
-    height: 150px !important;
   }

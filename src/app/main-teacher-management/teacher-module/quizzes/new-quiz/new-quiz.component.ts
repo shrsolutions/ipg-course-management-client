@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {  Component,  OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModel } from 'src/app/main-teacher-management/models/Base/FetchBaseModel';
@@ -6,7 +6,14 @@ import { QuizzesService } from 'src/app/services/quizzes.service';
 import { showConfirmAlert, showErrorAlert, showInfoAlert } from 'src/app/shared/helper/alert';
 import { ReadQuestionsComponent } from '../read-questions/read-questions.component';
 import { MatDialog } from '@angular/material/dialog';
-import Quill from 'quill';
+import Quill from "quill";
+import ResizeModule from "@botom/quill-resize-module";
+
+const Font = Quill.import('attributors/class/font') as any; // TypeScript-ə uyğunlaşdırma
+Font.whitelist = ['Calibri','TimesNewRoman',  'Arial', 'Monospace'];
+Quill.register(Font, true);
+
+Quill.register("modules/resize", ResizeModule);
 @Component({
   selector: 'app-new-quiz',
   templateUrl: './new-quiz.component.html',
@@ -26,9 +33,20 @@ export class NewQuizComponent implements OnInit {
     });
   }
 
+
   quillConfig = {
     //toolbar: '.toolbar',
     formula: true,
+    resize: {
+      locale: {
+        // change them depending on your language
+        altTip: "Hold down the alt key to zoom",
+        floatLeft: "Left",
+        floatRight: "Right",
+        center: "Center",
+        restore: "Restore",
+      },
+    },
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
       ['code-block'],
@@ -45,7 +63,8 @@ export class NewQuizComponent implements OnInit {
       [{ 'align': [] }],
       ['formula'],
 
-      ['image']                         // link and image, video
+      ['image']  ,                      // link and image, video
+      [{ 'font': [ 'Calibri','TimesNewRoman', 'Arial', 'Monospace'] }]
     ]
   }
 
@@ -114,7 +133,6 @@ export class NewQuizComponent implements OnInit {
     title: ['', Validators.required],
     description: ['', Validators.required],
     stateId: [1, Validators.required],
-    durationInMinutes: [null, [Validators.required, Validators.min(1)]],
     quizQuestionIds: []
   });
 

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LibraryService } from 'src/app/services/library.service';
-import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { PaginatorModel } from '../../models/Base/FetchBaseModel';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
@@ -26,7 +24,6 @@ export class QuizzesComponent implements OnInit {
     "title",
     "description",
     "questionCount",
-    "durationInMinutes",
     "stateId",
     "edit",
     "remove",
