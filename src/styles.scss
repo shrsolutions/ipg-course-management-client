@@ -93,6 +93,13 @@ $my-warn: mat-palette($mat-red);
   height: 14px !important;
 }
 
+.mat-mdc-checkbox label {
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  color: black !important;
+  font-size: 16px !important;
+}
+
 table thead tr{
   height: 20px !important;
   th{
@@ -165,4 +172,8 @@ $text-editor-fonts: 'Calibri', 'TimesNewRoman', 'Arial', 'Monospace';
 
 .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
   right: inherit !important;
+}
+
+.ql-editor p{
+  color: black;
 }
