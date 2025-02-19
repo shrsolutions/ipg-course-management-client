@@ -1,71 +1,16 @@
-<div class="card p-5">
-    <div class="row d-flex justify-content-center">
-        <div class="col-lg-11 px-0">
-            <div class="">
-                <div class="card-body pb-0">
-                    <h2 class="card-title" style="margin-left: 10px;">Group Page</h2>
-                    <div class="general-label">
-                        <form class="row groupForm ">
-                            <!--     -->
-
-
-                            <div class="text-end pb-3">
-                                <!-- <div class="col-lg-2 pe-0">
-    <input
-      type="text"
-      class="form-control py-2"
-      id="Group"
-      placeholder="Group Name"
-      (input)="applyFilterColumn()"  [(ngModel)]="filters.name" [ngModelOptions]="{standalone: true}"
-    />
-  </div>
-  <div class="col-lg-2 pe-0">
-      <mat-form-field class="custom-date-range custom-border px-0" appearance="outline" style="width: -webkit-fill-available;">
-          <mat-label>Begin Date</mat-label>
-          <input matInput [matDatepicker]="picker1"  (dateChange)="applyFilterColumn()"  [formControl]="beghinDate">
-          <mat-datepicker-toggle matIconSuffix class="custom-calendar-icon" [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-  </div>
-  <div class="col-lg-2 pe-0">
-      <mat-form-field class="custom-date-range custom-border px-0" appearance="outline">
-          <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="picker2"  (dateChange)="applyFilterColumn()" [formControl]="endDate">
-          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
-  </div>
-  <div class="col-lg-2 pe-0">
-    <input
-      type="text"
-      class="form-control py-2"
-      id="GroupCount"
-      [(ngModel)]="filters.count"   (input)="applyFilterColumn()"  [ngModelOptions]="{standalone: true}"
-      placeholder="Group's Student Count"
-    />
-  </div> -->
-
-                                <div class="buttonDiff  pe-0">
-                                    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Operations</button>
-                                    <mat-menu #menu="matMenu">
-                                        <button mat-menu-item (click)="onSetNewGroup(0)">Add Group</button>
-                                        <button mat-menu-item [disabled]="!selectedRow"  (click)="onSetNewStudent()">Add Student</button>
-                                        <button mat-menu-item [disabled]="!selectedRow" (click)="assignQuizz()">Add Quizz</button>
-                                        <button mat-menu-item [disabled]="!selectedRow" (click)="assignContent()">Add Content</button>
-                                    </mat-menu>
-                                </div>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class=" d-flex justify-content-center p-0" style="padding: 0;">
-        <div class="mat-elevation-z8 table-responsive col-lg-11">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="card-title">Groups</h5>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Operations</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onSetNewGroup(0)">Add Group</button>
+            <button mat-menu-item [disabled]="!selectedRow"  (click)="onSetNewStudent()">Add Student</button>
+            <button mat-menu-item [disabled]="!selectedRow" (click)="assignQuizz()">Add Quizz</button>
+            <button mat-menu-item [disabled]="!selectedRow" (click)="assignContent()">Add Content</button>
+        </mat-menu>
+      </div>
+    <div >
+        <div class="table-responsive ">
             <table mat-table [dataSource]="data" matSort class="table table-centered mb-0">
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
@@ -103,8 +48,9 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="onRowClick(i, row)" [ngClass]="{'selected': isActive(i)}"></tr>
 
             </table>
-            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
-                (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
+            
         </div>
+        <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
+                (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
     </div>
-</div>
+  </div>

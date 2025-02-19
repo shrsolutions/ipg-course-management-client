@@ -1,13 +1,14 @@
 <!-- login.component.html -->
-<div class="d-flex justify-content-center login-container ">
-    <mat-card class="col-lg-12 mt-5">
+<div class=" login-container ">
+    <mat-card class="col-lg-12 ">
         <mat-card-content>
             <form class="login--section" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-                <mat-card-title>Login</mat-card-title>
+                <mat-card-title>LOGIN</mat-card-title>
                 <div>
                     <div>
-                        <mat-form-field>
-                            <input type="text" matInput formControlName="email" placeholder="Email">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input type="text" matInput formControlName="email" placeholder="Enter Email">
                             <mat-error
                                 *ngIf="signupForm.get('email').hasError('required') && signupForm.get('email').touched">
                                 Email is required
@@ -15,8 +16,9 @@
                         </mat-form-field>
                     </div>
                     <p>
-                        <mat-form-field>
-                            <input matInput placeholder="Password" formControlName="password"
+                        <mat-form-field appearance="outline">
+                            <mat-label>Password</mat-label>
+                            <input matInput placeholder="Enter Password" formControlName="password"
                                 [type]="hidePassword ? 'password' : 'text'">
                             <mat-icon matSuffix (click)="togglePasswordVisibility()">
                                 {{ hidePassword ? 'visibility_off' : 'visibility' }}
@@ -26,21 +28,20 @@
                                 *ngIf="signupForm.get('password').hasError('required') && signupForm.get('password').touched">
                                 Password is required
                             </mat-error>
-
-                            
                         </mat-form-field>
                     </p>
                 </div>
-                <div class="forgot-password mb-3">
+                <!-- <div class="forgot-password mb-3">
                     <a aria-label="Forgot password" class="btn btn-link" [routerLink]="['/forgot-password']">Forgot
                         password</a>
-                </div>
+                </div> -->
                 <button class="btn btn-primary waves-effect waves-light custom-btn" type="submit">LOGIN</button>
                 <div class="register--container">
-                    New User? <a [routerLink]="['/auth/register']" class="btn btn-link">Register</a>
+                    Don't have an account ? <a [routerLink]="['/auth/register']" class="btn btn-link">Register</a>
                 </div>
             </form>
             <div class="image--section">
+                <img src="../../../assets/images/Learning-bro.svg" alt="">
             </div>
         </mat-card-content>
     </mat-card>

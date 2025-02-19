@@ -55,7 +55,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatProgressSpinnerModule,
     SpinnerComponent,
     BreadcrumbComponent,
-    ToggleMenuDirective,
   ],
 })
 export class SharedModule {}

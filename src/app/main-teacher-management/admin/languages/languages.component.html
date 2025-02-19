@@ -1,41 +1,24 @@
-<div class="card p-5">
-    <div class="row d-flex justify-content-center">
-        <div class="col-lg-10">
-            <div class="p-0">
-                <div class="card-body p-0">
-                    <h2 class="card-title" style="margin-left: 10px;">Language Page</h2>
-                    <div class="general-label">
-                        <form [formGroup]="languageForm" (ngSubmit)="addLanguage()"
-                            class="row  row-cols-lg-auto g-3 d-flex justify-content-center  align-items-center">
-
-
-                            <mat-form-field appearance="outline" class="col-lg-8">
-                                <div class="mb-0">
-
-                                    <input matInput type="text" class=" ms-2" id="name" formControlName="name"
-                                        placeholder="Language name">
-
-
-                                    <span *ngIf="languageForm.get('name').hasError('required')  && invalid"
-                                        class="text-danger mx-2 mt-2">
-                                        Language Name is required.
-                                    </span>
-                                </div>
-                            </mat-form-field>
-
-                            <div class="col-lg-4  d-flex mb-4 align-items-center justify-content-center ">
-                                <button type="submit" class="btn-lg  btn-primary"
-                                    style="width: 400px; height: 50px;">{{UpdateOrAddBtnMessage}}</button>
-                            </div>
-                        </form>
-
+<div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="card-title">Languages</h5>
+        <div class="general-label w-50">
+            <form [formGroup]="languageForm" (ngSubmit)="addLanguage()"
+                class="row  row-cols-lg-auto g-3 d-flex justify-content-center  align-items-center">
+                <mat-form-field appearance="outline" class="col-lg-8">
+                    <div class="mb-0">
+                        <input matInput type="text"  id="name" formControlName="name"
+                            placeholder="Language name">
                     </div>
+                </mat-form-field>
+
+                <div class="col-lg-4">
+                        <button mat-raised-button type="submit" class="w-100" color="primary">{{UpdateOrAddBtnMessage}}</button>
+
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-    <div class=" d-flex justify-content-center p-0" style="padding: 0;">
-        <div class="mat-elevation-z8 table-responsive col-lg-10">
+        <div class="table-responsive">
             <table mat-table [dataSource]="dataSource" matSort class="table table-centered mb-0">
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Language Name</th>
@@ -60,8 +43,8 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             </table>
-            <mat-paginator  [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
+           
         </div>
-    </div>
+        <mat-paginator  [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
 </div>

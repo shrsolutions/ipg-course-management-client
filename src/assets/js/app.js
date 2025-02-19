@@ -1,20 +1,20 @@
 !(function (t) {
   "use strict";
 
-  function s() {
-    for (
-      var e = document
-          .getElementById("topnav-menu-content")
-          .getElementsByTagName("a"),
-        t = 0,
-        n = e.length;
-      t < n;
-      t++
-    )
-      "nav-item dropdown active" === e[t].parentElement.getAttribute("class") &&
-        (e[t].parentElement.classList.remove("active"),
-        e[t].nextElementSibling.classList.remove("show"));
-  }
+  // function s() {
+  //   for (
+  //     var e = document
+  //         .getElementById("topnav-menu-content")
+  //         .getElementsByTagName("a"),
+  //       t = 0,
+  //       n = e.length;
+  //     t < n;
+  //     t++
+  //   )
+  //     "nav-item dropdown active" === e[t].parentElement.getAttribute("class") &&
+  //       (e[t].parentElement.classList.remove("active"),
+  //       e[t].nextElementSibling.classList.remove("show"));
+  // }
 
   function n(e) {
     1 == t("#light-mode-switch").prop("checked") && "light-mode-switch" === e

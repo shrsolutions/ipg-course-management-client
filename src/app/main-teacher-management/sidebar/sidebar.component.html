@@ -16,16 +16,18 @@
                                 <ul class="metismenu list-unstyled mm-show" id="side-menu">
 
 
-                                    <li class="mm-active">
-                                        <a href="javascript: void(0);" class="waves-effect mm-active">
+                                    <li >
+                                        <a href="javascript: void(0);" class="has-arrow waves-effect">
                                             <i class="mdi mdi-speedometer"></i>
                                             <!-- <span class="badge rounded-pill bg-danger float-end">9+</span>  -->
                                             <span>Teachers</span>
                                         </a>
                                         <ul class="sub-menu mm-collapse mm-show" aria-expanded="false">
-                                            <li><a [routerLink]="['/main-teacher-management/main-home']">Home</a>
+                                            <li routerLinkActive="mm-active"><a routerLinkActive="active"
+                                                    [routerLink]="['/main-teacher-management/main-home']">Home</a>
                                             </li>
-                                            <li><a [routerLink]="['/main-teacher-management/group']">Group</a>
+                                            <li routerLinkActive="mm-active"><a routerLinkActive="active"
+                                                    [routerLink]="['/main-teacher-management/group']">Group</a>
                                             </li>
 
                                         </ul>
@@ -37,18 +39,26 @@
                                             <span>Admin</span>
                                         </a>
                                         <ul class="sub-menu mm-collapse" aria-expanded="false">
-                                            <li *ngIf="permission?.includes('GetRole') && permission?.includes('AddRole')"><a [routerLink]="['/main-teacher-management/admin/role']">Roles</a>
+                                            <li *ngIf="permission?.includes('GetRole') && permission?.includes('AddRole')"
+                                                routerLinkActive="mm-active"><a routerLinkActive="active"
+                                                    [routerLink]="['/main-teacher-management/admin/role']">Roles</a>
                                             </li>
-                                            <li *ngIf="permission?.includes('GetUsers')"><a [routerLink]="['/main-teacher-management/admin/user-activate']">User
+                                            <li *ngIf="permission?.includes('GetUsers')" routerLinkActive="mm-active"><a
+                                                    [routerLink]="['/main-teacher-management/admin/user-activate']" routerLinkActive="active">User
                                                     Activated</a></li>
-                                                    <li><a [routerLink]="['/main-teacher-management/admin/language']">Add New Language
-                                                        </a></li>
-                                            <li><a [routerLink]="['/main-teacher-management/admin/category']">Add New
+                                            <li><a [routerLink]="['/main-teacher-management/admin/language']"
+                                                    routerLinkActive="active">Add New Language
+                                                </a></li>
+                                            <li routerLinkActive="mm-active"><a routerLinkActive="active"
+                                                    [routerLink]="['/main-teacher-management/admin/category']">Add New
                                                     Category</a></li>
-                                            <li><a [routerLink]="['/main-teacher-management/admin/subject']">Add New
-                                                    Subject</a></li>
+                                            <li routerLinkActive="mm-active">
+                                                <a [routerLink]="['/main-teacher-management/admin/subject']"
+                                                    routerLinkActive="active">Add New
+                                                    Subject</a>
+                                            </li>
 
-                                                    <!-- <li><a [routerLink]="['/main-teacher-management/admin/group']">Add New
+                                            <!-- <li><a [routerLink]="['/main-teacher-management/admin/group']">Add New
                                                         Group</a></li> -->
                                         </ul>
                                     </li>

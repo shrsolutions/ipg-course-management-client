@@ -1,18 +1,21 @@
 @import "~quill/dist/quill.snow.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", serif ;
 }
+
 html,
 body {
   height: 100%;
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #f5f5f5 !important;
   font-size: 16px;
 }
+
 @import "@angular/material/theming";
 @import "./assets/styles/mixin";
 @import "ngx-toastr/toastr";
@@ -25,20 +28,9 @@ $my-accent: mat-palette($mat-green, A200, A100, A400);
 
 $my-warn: mat-palette($mat-red);
 
-// Create the theme using your custom colors
-$my-theme: mat-light-theme(
-  (
-    color: (
-      primary: $my-primary,
-      accent: $my-accent,
-    ),
-  )
-);
-
-// Apply the custom theme to the application
-@include angular-material-theme($my-theme);
 
 @include respond-above("sm") {
+
   html,
   body {
     font-size: 12px;
@@ -74,26 +66,71 @@ $my-theme: mat-light-theme(
   --mdc-outlined-text-field-focus-outline-width: 1px !important
 }
 
-.form-control{
+.form-control {
   height: 44px !important;
 }
 
-.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,.mdc-checkbox .mdc-checkbox__native-control:enabled:focus:checked~.mdc-checkbox__background, .mdc-checkbox .mdc-checkbox__native-control:enabled:focus:indeterminate~.mdc-checkbox__background{
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:focus:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:focus:indeterminate~.mdc-checkbox__background {
   border-color: #3f51b5 !important;
   background-color: #3f51b5 !important;
 }
 
-.mdc-checkbox .mdc-checkbox__native-control:focus:checked~.mdc-checkbox__ripple{
+.mdc-checkbox .mdc-checkbox__native-control:focus:checked~.mdc-checkbox__ripple {
   background-color: #3f51b5 !important;
 }
 
+.mat-mdc-paginator{
+  background: transparent !important;
+}
+.mdc-data-table__cell, .mdc-data-table__header-cell{
+  font-family: "Poppins", serif !important;
+}
+.mdc-checkbox{
+  width: 14px !important;
+  height: 14px !important;
+}
 
-.ql-snow .ql-tooltip{
+table thead tr{
+  height: 20px !important;
+  th{
+    font-size: 18px !important;
+  }
+}
+table tbody tr:nth-child(even){
+  background-color: #f6fafe !important;
+}
+table tbody tr{
+  height: 18px !important;
+  transition: 0.3s;
+  td {
+    padding: 6px 12px !important;
+  }
+
+  &:hover{
+    background: #f5f5f5 !important;
+    transition: 0.3s !important;
+  }
+}
+
+.general-label .mat-mdc-form-field-subscript-wrapper{
+  display: none !important;
+}
+
+.ql-snow .ql-tooltip {
   left: 0 !important;
   top: 0 !important;
 }
 
-b, strong{
+.card-title {
+  font-size: 25px !important;
+  margin: 0 !important;
+}
+
+b,
+strong {
   font-weight: 600 !important;
 }
 
@@ -101,6 +138,7 @@ b, strong{
 
 .ql-snow .ql-font .ql-picker-options .ql-picker-item {
   font-family: #{attr(data-value)};
+
   &::before {
     content: attr(data-value) !important;
   }
@@ -111,7 +149,7 @@ b, strong{
   content: attr(data-value) !important;
 }
 
-$text-editor-fonts: 'Calibri', 'TimesNewRoman', 'Arial',  'Monospace';
+$text-editor-fonts: 'Calibri', 'TimesNewRoman', 'Arial', 'Monospace';
 
 @each $text-editor-font in $text-editor-fonts {
   .ql-font-#{$text-editor-font} {
@@ -119,11 +157,12 @@ $text-editor-fonts: 'Calibri', 'TimesNewRoman', 'Arial',  'Monospace';
   }
 }
 
-.ql-snow .ql-picker.ql-font, .ql-snow .ql-picker.ql-size, .ql-snow .ql-picker.ql-header{
+.ql-snow .ql-picker.ql-font,
+.ql-snow .ql-picker.ql-size,
+.ql-snow .ql-picker.ql-header {
   width: fit-content !important;
 }
 
-.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg{
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
   right: inherit !important;
 }
-

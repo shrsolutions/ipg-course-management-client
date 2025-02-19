@@ -2,11 +2,7 @@
   cursor: pointer;
 }
 
-::ng-deep .mat-mdc-table .mat-mdc-row:hover,
-::ng-deep .mat-mdc-table .mat-mdc-footer-row:hover,
-.table-hover > tbody > tr:hover {
-  background-color: #e0e1dd !important;
-}
+
 
 ::ng-deep .mat-mdc-table .mdc-data-table__header-row {
   background: #3682a8 !important;
