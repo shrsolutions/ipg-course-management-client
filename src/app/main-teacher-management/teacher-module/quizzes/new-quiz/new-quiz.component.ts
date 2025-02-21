@@ -1,4 +1,4 @@
-import {  Component,  OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModel } from 'src/app/main-teacher-management/models/Base/FetchBaseModel';
@@ -8,9 +8,11 @@ import { ReadQuestionsComponent } from '../read-questions/read-questions.compone
 import { MatDialog } from '@angular/material/dialog';
 import Quill from "quill";
 import ResizeModule from "@botom/quill-resize-module";
+import { CanComponentDeactivate } from 'src/app/shared/utility/unsaved-changes.guard';
+import imageCompression from 'browser-image-compression';
 
 const Font = Quill.import('attributors/class/font') as any; // TypeScript-ə uyğunlaşdırma
-Font.whitelist = ['Calibri','TimesNewRoman',  'Arial', 'Monospace'];
+Font.whitelist = ['Calibri', 'TimesNewRoman', 'Arial', 'Monospace'];
 Quill.register(Font, true);
 
 Quill.register("modules/resize", ResizeModule);
@@ -19,7 +21,7 @@ Quill.register("modules/resize", ResizeModule);
   templateUrl: './new-quiz.component.html',
   styleUrls: ['./new-quiz.component.scss']
 })
-export class NewQuizComponent implements OnInit {
+export class NewQuizComponent implements OnInit, CanComponentDeactivate {
   quizzId: string = undefined
   constructor(
     private fb: FormBuilder,
@@ -33,9 +35,9 @@ export class NewQuizComponent implements OnInit {
     });
   }
 
-
+  saved: boolean = true;
   quillConfig = {
-    //toolbar: '.toolbar',
+
     formula: true,
     resize: {
       locale: {
@@ -56,17 +58,19 @@ export class NewQuizComponent implements OnInit {
       [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
       [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
 
-      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'size': ['small', false, 'large', 'huge'] }],
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
       [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
       [{ 'align': [] }],
       ['formula'],
 
-      ['image']  ,                      // link and image, video
-      [{ 'font': [ 'Calibri','TimesNewRoman', 'Arial', 'Monospace'] }]
+      ['image'],                      // link and image, video
+      [{ 'font': ['Calibri', 'TimesNewRoman', 'Arial', 'Monospace'] }]
     ]
   }
+  quillEditors: any[] = [];
+  toolbarTimeouts: any[] = []; // Timeout-ları saxlamaq üçün array
 
   onEditorCreated(quill, index?: number) {
     quill.getModule('toolbar').addHandler('image', () => {
@@ -74,14 +78,34 @@ export class NewQuizComponent implements OnInit {
       input.setAttribute('type', 'file');
       input.setAttribute('accept', 'image/*');
 
-      input.addEventListener('change', () => {
+      input.addEventListener('change', async () => {
         const file = input.files ? input.files[0] : null;
         if (file) {
+          const maxSize = 2 * 1024 * 1024; // 2MB
+          if (file.size > maxSize) {
+            showErrorAlert('Şəkil ölçüsü maksimum 2MB ola bilər!', undefined, 'Bağla');
+            return;
+          }
+
+          const options = {
+            maxSizeMB: 0.5, // Maksimum ölçü 0.5MB olsun
+            maxWidthOrHeight: 1024, // Maksimum en/yüksəklik 1024px olsun
+            useWebWorker: true, // Performansı artırır
+            initialQuality: 0.8 // İlk keyfiyyət dəyəri (0 - 1 arasında)
+          };
+
+          const compressedBlob = await imageCompression(file, options);
+
+          const compressedFile = new File([compressedBlob], file.name, {
+            type: file.type,
+            lastModified: Date.now(),
+          });
+
+          console.log(index)
+
           const formData = new FormData();
-          formData.append('ImageFile', file);
+          formData.append('ImageFile', compressedFile);
 
-
-          // `subscribe` ilə servisi çağırırıq
           this.quizzService.uploadImage(formData).subscribe({
             next: response => {
               if (response?.result?.downloadLink) {
@@ -110,8 +134,36 @@ export class NewQuizComponent implements OnInit {
 
       input.click();
     });
+
+    this.quillEditors[index] = quill;
+
+    this.quillEditors[index].getModule('toolbar').container.style.display = 'none';
+    const toolbar = this.quillEditors[index].getModule('toolbar').container;
+
+    this.quillEditors[index].root.addEventListener('focus', () => {
+      this.showToolbar(index);
+    });
+
+    this.quillEditors[index].root.addEventListener('blur', (event) => {
+      if (!toolbar.contains(event.relatedTarget)) {
+        this.hideToolbar(index);
+      }
+    });
+
+  }
+  showToolbar(index: number) {
+    if (this.quillEditors[index]) {
+      this.quillEditors[index].getModule('toolbar').container.style.display = 'block';
+    }
   }
 
+  hideToolbar(index: number) {
+    if (this.quillEditors[index]) {
+      setTimeout(() => {
+        this.quillEditors[index].getModule('toolbar').container.style.display = 'none';
+      }, 0);
+    }
+  }
   paginatorModel: PaginatorModel = {
     count: 100,
     page: 1,
@@ -132,7 +184,7 @@ export class NewQuizComponent implements OnInit {
   quizForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
     description: ['', Validators.required],
-    stateId: [1, Validators.required],
+    stateId: [2, Validators.required],
     quizQuestionIds: []
   });
 
@@ -223,6 +275,14 @@ export class NewQuizComponent implements OnInit {
   selectedQuestionIndex: number = -1
   editQuestion(questionId: string, index: number): void {
     this.selectedQuestionIndex = index
+    if (this.questionsForm.dirty) {
+      const userConfirmed = confirm("Dəyişikliklər yadda saxlanılmayıb! Sualı dəyişmək istədiyinizə əminsiniz?");
+      if (!userConfirmed) {
+        return; 
+      }
+    } 
+
+    this.saved = false
     this.quizzService.getQuestionById(questionId).subscribe({
       next: res => {
         this.questionsForm.patchValue(res.result);
@@ -243,8 +303,7 @@ export class NewQuizComponent implements OnInit {
   saveQuestions(): void {
     if (this.questionsForm.invalid) return;
     const questionData = this.questionsForm.value;
-    // Sualı saxlamaq üçün API çağırışı
-    console.log(questionData)
+    this.saved = false
     if (this.selectedQuestionIndex == -1) {
       this.quizzService.addQuestion(questionData).subscribe({
         next: response => {
@@ -282,7 +341,6 @@ export class NewQuizComponent implements OnInit {
         }
       });
     }
-
   }
 
   toggleCorrectAnswer(selectedIndex: number, event: any): void {
@@ -313,6 +371,7 @@ export class NewQuizComponent implements OnInit {
       quizQuestionIds.push(question.id);
     });
     this.quizForm.patchValue({ quizQuestionIds });
+    this.saved = true
 
     if (this.quizzId == null) {
       this.quizzService.addQuizz(this.quizForm.value).subscribe({
@@ -345,5 +404,21 @@ export class NewQuizComponent implements OnInit {
       maxHeight: '95vh'
     })
   }
+
+  canDeactivate(): boolean {
+    if (!this.saved) {
+      return confirm("Dəyişikliklər yadda saxlanılmayıb! Çıxmaq istədiyinizə əminsiniz?");
+    }
+    return true;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent): void {
+    if (!this.saved) {
+      event.preventDefault();
+    }
+  }
+
+
 
 }

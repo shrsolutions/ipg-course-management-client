@@ -22,3 +22,8 @@
   .answers p{
     margin-bottom: 0 !important;
   } 
+
+  .question-text::ng-deep.ql-container.ql-snow, .answers::ng-deep.ql-container.ql-snow{
+    border-top-right-radius: 4px !important;
+    border-top-left-radius: 4px !important;
+  }

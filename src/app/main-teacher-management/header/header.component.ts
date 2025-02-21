@@ -47,6 +47,7 @@ export class HeaderComponent implements OnInit {
   private handleUserData = (userData: User) => {
     const isAuthenticated = this.authService.isUserAuthenticated(userData);
     this.userFullName = userData.fullName;
+    console.log(userData)
     this.isAuthenticated = isAuthenticated;
   };
 }

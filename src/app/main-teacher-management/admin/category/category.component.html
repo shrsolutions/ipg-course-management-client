@@ -3,40 +3,23 @@
         <h5 class="card-title">Categories</h5>
         <div class="general-label">
             <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-                <div class="row row-cols-lg-auto g-3 ">
-                    <div class="col-lg-3  col-md-3 col-sm-12">
-                        <div class="mb-0">
-                            <select class="form-select" formControlName="langId">
-                                <option selected [value]="0">Select any Language</option>
-                                <option *ngFor="let language of languages" [value]="language.id">{{ language.name }}
-                                </option>
-                            </select>
-
-                        </div>
-                        <div style="margin-top: 10px;"
-                            *ngIf="categoryForm.get('langId').hasError('required') && categoryForm.get('langId').touched"
-                            class="text-danger">
-                            Language is required.
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-sm-6">
-                        <div class="mb-0">
-                            <label class="visually-hidden" for="category">Category</label>
-                            <input type="text" class="form-control " id="category" formControlName="category">
-                            <div *ngIf="categoryForm.get('category').hasError('required') && categoryForm.get('category').touched"
-                                class="text-danger">
-                                Category is required
-                            </div>
-                            <div *ngIf="categoryForm.get('category').hasError('maxlength') && categoryForm.get('category').touched"
-                                class="text-danger">
-                                Maximum length is 50 characters
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-5">
-                        <div class="mb-0">
-                            <button type="submit" class="btn btn-primary w-100">{{btnAddOrUpdate}}</button>
-                        </div>
+                <div class="row row-cols-lg-auto  align-items-center">
+                    <mat-form-field appearance="outline" class="col-lg-4 col-md-3 col-sm-12 ps-0">
+                        <mat-label>Language</mat-label>
+                        <mat-select formControlName="langId">
+                            <mat-option *ngFor="let language of languages" [value]="language.id">
+                                {{language.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-lg-4 col-sm-6 ps-0">
+                        <mat-label>Category</mat-label>
+                        <input matInput type="text" id="category" formControlName="category"
+                            placeholder="Enter Category">
+                    </mat-form-field>
+                    <div class="col-lg-4 col-sm-5 ps-0">
+                            <button mat-raised-button type="submit" class="w-100"
+                                color="primary">{{btnAddOrUpdate}}</button>
                     </div>
                 </div>
             </form>
@@ -72,8 +55,8 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
         </table>
-       
+
     </div>
     <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
-    (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
+        (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
 </div>

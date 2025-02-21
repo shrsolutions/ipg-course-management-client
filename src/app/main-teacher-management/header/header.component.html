@@ -5,7 +5,7 @@
             <div class="navbar-brand-box d-flex justify-content-center align-items-center ">
                 <h1>
 
-                    <a href="index.html">
+                    <a routerLink="/main-teacher-management/main-home">
                         IPG
                     </a>
                 </h1>
@@ -207,23 +207,20 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect user-step" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img 
-                    class="rounded-circle header-profile-user" 
-                    [src]="profileImageUrl" 
-                    alt="Header Avatar">
+                    <img class="rounded-circle header-profile-user" [src]="profileImageUrl" alt="Header Avatar">
                     <!-- <span class="d-none d-xl-inline-block ms-1">{{userFullName}}</span> -->
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" [routerLink]="['/main-teacher-management/account/user-registered']"  [queryParams]="{type:1}"><i
-                            class="dripicons-user d-inline-block text-muted me-2"></i>
+                    <a class="dropdown-item" [routerLink]="['/main-teacher-management/account/user-registered']"
+                        [queryParams]="{type:1}"><i class="dripicons-user d-inline-block text-muted me-2"></i>
                         Profile</a>
-          
-     
+
+
                     <div class="dropdown-divider"></div>
-                    
-               
+
+
                     <a class="dropdown-item" (click)="onSignOut()"><i
                             class="dripicons-exit d-inline-block text-muted me-2"></i>
                         Logout</a>

@@ -44,8 +44,12 @@
       <form class="example-container" [formGroup]="questionsForm">
         <div class="row">
           <div class="col-lg-12">
+            <h5>Question</h5>
+            <!-- <quill-editor formControlName="text" required (onEditorCreated)="onEditorCreated($event, -1)"
+              [modules]="quillConfig" style="width: 100%;"></quill-editor> -->
             <quill-editor formControlName="text" required (onEditorCreated)="onEditorCreated($event, -1)"
-              [modules]="quillConfig" style="width: 100%;"></quill-editor>
+              [modules]="quillConfig" style="width: 100%;">
+            </quill-editor>
           </div>
         </div>
         <div class="row mt-3">
@@ -65,33 +69,6 @@
             </mat-form-field>
           </div>
 
-          <!-- Type ID -->
-          <!-- <div class="col-lg-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Choice type</mat-label>
-              <mat-select required formControlName="typeId">
-                <mat-option [value]="1">Single choice</mat-option>
-              </mat-select>
-              <mat-error>
-                Type is required
-              </mat-error>
-            </mat-form-field>
-          </div> -->
-
-          <!-- Language ID -->
-          <!-- <div class="col-lg-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Language</mat-label>
-              <mat-select required formControlName="languageId">
-                <mat-option [value]="1">Azerbaijani</mat-option>
-                <mat-option [value]="2">English</mat-option>
-                <mat-option [value]="3">Russian</mat-option>
-              </mat-select>
-              <mat-error>
-                Language is required
-              </mat-error>
-            </mat-form-field>
-          </div> -->
         </div>
         <!-- Answers Section -->
         <div class="row mt-3" formArrayName="answers">
@@ -135,29 +112,27 @@
       <div class="mt-4 news-content">
         <h4>Saved Questions</h4>
         <div class="news row">
-          <div class="col-lg-3" *ngFor="let item of savedQuestions; let i = index">
+          <div class="col-lg-2" *ngFor="let item of savedQuestions; let i = index">
             <div class="news-card">
               <div class="card-header">
-                <strong><span>Question {{i+1}}</span></strong>
+                <strong><span>{{i+1}}</span></strong>
                 <div>
                   <button mat-icon-button color="accent" (click)="editQuestion(item.id, i)">
                     <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="accent" (click)="readMore(item.id)">
+                    <mat-icon>remove_red_eye</mat-icon>
                   </button>
                   <button mat-icon-button color="warn" (click)="removeQuestion(item.id, i)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
               </div>
-              <div class="card-content" [innerHTML]="item.text">
-              </div>
-              <div class="card-footer">
-                <p (click)="readMore(item.id)">Read more</p>
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Submit Button -->
+      <!-- Quizz save section -->
       <div class="row justify-content-between mt-4">
         <div class="col-lg-6">
           <button mat-stroked-button type="button" color="warn" (click)="navig('prev')">Back</button>

@@ -20,6 +20,7 @@ import { LanguagesComponent } from "./admin/languages/languages.component";
 import { StudentComponent } from "./admin/student/student.component";
 import { QuizzesComponent } from "./teacher-module/quizzes/quizzes.component";
 import { NewQuizComponent } from "./teacher-module/quizzes/new-quiz/new-quiz.component";
+import { UnsavedChangesGuard } from "../shared/utility/unsaved-changes.guard";
 
 const userRoutes: Routes = [
   {
@@ -80,12 +81,12 @@ const userRoutes: Routes = [
 
       {
         path: "teacher-module/quizzes/quizz",
-        component: NewQuizComponent,
+        component: NewQuizComponent, canDeactivate: [UnsavedChangesGuard]
       },
 
       {
         path: "teacher-module/quizzes/quizz/:id",
-        component: NewQuizComponent,
+        component: NewQuizComponent, canDeactivate: [UnsavedChangesGuard]
       },
 
       {
