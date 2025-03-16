@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   registrationForm: FormGroup;
   hidePassword = true;
   invalid: boolean = false;
-
+  formData = new FormData();
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -37,17 +37,16 @@ export class RegisterComponent implements OnInit {
   initialForm() {
     this.registrationForm = this.fb.group(
       {
-        firstName: ["", Validators.required],
-        lastName: ["", Validators.required],
+        name: ["", Validators.required],
+        surname: ["", Validators.required],
         patronymic: ["", Validators.required],
-        dateOfBirth: ["2000-01-01", [Validators.required]],
-        email: ["", [Validators.required, Validators.email]],
+        dateOfBirth: ["2000-01-01", Validators.required],
+        email: [""],
         gender: ["", Validators.required],
-        password: [
-          "",
-          (Validators.required),
-        ],
+        phoneNumber: ["", Validators.required],
+        password: ["",Validators.required],
         confirmPassword: [null, Validators.required],
+        identifierType: [2]
       },
       {
         validators: [
@@ -59,29 +58,26 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    const authModel = {
-      Email: this.registrationForm.get("email").value,
-      Password: this.registrationForm.get("password").value,
-      Name: this.registrationForm.get("firstName").value,
-      Surname: this.registrationForm.get("lastName").value,
-      Patronymic: this.registrationForm.get("patronymic").value,
-      DateOfBirth: this.registrationForm.get("dateOfBirth").value.toISOString(),
-      Gender: this.registrationForm.get("gender").value,
-    };
-
+    this.formData = new FormData()
     if (this.registrationForm.invalid) {
       this.invalid = true;
       return;
     }
 
-    this.authService.signup(authModel).subscribe(
-      (resData) => {
+    Object.keys(this.registrationForm.controls).forEach((key) => {
+      const value = this.registrationForm.get(key)?.value;
+      this.formData.append(key, value);
+    });
+
+
+    this.authService.signup(this.formData).subscribe({
+      next: resData => {
         this.router.navigate(["/auth/confirm-account"]);
       },
-      (errorData) => {
+      error: errorData => {
         console.log(errorData);
       }
-    );
+    });
   }
 
   togglePasswordVisibility(): void {

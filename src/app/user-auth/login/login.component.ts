@@ -28,36 +28,29 @@ export class LoginComponent implements OnInit {
 
   initialForm() {
     this.signupForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: [
-        "",
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d$@$!%*?&]{8,}$/
-          ),
-        ],
-      ],
+      identifier: ["", Validators.required],
+      password: ["",Validators.required],
+      identifierType: [2],
     });
   }
 
-  get email() {
-    return this.signupForm.get("email");
-  }
-
-  get password() {
-    return this.signupForm.get("password");
-  }
 
   onSubmit() {
-    const loginModel = {
-      Email: this.signupForm.get("email").value,
-      Password: this.signupForm.get("password").value,
-    };
-    this.authService.signIn(loginModel).subscribe((res) => {
-      this.router.navigate(["/main-teacher-management/main-home"]).then(() => {
-        window.location.reload();
-      });
+
+    this.authService.signIn(this.signupForm.value).subscribe({
+      next: res => {
+        console.log(res)
+        if (res.result.twoStepAuthRequired) {
+        this.router.navigate(["/auth/confirm-account"]);
+          
+        }
+        // this.router.navigate(["/main-teacher-management/main-home"]).then(() => {
+        //   window.location.reload();
+        // });
+      },
+      error: err =>{
+
+      }
     });
   }
   togglePasswordVisibility(): void {

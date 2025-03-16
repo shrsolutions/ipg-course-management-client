@@ -7,11 +7,11 @@
                 <div>
                     <div>
                         <mat-form-field appearance="outline">
-                            <mat-label>Email</mat-label>
-                            <input type="text" matInput formControlName="email" placeholder="Enter Email">
+                            <mat-label>Phone number</mat-label>
+                            <input type="text" [unmask]="true"  [imask]="{mask: '+({994})00-000-00-00'}" matInput formControlName="identifier" placeholder="Enter Phone number">
                             <mat-error
-                                *ngIf="signupForm.get('email').hasError('required') && signupForm.get('email').touched">
-                                Email is required
+                                *ngIf="signupForm.get('identifier').hasError('required') && signupForm.get('identifier').touched">
+                                Phone number is required
                             </mat-error>
                         </mat-form-field>
                     </div>

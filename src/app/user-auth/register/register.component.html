@@ -6,25 +6,25 @@
                 <mat-card-title>REGISTER</mat-card-title>
                 <div>
                     <p>
-                        <mat-form-field>
-                            <input type="text" matInput placeholder="First Name" name="firstName"
-                                formControlName="firstName" required>
-                            <mat-error *ngIf="registrationForm.get('firstName').hasError('required') && invalid">First
+                        <mat-form-field appearance="outline">
+                            <input type="text" matInput placeholder="First Name" name="name"
+                                formControlName="name" required>
+                            <mat-error *ngIf="registrationForm.get('name').hasError('required') && invalid">First
                                 Name
                                 is
                                 required</mat-error>
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field>
-                            <input type="text" matInput placeholder="Last Name" formControlName="lastName">
-                            <mat-error *ngIf="registrationForm.get('lastName').hasError('required') && invalid">Last
+                        <mat-form-field appearance="outline">
+                            <input type="text" matInput placeholder="Last Name" formControlName="surname">
+                            <mat-error *ngIf="registrationForm.get('surname').hasError('required') && invalid">Last
                                 Name is
                                 required</mat-error>
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field>
+                        <mat-form-field appearance="outline">
                             <input type="text" matInput placeholder="Patronymic" formControlName="patronymic">
                             <mat-error
                                 *ngIf="registrationForm.get('patronymic').hasError('required') && invalid">Patronymic
@@ -32,17 +32,15 @@
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field>
-                            <input type="email" matInput placeholder="Email" formControlName="email">
-                            <mat-error *ngIf="registrationForm.get('email').hasError('required') && invalid">Email is
+                        <mat-form-field appearance="outline">
+                            <input type="text" name="phone" [unmask]="true"  [imask]="{mask: '+({994})00-000-00-00'}"  matInput placeholder="Phone number" formControlName="phoneNumber">
+                            <mat-error *ngIf="registrationForm.get('phoneNumber').hasError('required') && invalid">Phone number is
                                 required</mat-error>
-                            <mat-error *ngIf="registrationForm.get('email').hasError('email') && invalid">Invalid email
-                                format</mat-error>
                         </mat-form-field>
                     </p>
 
                     <p>
-                        <mat-form-field>
+                        <mat-form-field appearance="outline">
                             <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'"
                                 formControlName="password" required>
                             <mat-icon matSuffix (click)="togglePasswordVisibility()">
@@ -58,7 +56,7 @@
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field>
+                        <mat-form-field appearance="outline">
                             <input matInput placeholder="Confirm Password" type="password"
                                 formControlName="confirmPassword">
                             <mat-error
@@ -71,7 +69,7 @@
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field class="mb-3">
+                        <mat-form-field appearance="outline" class="mb-3">
                             <input matInput [matDatepicker]="dp3" formControlName="dateOfBirth"
                                 placeholder="Date of Birth">
                             <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>

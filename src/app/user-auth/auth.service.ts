@@ -35,10 +35,9 @@ export class AuthService {
   ) {}
 
   signup(registerModel) {
-    const formData = FormUtility.createFormData(registerModel);
 
     return this.http
-      .post<AuthResult>(`${this.baseUrl}users/register`, formData)
+      .post<AuthResult>(`${this.baseUrl}users/register`, registerModel)
       .pipe(
         catchError(this.handleError),
         tap((resData) => this.handleAuthentication(resData))
@@ -65,7 +64,7 @@ export class AuthService {
   }
   signIn(loginModel) {
     return this.http
-      .post<AuthResult>(`${this.baseUrl}auth/login`, loginModel)
+      .post<any>(`${this.baseUrl}auth/login`, loginModel)
       .pipe(tap((resData) => this.handleAuthentication(resData)));
   }
 

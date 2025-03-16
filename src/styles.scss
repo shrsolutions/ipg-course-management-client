@@ -111,7 +111,7 @@ $my-warn: mat-palette($mat-red);
   color: #3682a8 !important;
 }
 
-table thead tr {
+.table-responsive table thead tr {
   height: 20px !important;
   background-color: rgb(77 179 230 / 18%) !important;
 
@@ -122,11 +122,11 @@ table thead tr {
   }
 }
 
-table tbody tr:nth-child(even) {
+.table-responsive table tbody tr:nth-child(even) {
   background-color: #f6fafe !important;
 }
 
-table tbody tr {
+.table-responsive table tbody tr {
   height: 18px !important;
   transition: 0.3s;
 

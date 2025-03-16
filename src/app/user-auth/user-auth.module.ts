@@ -10,6 +10,7 @@ import { ForgotPasswordComponent } from "./forgot-password/forgot-password.compo
 import { EmailAlertComponent } from "./email-alert/email-alert.component";
 import { ConfirmAccountComponent } from "./confirm-account/confirm-account.component";
 import { AuthComponent } from "./auth.component";
+import { IMaskModule } from "angular-imask";
 @NgModule({
   declarations: [
     LoginComponent,
@@ -25,6 +26,7 @@ import { AuthComponent } from "./auth.component";
     MatIconModule,
     AuthRoutingModule,
     FormsModule,
+    IMaskModule
   ],
   exports: [
     LoginComponent,
