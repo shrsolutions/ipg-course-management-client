@@ -209,3 +209,13 @@ $text-editor-fonts: 'Calibri', 'TimesNewRoman', 'Arial', 'Monospace';
 .ql-toolbar.ql-snow + .ql-container.ql-snow{
   border-top: 1px solid #ccc !important;
 }
+
+.mat-mdc-icon-button.mat-mdc-button-base{
+  width: 45px !important;
+  height: 45px !important;
+  padding: 7px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+}
