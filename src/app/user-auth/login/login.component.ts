@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
-
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.initialForm();
   }
@@ -29,26 +29,29 @@ export class LoginComponent implements OnInit {
   initialForm() {
     this.signupForm = this.fb.group({
       identifier: ["", Validators.required],
-      password: ["",Validators.required],
+      password: ["", Validators.required],
       identifierType: [2],
     });
   }
 
+  secretKey = 'IPGCOURSERAMZEYRASHAD'; 
+
+  encryptAndStore(key: string) {
+    const encryptedKey = CryptoJS.AES.encrypt(key, this.secretKey).toString();
+    localStorage.setItem('twoStepAuthKey', encryptedKey);
+  }
 
   onSubmit() {
-
     this.authService.signIn(this.signupForm.value).subscribe({
       next: res => {
-        console.log(res)
         if (res.result.twoStepAuthRequired) {
-        this.router.navigate(["/auth/confirm-account"]);
-          
+          this.encryptAndStore(res.result.twoStepAuthKey)
+          this.router.navigate(["/auth/confirm-account"]);
+        } else {
+          this.router.navigate(["/main-teacher-management/main-home"])
         }
-        // this.router.navigate(["/main-teacher-management/main-home"]).then(() => {
-        //   window.location.reload();
-        // });
       },
-      error: err =>{
+      error: err => {
 
       }
     });

@@ -12,6 +12,7 @@ import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import ValidatorUtility from "src/app/shared/utility/validator-utility";
 import { LoadingService } from "src/app/shared/services/loading.service";
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: "app-register",
@@ -46,7 +47,8 @@ export class RegisterComponent implements OnInit {
         phoneNumber: ["", Validators.required],
         password: ["",Validators.required],
         confirmPassword: [null, Validators.required],
-        identifierType: [2]
+        identifierType: [2],
+        userImage: [""]
       },
       {
         validators: [
@@ -57,6 +59,13 @@ export class RegisterComponent implements OnInit {
     );
   }
 
+    secretKey = 'IPGCOURSERAMZEYRASHAD'; 
+  
+    encryptAndStore(key: string) {
+      const encryptedKey = CryptoJS.AES.encrypt(key, this.secretKey).toString();
+      localStorage.setItem('twoStepAuthKey', encryptedKey);
+    }
+
   onSubmit() {
     this.formData = new FormData()
     if (this.registrationForm.invalid) {
@@ -66,13 +75,25 @@ export class RegisterComponent implements OnInit {
 
     Object.keys(this.registrationForm.controls).forEach((key) => {
       const value = this.registrationForm.get(key)?.value;
-      this.formData.append(key, value);
+    
+      // `dateOfBirth` sahəsini ISO formatına çevirmək
+      if (key === 'dateOfBirth' && value) {
+        const dateOfBirthISO = new Date(value).toISOString();
+        this.formData.append(key, dateOfBirthISO);
+      } else {
+        this.formData.append(key, value);
+      }
     });
 
 
     this.authService.signup(this.formData).subscribe({
       next: resData => {
-        this.router.navigate(["/auth/confirm-account"]);
+        if (resData.result.twoStepAuthRequired) {
+          this.encryptAndStore(resData.result.twoStepAuthKey)
+          this.router.navigate(["/auth/confirm-account"]);
+        } else {
+          this.router.navigate(["/main-teacher-management/main-home"])
+        }
       },
       error: errorData => {
         console.log(errorData);

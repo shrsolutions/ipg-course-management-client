@@ -11,6 +11,7 @@ import { EmailAlertComponent } from "./email-alert/email-alert.component";
 import { ConfirmAccountComponent } from "./confirm-account/confirm-account.component";
 import { AuthComponent } from "./auth.component";
 import { IMaskModule } from "angular-imask";
+import { NgOtpInputModule } from "ng-otp-input";
 @NgModule({
   declarations: [
     LoginComponent,
@@ -26,7 +27,8 @@ import { IMaskModule } from "angular-imask";
     MatIconModule,
     AuthRoutingModule,
     FormsModule,
-    IMaskModule
+    IMaskModule,
+    NgOtpInputModule
   ],
   exports: [
     LoginComponent,

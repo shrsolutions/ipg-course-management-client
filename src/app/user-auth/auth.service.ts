@@ -37,7 +37,7 @@ export class AuthService {
   signup(registerModel) {
 
     return this.http
-      .post<AuthResult>(`${this.baseUrl}users/register`, registerModel)
+      .post<any>(`${this.baseUrl}users/register`, registerModel)
       .pipe(
         catchError(this.handleError),
         tap((resData) => this.handleAuthentication(resData))
@@ -66,6 +66,14 @@ export class AuthService {
     return this.http
       .post<any>(`${this.baseUrl}auth/login`, loginModel)
       .pipe(tap((resData) => this.handleAuthentication(resData)));
+  }
+
+  twoStepVerify(registerModel:any) {
+    return this.http.post<any>(`${this.baseUrl}auth/two-step/verify`, registerModel).pipe(tap((resData) => this.handleAuthenticationTwoStep(resData)));
+  }
+
+  resendConfirmCode(key:string) {
+    return this.http.post<any>(`${this.baseUrl}auth/two-step/resend-confirm-code/${key}`, null)
   }
 
   signOut(): void {
@@ -132,12 +140,21 @@ export class AuthService {
   }
 
   private handleAuthentication(userData: any) {
-    const user = User.createUserInstance(userData.result);
-    const userPermission = userData.result.permissions;
-    this.user.next(user);
-    this.localStorageService.setItem("user", user);
-    this.localStorageService.setItem("userPermission",userPermission);
+    if (!userData.result.twoStepAuthRequired ) {
+      const user = User.createUserInstance(userData.result.authenticatedUser);
+      const userPermission = userData.result.authenticatedUser.permissions;
+      this.user.next(user);
+      this.localStorageService.setItem("user", user);
+      this.localStorageService.setItem("userPermission",userPermission);
+    }
+  }
 
+  private handleAuthenticationTwoStep(userData: any) {
+      const user = User.createUserInstance(userData.result);
+      const userPermission = userData.result.permissions;
+      this.user.next(user);
+      this.localStorageService.setItem("user", user);
+      this.localStorageService.setItem("userPermission",userPermission);
   }
 
   private createAuthorizationHeader(token?: string): HttpHeaders {

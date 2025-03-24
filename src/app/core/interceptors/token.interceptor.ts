@@ -33,7 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
       this.localStorageService.removeItem("user");
       this.localStorageService.removeItem("userPermission");
 
-      this.router.navigate(["/auth/login"]);
+      // this.router.navigate(["/auth/login"]);
     }
 
     return next.handle(request);

@@ -79,7 +79,7 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
         }
 
         // Rethrow the error to be caught by the calling component or service.
-        return throwError(() => errorMessage);
+        return throwError(() => error);
       })
     );
   }
