@@ -3,21 +3,35 @@
     <div class="m-3">
       <form class="example-container" [formGroup]="quizForm">
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <mat-form-field appearance="outline">
               <mat-label>Title</mat-label>
               <input matInput required formControlName="title">
               <mat-error>Title is required</mat-error>
             </mat-form-field>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <mat-form-field appearance="outline">
               <mat-label>Description</mat-label>
               <input matInput required formControlName="description">
               <mat-error>Description is required</mat-error>
             </mat-form-field>
           </div>
-          <div class="col-lg-4">
+          <!-- Rate ID -->
+          <div class="col-lg-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Rate</mat-label>
+              <mat-select required [(ngModel)]="rateId" [ngModelOptions]="{standalone: true}" (selectionChange)="changeRateId()">
+                <mat-option [value]="1">Simple</mat-option>
+                <mat-option [value]="2">Middle</mat-option>
+                <mat-option [value]="3">Hard</mat-option>
+              </mat-select>
+              <mat-error>
+                Rate is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-3">
             <mat-form-field appearance="outline">
               <mat-label>Status</mat-label>
               <mat-select required formControlName="stateId">
@@ -26,12 +40,13 @@
               </mat-select>
             </mat-form-field>
           </div>
+
         </div>
       </form>
       <div class="d-flex justify-content-between mt-3">
         <button mat-stroked-button color="warn"
           routerLink="/main-teacher-management/teacher-module/quizzes">Exit</button>
-        <button mat-raised-button color="primary" (click)="navig('next')" [disabled]="quizForm.invalid">Next</button>
+        <button mat-raised-button color="primary" (click)="navig('next')" [disabled]="quizForm.invalid || rateId == null">Next</button>
       </div>
     </div>
   </mat-tab>
@@ -54,20 +69,7 @@
         </div>
         <div class="row mt-3">
           <!-- Question Text -->
-          <!-- Rate ID -->
-          <div class="col-lg-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Rate</mat-label>
-              <mat-select required formControlName="rateId">
-                <mat-option [value]="1">Simple</mat-option>
-                <mat-option [value]="2">Middle</mat-option>
-                <mat-option [value]="3">Hard</mat-option>
-              </mat-select>
-              <mat-error>
-                Rate is required
-              </mat-error>
-            </mat-form-field>
-          </div>
+
 
         </div>
         <!-- Answers Section -->

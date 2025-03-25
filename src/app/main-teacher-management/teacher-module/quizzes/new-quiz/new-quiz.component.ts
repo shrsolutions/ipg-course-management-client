@@ -23,6 +23,7 @@ Quill.register("modules/resize", ResizeModule);
 })
 export class NewQuizComponent implements OnInit, CanComponentDeactivate {
   quizzId: string = undefined
+  rateId: number = null
   constructor(
     private fb: FormBuilder,
     private quizzService: QuizzesService,
@@ -191,7 +192,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
   questionsForm = this.fb.group({
     id: [null],
     text: ['', Validators.required], // Question text
-    rateId: [null, [Validators.required, Validators.min(1)]], // Rate ID
+    rateId: [this.rateId, [Validators.required]], // Rate ID
     typeId: [1, [Validators.required, Validators.min(1)]], // Type ID
     languageId: [1, [Validators.required, Validators.min(1)]], // Language ID
     answers: this.fb.array([]), // Dynamic answers
@@ -239,6 +240,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     this.questionsForm.reset();
     this.questionsForm.get('languageId').patchValue(1)
     this.questionsForm.get('typeId').patchValue(1)
+    this.questionsForm.get('rateId').patchValue(this.rateId)
     this.selectedIsCorrect = false
     this.answers.clear();
     for (let i = 0; i < 3; i++) {
@@ -315,6 +317,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
           this.questionsForm.reset();
           this.questionsForm.get('languageId').patchValue(1)
           this.questionsForm.get('typeId').patchValue(1)
+          this.questionsForm.get('rateId').patchValue(this.rateId)
           this.selectedIsCorrect = false
           this.answers.clear();
           for (let i = 0; i < 3; i++) {
@@ -372,6 +375,8 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     });
     this.quizForm.patchValue({ quizQuestionIds });
     this.saved = true
+    console.log(this.quizForm.value)
+    return
 
     if (this.quizzId == null) {
       this.quizzService.addQuizz(this.quizForm.value).subscribe({
@@ -395,6 +400,10 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
       })
     }
 
+  }
+
+  changeRateId(){
+    this.questionsForm.patchValue({ rateId: this.rateId });
   }
 
   readMore(id: string) {
