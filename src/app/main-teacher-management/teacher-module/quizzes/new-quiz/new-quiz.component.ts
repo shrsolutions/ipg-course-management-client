@@ -102,7 +102,6 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
             lastModified: Date.now(),
           });
 
-          console.log(index)
 
           const formData = new FormData();
           formData.append('ImageFile', compressedFile);
@@ -116,9 +115,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
                   const answersControl = this.questionsForm.get('answers') as FormArray;
                   const answerFormGroup = answersControl.at(index) as FormGroup;
                   answerFormGroup.get('text')?.setValue(quill.root.innerHTML);
-                  console.log('cavab')
                 } else {
-                  console.log('sual')
                   this.questionsForm.controls['text'].setValue(quill.root.innerHTML);
                 }
               } else {
@@ -126,7 +123,6 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
               }
             },
             error: err => {
-              console.log(err)
               showErrorAlert(err, undefined, 'Bağla')
             }
           });
@@ -205,7 +201,6 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     for (let i = 0; i < 3; i++) {
       this.addAnswer();
     }
-    console.log(this.quizzId)
     if (this.quizzId !== undefined) {
       this.getQuizzById()
     }
@@ -229,6 +224,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
       next: res => {
         this.quizForm.patchValue(res.result)
         this.savedQuestions = res.result.questions
+        this.rateId = this.savedQuestions[0].rateId
       }
     })
   }
@@ -348,7 +344,6 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
 
   toggleCorrectAnswer(selectedIndex: number, event: any): void {
     if (!event.checked) {
-      console.log(event.checked)
       this.selectedIsCorrect = false
     } else this.selectedIsCorrect = true
     this.answers.controls.forEach((control, index) => {
@@ -375,7 +370,6 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     });
     this.quizForm.patchValue({ quizQuestionIds });
     this.saved = true
-    console.log(this.quizForm.value)
     return
 
     if (this.quizzId == null) {

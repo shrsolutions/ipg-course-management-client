@@ -28,7 +28,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['profileImageUrl']) {
-      console.log('Sidebar image updated:', this.profileImageUrl);
     }
   }
   DownloadFile() {
@@ -47,7 +46,6 @@ export class HeaderComponent implements OnInit {
   private handleUserData = (userData: User) => {
     const isAuthenticated = this.authService.isUserAuthenticated(userData);
     this.userFullName = userData.fullName;
-    console.log(userData)
     this.isAuthenticated = isAuthenticated;
   };
 }

@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { MainHomeComponent } from "./main-home/main-home.component";
@@ -103,5 +103,6 @@ import { AssignQuizzForSubtopicComponent } from "./teacher-module/topic/topic-fo
     MatFormFieldModule,MatListModule, MatMenuModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule, MatTabsModule
   ],
   exports: [MainHomeComponent],
+  providers: [DatePipe]
 })
 export class MainTeacherManagementModule {}

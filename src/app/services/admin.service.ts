@@ -1,4 +1,4 @@
-import { HttpClient, HttpRequest } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {
   PaginatorModel,
@@ -22,6 +22,7 @@ import { TopicForm } from "../main-teacher-management/models/library-models/topi
 import { SubtopicForm } from "../main-teacher-management/models/library-models/subtopic";
 import { videoLinkForm } from "../main-teacher-management/models/library-models/video-link";
 import FormUtility from "../shared/utility/form-utility";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -42,6 +43,45 @@ export class AdminService {
       `${this.baseUrl}groups${pagenitorUrl}`
     );
   }
+
+    getAllGroups(filters: any): Observable<any[]> {
+      let params = new HttpParams()
+        .set('Page', filters.page.toString())
+        .set('Count', filters.count.toString());
+  
+      // ExactFilters
+      filters.exactFilters.forEach((filter: any, index: number) => {
+        params = params
+          .set(`ExactFilters[${index}].propertyName`, filter.propertyName)
+          .set(`ExactFilters[${index}].value`, filter.value);
+      });
+  
+      // DateRangeFilters
+      filters.dateRangeFilters.forEach((filter: any, index: number) => {
+        params = params.set(`DateRangeFilters[${index}].propertyName`, filter.propertyName);
+        if (filter.greaterThanOrEqualValue !== null) {
+          params = params.set(
+            `DateRangeFilters[${index}].greaterThanOrEqualValue`,
+            filter.greaterThanOrEqualValue.toString()
+          );
+        }
+        if (filter.lessThanOrEqualValue !== null) {
+          params = params.set(
+            `DateRangeFilters[${index}].lessThanOrEqualValue`,
+            filter.lessThanOrEqualValue.toString()
+          );
+        }
+      });
+  
+      // SortByProperties
+      filters.sortByProperties.forEach((sort: any, index: number) => {
+        params = params
+          .set(`SortByProperties[${index}].propertyName`, sort.propertyName)
+          .set(`SortByProperties[${index}].sortingType`, sort.sortingType);
+      });
+  
+      return this.http.get<any[]>(`${this.baseUrl}groups`, { params });
+    }
   onAddGroup(groupData: any) {
     return this.http.post<Wrapper<any>>(
       `${this.baseUrl}groups`,

@@ -55,7 +55,6 @@ export class AssignQuizzComponent implements OnInit {
       next: res => {
         res.result.forEach((item: any) => {
           const matchingItem = this.dataSource.data.find(dataItem => dataItem.id === item.quizId);
-          console.log(matchingItem);
           if (matchingItem) {
             this.quizIds.push(matchingItem.id);
           }
@@ -104,7 +103,6 @@ export class AssignQuizzComponent implements OnInit {
   }
 
   assignQuiz() {
-    console.log(this.quizIds)
     this.adminService.assignQuiz(this.data.groupId, { quizIds: this.quizIds }).subscribe({
       next: res => {
         showInfoAlert('', res.messages, false, true, 'Close')

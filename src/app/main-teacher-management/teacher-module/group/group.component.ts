@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AssignStudentComponent } from './assign-student/assign-student.component';
 import { AssignQuizzComponent } from './assign-quizz/assign-quizz.component';
 import { AssignContentComponent } from './assign-content/assign-content.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-group',
@@ -18,7 +19,7 @@ import { AssignContentComponent } from './assign-content/assign-content.componen
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent {
-  pageSize = 5;
+  pageSize = 20;
   currentPage = 1;
   displayedColumns: string[] = [
     "name",
@@ -49,55 +50,33 @@ export class GroupComponent {
     private notificationService: NotificationService,
     private saService: SweatAlertService,
     public setRoleDialog: MatDialog,
+    private datePipe: DatePipe
 
   ) {
     this.paginatorModel = {
       count: this.pageSize,
       page: this.currentPage,
     };
-    this.paginatorModel1 = {
-      count: 100,
-      page: 1,
-    };
-    this.data.filterPredicate = this.createFilter();
 
   }
-  createFilter(): (data: any, filter: string) => boolean {
 
-    return (data, filter): boolean => {
-      const searchTerms = JSON.parse(filter);
-      const isNameMatching = !searchTerms.name || data.name?.toLowerCase().includes(searchTerms.name.toLowerCase());
-      const isCountMatching =
-        !searchTerms.count || (data.count !== undefined && data.count.toString().includes(searchTerms.count));
-      const isWithinDateRange =
-        (!searchTerms.beginDate || new Date(data.createDate) >= new Date(searchTerms.beginDate)) &&
-        (!searchTerms.endDate || new Date(data.createDate) <= new Date(searchTerms.endDate));
+  filters = {
+    page: 1,
+    count: 20,
+    exactFilters: [],
+    dateRangeFilters: [],
+    sortByProperties: []
+  };
 
-      return isNameMatching && isWithinDateRange && isCountMatching;
+  titleFilter: string = '';
+  startDate: any | null = null;
+  endDate: any | null = null;
+  stateSortDirection: 'ascending' | 'descending'  = 'descending';
 
-    };
-  }
-
-  applyFilterColumn() {
-
-    this.filters.beginDate = this.beghinDate.value ? this.beghinDate.value.toISOString().split('T')[0] : '';
-    this.filters.endDate = this.endDate.value ? this.endDate.value.toISOString().split('T')[0] : '';
-    const filterValues = JSON.stringify(this.filters);
-    this.data.filter = filterValues;
-  }
-
-  readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(this.year, this.month, this.today.getDate() - 30)),
-    end: new FormControl(new Date(this.year, this.month, this.today.getDate())),
-  });
-
-  readonly beghinDate = new FormControl(new Date(this.year, this.month, this.today.getDate() - 30));
-  readonly endDate = new FormControl(new Date());
 
   ngOnInit(): void {
-    this.loadGroups();
+    this.fetchGroups();
     this.initialForm();
-    this.data.filterPredicate = this.createFilter();
   }
 
   initialForm(): void {
@@ -106,31 +85,54 @@ export class GroupComponent {
       selectedSystemServices: [[], Validators.required],
     });
   }
-  filters = {
-    name: '',
-    beginDate: '',
-    endDate: '',
-    count: ''
-  };
+  
   length!: number
 
   loadGroups() {
-
     this.adminService.fetchGroups(this.paginatorModel).subscribe({
       next: (responseData) => {
         this.data = new MatTableDataSource<any>(responseData.result.data);
-        this.data.filterPredicate = this.createFilter();
         this.length = responseData.result.count
-
       },
     });
   }
 
+  applyFilters() {
+    this.filters.exactFilters = [];
+    if (this.titleFilter) {
+      this.filters.exactFilters.push({
+        propertyName: 'name',
+        value: this.titleFilter
+      });
+    }
+  
+    this.filters.dateRangeFilters = [];
+    if (this.startDate !== null || this.endDate !== null) {
+      this.filters.dateRangeFilters.push({
+        propertyName: 'createDate',
+        greaterThanOrEqualValue: this.formatDate(this.startDate) ,
+        lessThanOrEqualValue:this.formatDate(this.endDate)
+      });
+    }
+  
+    this.fetchGroups(); 
+  }
+
+  formatDate(selectedDate: Date): string {
+    return this.datePipe.transform(selectedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")!;
+  }
+
+  fetchGroups() {
+    this.adminService.getAllGroups(this.filters).subscribe((res: any) => {
+      this.data = new MatTableDataSource<any>(res.result.data);
+        this.length = res.result.count
+    });
+  }
 
   onPageChanged(event: PageEvent) {
     this.paginatorModel.page = event.pageIndex + 1;
     this.paginatorModel.count = event.pageSize;
-    this.loadGroups();
+    this.fetchGroups();
   }
 
   onRemoveGroup(id: number) {
@@ -141,7 +143,7 @@ export class GroupComponent {
           this.notificationService.showSuccess(
             responseData.messages
           );
-          this.loadGroups();
+          this.fetchGroups();
         } else {
           this.notificationService.showError("Any Error happened");
         }
@@ -168,7 +170,7 @@ export class GroupComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.loadGroups();
+      this.fetchGroups();
       this.activeRow = -1;
       this.selectedRow = undefined;
 
@@ -183,7 +185,7 @@ export class GroupComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadGroups();
+        this.fetchGroups();
         this.activeRow = -1;
         this.selectedRow = undefined;
       }

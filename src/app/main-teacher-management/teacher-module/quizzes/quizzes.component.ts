@@ -34,23 +34,82 @@ export class QuizzesComponent implements OnInit {
     count: this.pageSize,
     page: this.currentPage,
   };
+
+  filters = {
+    page: 1,
+    count: 20,
+    exactFilters: [],
+    integerRangeFilters: [],
+    sortByProperties: []
+  };
+
+  // Inputlardan gələn dəyərlər üçün
+  titleFilter: string = '';
+  questionCountMin: number | null = null;
+  questionCountMax: number | null = null;
+  stateSortDirection: 'ascending' | 'descending'  = 'descending';
   ngOnInit(): void {
-    this.getAllQuizzes()
+    // this.getAllQuizzes()
+    this.fetchQuizzes()
   }
 
   getAllQuizzes(){
     this.quizzService.getAllQuizzes(this.paginatorModel).subscribe({
       next: res=>{
-        console.log()
         this.dataSource = new MatTableDataSource<any>(res.result.data);
         this.length = res.result.count
       }
     })
   }
 
+  applyFilters() {
+    // ExactFilters
+    this.filters.exactFilters = [];
+    if (this.titleFilter) {
+      this.filters.exactFilters.push({
+        propertyName: 'title',
+        value: this.titleFilter
+      });
+    }
+  
+    // IntegerRangeFilters
+    this.filters.integerRangeFilters = [];
+    if (this.questionCountMin !== null || this.questionCountMax !== null) {
+      this.filters.integerRangeFilters.push({
+        propertyName: 'questionCount',
+        greaterThanOrEqualValue: this.questionCountMin,
+        lessThanOrEqualValue: this.questionCountMax
+      });
+    }
+  
+    // SortByProperties
+    this.filters.sortByProperties = [];
+    if (this.stateSortDirection) {
+      this.filters.sortByProperties.push({
+        propertyName: 'stateId',
+        sortingType: this.stateSortDirection
+      });
+    }
+  
+    this.fetchQuizzes(); // API sorğusunu göndər
+  }
+
+  fetchQuizzes() {
+    this.quizzService.getAllQuizzes2(this.filters).subscribe((res: any) => {
+      this.dataSource = new MatTableDataSource<any>(res.result.data);
+        this.length = res.result.count
+    });
+  }
+  
+  toggleSort(column: string) {
+    this.stateSortDirection = this.stateSortDirection === 'ascending' ? 'descending' : 'ascending';
+    this.applyFilters();
+  }
+
   onPageChanged(event: PageEvent) {
-    this.paginatorModel.page = event.pageIndex + 1;
-    this.paginatorModel.count = event.pageSize;
+    this.filters.page = event.pageIndex + 1;
+    this.filters.count = event.pageSize;
+    this.fetchQuizzes()
     // this.loadLanguage();
   }
 

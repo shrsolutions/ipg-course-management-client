@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { PaginatorModel } from '../main-teacher-management/models/Base/FetchBaseModel';
@@ -20,6 +20,45 @@ export class QuizzesService {
 
   getAllQuizzes(paginator: PaginatorModel) {
     return this.http.get<any>(`${this.baseUrl}quizzes${HttpHelper.setPaginatorUrl(paginator)}`);
+  }
+
+  getAllQuizzes2(filters: any): Observable<any[]> {
+    let params = new HttpParams()
+      .set('Page', filters.page.toString())
+      .set('Count', filters.count.toString());
+
+    // ExactFilters
+    filters.exactFilters.forEach((filter: any, index: number) => {
+      params = params
+        .set(`ExactFilters[${index}].propertyName`, filter.propertyName)
+        .set(`ExactFilters[${index}].value`, filter.value);
+    });
+
+    // IntegerRangeFilters
+    filters.integerRangeFilters.forEach((filter: any, index: number) => {
+      params = params.set(`IntegerRangeFilters[${index}].propertyName`, filter.propertyName);
+      if (filter.greaterThanOrEqualValue !== null) {
+        params = params.set(
+          `IntegerRangeFilters[${index}].greaterThanOrEqualValue`,
+          filter.greaterThanOrEqualValue.toString()
+        );
+      }
+      if (filter.lessThanOrEqualValue !== null) {
+        params = params.set(
+          `IntegerRangeFilters[${index}].lessThanOrEqualValue`,
+          filter.lessThanOrEqualValue.toString()
+        );
+      }
+    });
+
+    // SortByProperties
+    filters.sortByProperties.forEach((sort: any, index: number) => {
+      params = params
+        .set(`SortByProperties[${index}].propertyName`, sort.propertyName)
+        .set(`SortByProperties[${index}].sortingType`, sort.sortingType);
+    });
+
+    return this.http.get<any[]>(`${this.baseUrl}quizzes`, { params });
   }
 
   addQuizz(postData: any) {

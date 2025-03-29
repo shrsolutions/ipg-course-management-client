@@ -52,7 +52,6 @@ export class ConfirmAccountComponent implements OnInit {
 
   onConfirmCode() {
     if (this.confirmCodeForm.valid) {
-      console.log(this.confirmCodeForm.value)
       this.authService.twoStepVerify(this.confirmCodeForm.value).subscribe({
 
         next: (response) => {
@@ -61,7 +60,6 @@ export class ConfirmAccountComponent implements OnInit {
           }
         },
         error: (error) => {
-          console.log(error.error.statusCode);
           if (error.error.statusCode == 429 || error.error.messages[0] == "InvalidRequestValues") {
             this.router.navigate(["/auth/login"])
           }
