@@ -225,6 +225,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
         this.quizForm.patchValue(res.result)
         this.savedQuestions = res.result.questions
         this.rateId = this.savedQuestions[0].rateId
+        this.questionsForm.patchValue({ rateId: this.rateId });
       }
     })
   }
@@ -370,7 +371,6 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     });
     this.quizForm.patchValue({ quizQuestionIds });
     this.saved = true
-    return
 
     if (this.quizzId == null) {
       this.quizzService.addQuizz(this.quizForm.value).subscribe({

@@ -1,0 +1,65 @@
+<div class="modal-1 bs-example-modal">
+  <div class="modal-header">
+    <h5 class="modal-title align-self-center">Group detail</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="onClose()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="group-detail-container">
+      <!-- Members Section -->
+      <div class="detail-section">
+        <h6 class="section-title">
+          <i class="bi bi-people-fill me-2"></i>Members ({{members.length}})
+        </h6>
+        <div class="member-list">
+          <div class="member-item" *ngFor="let member of members">
+            <div class="member-avatar">
+              {{ member.fullName.charAt(0) }}
+            </div>
+            <div class="member-info">
+              <div class="member-name">{{ member.fullName }}</div>
+              <div class="member-date">Joined: {{ member.assignDate | date:'mediumDate' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quizzes Section -->
+      <div class="detail-section">
+        <h6 class="section-title">
+          <i class="bi bi-card-checklist me-2"></i>Quizzes ({{quizes.length}})
+        </h6>
+        <div class="quiz-list">
+          <div class="quiz-item" *ngFor="let quiz of quizes">
+            <div class="quiz-icon">
+              <i class="bi bi-patch-question"></i>
+            </div>
+            <div class="quiz-info">
+              <div class="quiz-title">{{ quiz.quizTitle }}</div>
+              <div class="quiz-date">Assigned: {{ quiz.assignDate | date:'mediumDate' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Content Section -->
+      <div class="detail-section">
+        <h6 class="section-title">
+          <i class="bi bi-file-earmark-text me-2"></i>Content ({{content.length}})
+        </h6>
+        <div class="content-list">
+          <div class="content-item" *ngFor="let item of content">
+            <div class="content-icon">
+              <i class="bi bi-link-45deg"></i>
+            </div>
+            <div class="content-info">
+              <a href="{{ item.contentName }}" target="_blank" class="content-link">
+                {{ item.contentName  }}
+              </a>
+              <div class="content-date">Added: {{ item.assignDate | date:'mediumDate' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

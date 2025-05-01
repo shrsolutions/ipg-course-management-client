@@ -52,6 +52,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { AssignQuizzComponent } from "./teacher-module/group/assign-quizz/assign-quizz.component";
 import { AssignContentComponent } from "./teacher-module/group/assign-content/assign-content.component";
 import { AssignQuizzForSubtopicComponent } from "./teacher-module/topic/topic-form/subtopic-modal/assign-quizz-for-subtopic/assign-quizz-for-subtopic.component";
+import { ViewGroupComponent } from "./teacher-module/group/view-group/view-group.component";
 @NgModule({
   declarations: [
     MainHomeComponent,
@@ -80,6 +81,7 @@ import { AssignQuizzForSubtopicComponent } from "./teacher-module/topic/topic-fo
     AssignStudentComponent,
     AssignQuizzComponent,
     AssignContentComponent,
+    ViewGroupComponent,
     AssignQuizzForSubtopicComponent,
     AddStudentComponent,
     QuizzesComponent,

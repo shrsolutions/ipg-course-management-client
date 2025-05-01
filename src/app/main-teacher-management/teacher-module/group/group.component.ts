@@ -12,6 +12,8 @@ import { AssignStudentComponent } from './assign-student/assign-student.componen
 import { AssignQuizzComponent } from './assign-quizz/assign-quizz.component';
 import { AssignContentComponent } from './assign-content/assign-content.component';
 import { DatePipe } from '@angular/common';
+import { showConfirmAlert } from 'src/app/shared/helper/alert';
+import { ViewGroupComponent } from './view-group/view-group.component';
 
 @Component({
   selector: 'app-group',
@@ -27,6 +29,7 @@ export class GroupComponent {
     "studentCount",
     "edit",
     "remove",
+    "view",
 
   ];
   data: MatTableDataSource<any> = new MatTableDataSource<any>();
@@ -136,20 +139,39 @@ export class GroupComponent {
   }
 
   onRemoveGroup(id: number) {
+    showConfirmAlert('Delete selected row?', '', 'Delete', `Close`).then((result) => {
+      if (result.isConfirmed) {
+        this.adminService.removeGroup(id).subscribe({
+          next: (responseData) => {
+            if (responseData.statusCode == 200) {
+              this.notificationService.showSuccess(
+                responseData.messages
+              );
+              this.fetchGroups();
+            } else {
+              this.notificationService.showError("Any Error happened");
+            }
+          },
+        });
+      } 
+    })
 
-    this.adminService.removeGroup(id).subscribe({
-      next: (responseData) => {
-        if (responseData.statusCode == 200) {
-          this.notificationService.showSuccess(
-            responseData.messages
-          );
-          this.fetchGroups();
-        } else {
-          this.notificationService.showError("Any Error happened");
-        }
-      },
+
+  }
+
+  viewGroup(id: number){
+    let dialogRef = this.setRoleDialog.open(ViewGroupComponent, {
+      maxHeight: "95vh",
+      width: "95%",
+      maxWidth: "95vw",
+      data: { groupId: id},
     });
 
+    dialogRef.afterClosed().subscribe((result) => {
+        this.loadGroups();
+        this.activeRow = -1;
+        this.selectedRow = undefined;
+    });
   }
   applyFilter(event: Event) {
 
@@ -233,3 +255,5 @@ export class GroupComponent {
   isActive = (index: number) => { return this.activeRow === index };
 
 }
+
+
