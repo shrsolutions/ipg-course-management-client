@@ -21,6 +21,7 @@ import { NotificationService } from "../shared/services/notification.service";
 import FormUtility from "../shared/utility/form-utility";
 import { Observable } from 'rxjs'
 import { Wrapper } from "../main-teacher-management/models/Base/FetchBaseModel";
+import { showInfoAlert } from "../shared/helper/alert";
 @Injectable({
   providedIn: "root",
 })
@@ -140,6 +141,10 @@ export class AuthService {
   }
 
   private handleAuthentication(userData: any) {
+    if (userData.result.authenticatedUser.userStatusId == 2) {
+        showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz",true, false, '', 'Bağla')
+        return
+    }
     if (!userData.result.twoStepAuthRequired ) {
       const user = User.createUserInstance(userData.result.authenticatedUser);
       const userPermission = userData.result.authenticatedUser.permissions;
@@ -150,6 +155,10 @@ export class AuthService {
   }
 
   private handleAuthenticationTwoStep(userData: any) {
+    if (userData.result.authenticatedUser.userStatusId == 2) {
+      showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz",true, false, '', 'Bağla')
+      return
+  }
       const user = User.createUserInstance(userData.result);
       const userPermission = userData.result.permissions;
       this.user.next(user);

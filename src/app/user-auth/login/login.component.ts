@@ -8,6 +8,7 @@ import {
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import * as CryptoJS from 'crypto-js';
+import { showInfoAlert } from "src/app/shared/helper/alert";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -44,15 +45,22 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.authService.signIn(this.signupForm.value).subscribe({
       next: res => {
+        
+        return
         if (res.result.twoStepAuthRequired) {
           this.encryptAndStore(res.result.twoStepAuthKey)
           this.router.navigate(["/auth/confirm-account"]);
         } else {
           this.router.navigate(["/main-teacher-management/main-home"])
+          setTimeout(() => {
+            location.reload()
+          }, 200);
         }
+
       },
       error: err => {
-
+        console.log(err.error)
+        showInfoAlert("Info", err.error.messages[0],true, false, '', 'Bağla')
       }
     });
   }

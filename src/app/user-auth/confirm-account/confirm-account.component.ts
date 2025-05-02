@@ -57,6 +57,10 @@ export class ConfirmAccountComponent implements OnInit {
         next: (response) => {
           if (response) {
             this.router.navigate(["/main-teacher-management/main-home"])
+            setTimeout(() => {
+              location.reload()
+            }, 200);
+
           }
         },
         error: (error) => {
