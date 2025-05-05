@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
     this.authService.signIn(this.signupForm.value).subscribe({
       next: res => {
         
-        return
         if (res.result.twoStepAuthRequired) {
           this.encryptAndStore(res.result.twoStepAuthKey)
           this.router.navigate(["/auth/confirm-account"]);

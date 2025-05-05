@@ -45,7 +45,6 @@
     document.webkitIsFullScreen ||
       document.mozFullScreen ||
       document.msFullscreenElement ||
-      (console.log("pressed"), t("body").removeClass("fullscreen-enable"));
   }
   var a;
   t("#side-menu").metisMenu(),
