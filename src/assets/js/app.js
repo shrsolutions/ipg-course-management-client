@@ -133,12 +133,7 @@
       .map(function (e) {
         return new bootstrap.Popover(e);
       }),
-    window.sessionStorage &&
-    ((a = sessionStorage.getItem("is_visited"))
-      ? (t(".right-bar input:checkbox").prop("checked", !1),
-        t("#" + a).prop("checked", !0),
-        n(a))
-      : sessionStorage.setItem("is_visited", "light-mode-switch")),
+    
     t("#light-mode-switch, #dark-mode-switch, #rtl-mode-switch").on(
       "change",
       function (e) {
