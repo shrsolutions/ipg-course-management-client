@@ -12,6 +12,7 @@ import { LibraryService } from "src/app/services/library.service";
 import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 import { AssignQuizzForSubtopicComponent } from "./assign-quizz-for-subtopic/assign-quizz-for-subtopic.component";
+import { showConfirmAlert } from "src/app/shared/helper/alert";
 
 @Component({
   selector: "app-subtopic-modal",
@@ -119,18 +120,32 @@ export class SubtopicModalComponent implements OnInit, AfterContentChecked {
   }
 
   onRemoveSubtopic(subtopicId: number, languageId: number): void {
-    this.adminService.onRemoveSubtopic(subtopicId, languageId).subscribe({
-      next: (response) => {
-        if (response.statusCode == 200) {
-          this.notificationService.showSuccess(
-            response.messages
-          );
-          this.onLoadSubtopics();
-        } else {
-          this.notificationService.showError("Any Error happened");
-        }
-      },
-    });
+    // this.adminService.onRemoveSubtopic(subtopicId, languageId).subscribe({
+    //   next: (response) => {
+    //     if (response.statusCode == 200) {
+    //       this.notificationService.showSuccess(
+    //         response.messages
+    //       );
+    //       this.onLoadSubtopics();
+    //     } else {
+    //       this.notificationService.showError("Any Error happened");
+    //     }
+    //   },
+    // });
+    showConfirmAlert('Delete selected row?', '', 'Delete', `Close`).then((result) => {
+      if (result.isConfirmed) {
+        this.adminService.onRemoveSubtopic(subtopicId).subscribe({
+          next: (responseData) => {
+            if (responseData.statusCode == 200) {
+              this.notificationService.showSuccess(responseData.messages);
+              this.onLoadSubtopics();
+            } else {
+              this.notificationService.showError(responseData.messages);
+            }
+          },
+        });
+      }
+    })
   }
 
     assignQuizz(subtopicId: number){

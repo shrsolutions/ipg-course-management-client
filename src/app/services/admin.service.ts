@@ -229,9 +229,15 @@ export class AdminService {
     );
   }
 
-  onRemoveCategory(categoryId: number, languageId: number) {
+  onRemoveCategoryTranslations(categoryId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
       `${this.baseUrl}categories/${categoryId}/translations/${languageId}`
+    );
+  }
+
+  onRemoveCategory(categoryId: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}categories/${categoryId}`
     );
   }
 
@@ -247,9 +253,15 @@ export class AdminService {
       categoryData
     );
   }
-  onRemoveSubject(subjectId: number, languageId: number) {
+  onRemoveSubjectTranslations(subjectId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
       `${this.baseUrl}subjects/${subjectId}/translations/${languageId}`
+    );
+  }
+
+  onRemoveSubject(subjectId: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}subjects/${subjectId}`
     );
   }
 
@@ -260,6 +272,12 @@ export class AdminService {
     );
   }
 
+  onRemoveTopic(topicId: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}topics/${topicId}`
+    );
+  }
+
   onAddSubtopic(topicData: any) {
     return this.http.post<any>(
       `${this.baseUrl}subtopics`,
@@ -267,9 +285,15 @@ export class AdminService {
     );
   }
 
-  onRemoveSubtopic(subtopicId: number, languageId: number) {
+  onRemoveSubtopicTranslations(subtopicId: number, languageId: number) {
     return this.http.delete<Wrapper<any>>(
       `${this.baseUrl}subtopics/${subtopicId}/translations/${languageId}`
+    );
+  }
+
+  onRemoveSubtopic(subtopicId: number) {
+    return this.http.delete<Wrapper<any>>(
+      `${this.baseUrl}subtopics/${subtopicId}`
     );
   }
 

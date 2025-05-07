@@ -12,6 +12,7 @@ import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 import { SubtopicModalComponent } from "./subtopic-modal/subtopic-modal.component";
 import { PaginatorModel } from "src/app/main-teacher-management/models/Base/FetchBaseModel";
+import { showConfirmAlert } from "src/app/shared/helper/alert";
 
 @Component({
   selector: "app-topic-form",
@@ -23,6 +24,7 @@ export class TopicFormComponent  {
   displayedColumns: string[] = [
     "translation",
     "setSubtopic",
+    "remove",
   ];
   dataSource: MatTableDataSource<TopicList> = new MatTableDataSource<
     TopicList
@@ -103,5 +105,26 @@ export class TopicFormComponent  {
       width: "45%",
       data: { topicId: topicId },
     });
+  }
+
+  onRemoveSubject(topicId: number): void {
+
+    showConfirmAlert('Delete selected row?', '', 'Delete', `Close`).then((result) => {
+      if (result.isConfirmed) {
+        this.adminService.onRemoveTopic(topicId).subscribe({
+          next: (responseData) => {
+            if (responseData.statusCode == 200) {
+              this.notificationService.showSuccess(responseData.messages);
+              this.onLoadTopics(this.subjectId);
+
+
+            } else {
+              this.notificationService.showError(responseData.messages);
+            }
+          },
+        });
+      }
+    })
+
   }
 }

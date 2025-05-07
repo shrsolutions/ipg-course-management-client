@@ -9,6 +9,7 @@ import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
 import { PaginatorModel } from "../../models/Base/FetchBaseModel";
 import { MatTableDataSource } from "@angular/material/table";
 import { PageEvent } from "@angular/material/paginator";
+import { showConfirmAlert } from "src/app/shared/helper/alert";
 
 @Component({
   selector: "app-category",
@@ -20,7 +21,7 @@ export class CategoryComponent implements OnInit {
   categoryList: any[] = [];
   editedCategoryId = 0;
   btnAddOrUpdate: string = "Add Category";
-pageSize = 5;
+  pageSize = 5;
   currentPage = 1;
   length!: number
   displayedColumns: string[] = [
@@ -60,9 +61,9 @@ pageSize = 5;
   getAllCategories(): void {
     this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
       next: (response) => {
-        this.categoryList=response.result.data
+        this.categoryList = response.result.data
         const data = response.result.data;
-        this.dataSource.data =data;
+        this.dataSource.data = data;
         this.length = response.result.count
       },
     });
@@ -81,14 +82,14 @@ pageSize = 5;
     this.editedCategoryId = editedCategory.id;
     this.adminService.getByIdCategory(id).subscribe({
       next: (response) => {
-        if (response.statusCode==200) {
+        if (response.statusCode == 200) {
           const nonLanguageId1 = response.result.translations.find(
             translation => translation.languageId !== 1
-        );
-        this.categoryForm.patchValue({
-          category: editedCategory.translationInCurrentLanguage,
-          langId:nonLanguageId1 ? nonLanguageId1.languageId : 1
-        });
+          );
+          this.categoryForm.patchValue({
+            category: editedCategory.translationInCurrentLanguage,
+            langId: nonLanguageId1 ? nonLanguageId1.languageId : 1
+          });
         } else {
 
           this.notificationService.showError("Xəta baş verdi'");
@@ -106,49 +107,63 @@ pageSize = 5;
 
   onRemoveCategory(categoryId: number) {
 
-
-        this.adminService.getByIdCategory(categoryId).subscribe({
-          next: (response) => {
-            if (response.statusCode==200) {
-              const nonLanguageId1 = response.result.translations.find(
-                translation => translation.languageId !== 1
-            );
-              this.adminService.onRemoveCategory(categoryId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
-                next: (responseData) => {
-                  if (responseData.statusCode==200) {
-                    this.notificationService.showSuccess(
-                      responseData.messages
-                    );
-                    this.getAllCategories();
-                  } else {
-
-                    this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
-                  }
-                }, error: err => {
-
-                  this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
-                }
-              });
+    showConfirmAlert('Delete selected row?', '', 'Delete', `Close`).then((result) => {
+      if (result.isConfirmed) {
+        this.adminService.onRemoveCategory(categoryId).subscribe({
+          next: (responseData) => {
+            if (responseData.statusCode == 200) {
+              this.notificationService.showSuccess(responseData.messages);
               this.getAllCategories();
             } else {
-
-              this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
+              this.notificationService.showError(responseData.messages);
             }
           },
-
-
         });
+      }
+    })
+
+    // this.adminService.getByIdCategory(categoryId).subscribe({
+    //   next: (response) => {
+    //     if (response.statusCode==200) {
+    //       const nonLanguageId1 = response.result.translations.find(
+    //         translation => translation.languageId !== 1
+    //     );
+    //       this.adminService.onRemoveCategory(categoryId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
+    //         next: (responseData) => {
+    //           if (responseData.statusCode==200) {
+    //             this.notificationService.showSuccess(
+    //               responseData.messages
+    //             );
+    //             this.getAllCategories();
+    //           } else {
+
+    //             this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
+    //           }
+    //         }, error: err => {
+
+    //           this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
+    //         }
+    //       });
+    //       this.getAllCategories();
+    //     } else {
+
+    //       this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
+    //     }
+    //   },
+
+
+    // });
 
 
   }
-  languages:any
+  languages: any
   loadLanguage() {
     this.adminService.fetchAllLanguage(this.paginatorModel).subscribe({
       next: (responseData) => {
 
         const data = responseData.result.data;
-        this.languages =data;
- },
+        this.languages = data;
+      },
     });
   }
   onSubmit(): void {
@@ -165,7 +180,7 @@ pageSize = 5;
 
       this.adminService.onAddCategory(categoryData).subscribe({
         next: (response) => {
-          if (response.statusCode==200) {
+          if (response.statusCode == 200) {
             this.notificationService.showSuccess(
               response.messages
             );
