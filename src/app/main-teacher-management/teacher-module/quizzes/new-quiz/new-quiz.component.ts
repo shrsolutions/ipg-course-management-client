@@ -10,6 +10,7 @@ import Quill from "quill";
 import ResizeModule from "@botom/quill-resize-module";
 import { CanComponentDeactivate } from 'src/app/shared/utility/unsaved-changes.guard';
 import imageCompression from 'browser-image-compression';
+import { AdminService } from 'src/app/services/admin.service';
 
 const Font = Quill.import('attributors/class/font') as any; // TypeScript-ə uyğunlaşdırma
 Font.whitelist = ['Calibri', 'TimesNewRoman', 'Arial', 'Monospace'];
@@ -29,7 +30,8 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     private quizzService: QuizzesService,
     private router: Router,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private adminService: AdminService,
   ) {
     this.route.params.subscribe((params) => {
       this.quizzId = params["id"];
@@ -195,14 +197,32 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
   });
 
   selectedIsCorrect: boolean = false
-
+  subTopicId: string
+  quizzIds: any
   ngOnInit(): void {
-    // this.onLoadSubject();
+
+    this.route.queryParams.subscribe(params => {
+      this.subTopicId = params['subtopic'];
+      console.log('Gelen subtopicId:', this.subTopicId);
+    });
     for (let i = 0; i < 3; i++) {
       this.addAnswer();
     }
     if (this.quizzId !== undefined) {
       this.getQuizzById()
+    }
+    console.log(this.subTopicId)
+    if (this.subTopicId) {
+      this.adminService.getAssignQuizForSubtopic(this.subTopicId).subscribe({
+        next: res => {
+          console.log(res)
+          this.quizzIds = {
+            quizIds: res.result.map(item => item.quizId)
+          };
+
+          console.log(this.quizzIds)
+        }
+      })
     }
   }
 
@@ -277,9 +297,9 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     if (this.questionsForm.dirty) {
       const userConfirmed = confirm("Dəyişikliklər yadda saxlanılmayıb! Sualı dəyişmək istədiyinizə əminsiniz?");
       if (!userConfirmed) {
-        return; 
+        return;
       }
-    } 
+    }
 
     this.saved = false
     this.quizzService.getQuestionById(questionId).subscribe({
@@ -375,8 +395,23 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     if (this.quizzId == null) {
       this.quizzService.addQuizz(this.quizForm.value).subscribe({
         next: (res: any) => {
-          showInfoAlert('', res.messages, false, true, 'Close')
-          this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
+          if (this.subTopicId) {
+            this.quizzIds.quizIds.push(res.result)
+            this.adminService.assignQuizForSubtopic(this.subTopicId, this.quizzIds).subscribe({
+              next: resSubTOpic => {
+                showInfoAlert('Added to selected subtopic', resSubTOpic.messages, false, true, 'Close')
+                this.router.navigate([`/main-teacher-management/teacher-module/videos/video-form/${this.subTopicId}`])
+
+              },
+              error: err => {
+                showErrorAlert('Error', err.message, 'Close')
+              }
+            })
+          } else {
+            this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
+            showInfoAlert('', res.messages, false, true, 'Close')
+
+          }
         },
         error: err => {
           showErrorAlert('Error', err.message, 'Close')
@@ -396,7 +431,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
 
   }
 
-  changeRateId(){
+  changeRateId() {
     this.questionsForm.patchValue({ rateId: this.rateId });
   }
 

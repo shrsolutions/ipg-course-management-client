@@ -5,8 +5,7 @@
                 <div class="card-body">
                     <h5 class="card-title" style="margin-left: 10px;">Video Link Form</h5>
                     <div class="general-label">
-                        <form [formGroup]="videoForm" (ngSubmit)="onSubmit()"
-                            class="row ">
+                        <form [formGroup]="videoForm" (ngSubmit)="onSubmit()" class="row ">
                             <div class="col-lg-1 d-flex align-items-center">
                                 <input type="checkbox" id="switch9" switch="dark" checked=""
                                     formControlName="enableCheckbox">
@@ -42,7 +41,11 @@
                             <div class="col-lg-3 d-flex align-items-center justify-content-around">
                                 <button type="submit" class="btn btn-primary">Add Video
                                     Link</button>
-                                    <button type="button" class="btn btn-primary" routerLink="/main-teacher-management/teacher-module/quizzes/quizz">Add Quizz</button>
+                                <button type="button" class="btn btn-primary" matTooltip="The quiz added from here will be assigned to that subtopic."
+                                    routerLink="/main-teacher-management/teacher-module/quizzes/quizz" [queryParams]="{ subtopic: subtopicId }">Add
+                                    Quizz</button>
+                                <button type="button" class="btn btn-primary" matTooltip="View quizzes on subtopic"
+                                    (click)="assignQuizz()"><i class="bi bi-eye-fill"></i></button>
                             </div>
                         </form>
                     </div>

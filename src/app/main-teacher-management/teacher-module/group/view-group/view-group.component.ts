@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AssignStudentComponent } from '../assign-student/assign-student.component';
 import { AdminService } from 'src/app/services/admin.service';
+import { AssignQuizzComponent } from '../assign-quizz/assign-quizz.component';
+import { AssignContentComponent } from '../assign-content/assign-content.component';
 // models/group-member.model.ts
 export interface GroupMember {
   memberId: string;
@@ -33,6 +35,8 @@ export class ViewGroupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
         public data: { groupId: string },
         private adminService: AdminService,
+            public setRoleDialog: MatDialog,
+        
   ) { }
 
   members: GroupMember[] = [];
@@ -73,5 +77,42 @@ export class ViewGroupComponent implements OnInit {
       }
     });
   }
+
+    onSetNewStudent() {
+      let dialogRef = this.setRoleDialog.open(AssignStudentComponent, {
+        height: "260px",
+        width: "600px",
+        data: { userId: this.data.groupId },
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.getGroupDetailedData();
+        }
+      });
+    }
+  
+    assignQuizz(){
+      let dialogRef = this.setRoleDialog.open(AssignQuizzComponent, {
+        maxHeight: "95vh",
+        width: "50%",
+        data: { groupId: this.data.groupId},
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+          this.getGroupDetailedData();
+      });
+    }
+  
+    assignContent(){
+      let dialogRef = this.setRoleDialog.open(AssignContentComponent, {
+        maxHeight: "95vh",
+        width: "50%",
+        data: { groupId: this.data.groupId},
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+          this.getGroupDetailedData();
+      });
+    }
 
 }

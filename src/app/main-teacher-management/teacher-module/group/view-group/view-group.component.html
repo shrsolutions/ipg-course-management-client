@@ -8,7 +8,8 @@
       <!-- Members Section -->
       <div class="detail-section">
         <h6 class="section-title">
-          <i class="bi bi-people-fill me-2"></i>Members ({{members.length}})
+          <div><i class="bi bi-people-fill me-2"></i>Members ({{members.length}})</div>
+          <i class="bi bi-plus-circle" matTooltip="Add student" (click)="onSetNewStudent()"></i>
         </h6>
         <div class="member-list">
           <div class="member-item" *ngFor="let member of members">
@@ -26,7 +27,8 @@
       <!-- Quizzes Section -->
       <div class="detail-section">
         <h6 class="section-title">
-          <i class="bi bi-card-checklist me-2"></i>Quizzes ({{quizes.length}})
+          <div><i class="bi bi-card-checklist me-2"></i>Quizzes ({{quizes.length}})</div>
+          <i class="bi bi-plus-circle" matTooltip="Add quizz" (click)="assignQuizz()"></i>
         </h6>
         <div class="quiz-list">
           <div class="quiz-item" *ngFor="let quiz of quizes">
@@ -44,7 +46,8 @@
       <!-- Content Section -->
       <div class="detail-section">
         <h6 class="section-title">
-          <i class="bi bi-file-earmark-text me-2"></i>Content ({{content.length}})
+          <div><i class="bi bi-file-earmark-text me-2"></i>Content ({{content.length}})</div>
+          <i class="bi bi-plus-circle" matTooltip="Add content" (click)="assignContent()"></i>
         </h6>
         <div class="content-list">
           <div class="content-item" *ngFor="let item of content">

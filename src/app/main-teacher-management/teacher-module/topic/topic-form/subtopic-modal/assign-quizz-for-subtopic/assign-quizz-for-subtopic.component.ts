@@ -20,9 +20,9 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
     private quizzService: QuizzesService,
     public dialogRef: MatDialogRef<SubtopicModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { subtopicId: string },
+    public data: { subtopicId: string, type: string },
     private adminService: AdminService,
-  ) {}
+  ) { }
 
   pageSize = 10;
   currentPage = 1;
@@ -44,25 +44,41 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
     this.getAllQuizzes()
   }
 
+  viewData: any
   getAllQuizzes() {
     this.quizzService.getAllQuizzes(this.paginatorModel).pipe(
       switchMap(res => {
-        this.dataSource = new MatTableDataSource<any>(res.result.data);
-        this.length = res.result.count;
+        if (this.data.type !== "view") {
+          this.dataSource = new MatTableDataSource<any>(res.result.data);
+          this.length = res.result.count;
+        }else{
+          this.viewData = res.result.data
+        }
         return this.adminService.getAssignQuizForSubtopic(this.data.subtopicId);
       })
     ).subscribe({
-      next: res => {
-        res.result.forEach((item: any) => {
+      next: resquizz => {
+        resquizz.result.forEach((item: any) => {
           const matchingItem = this.dataSource.data.find(dataItem => dataItem.id === item.quizId);
-          if (matchingItem) {
-            this.quizIds.push(matchingItem.id);
+          
+          if (this.data.type == "view") {
+            this.dataSource = new MatTableDataSource<any>(this.viewData);
+            const filteredData = this.dataSource.data.filter(dataItem =>
+              resquizz.result.some(item => dataItem.id === item.quizId)
+            );
+            this.dataSource.data = filteredData;
+            this.length = filteredData.length
+
+          } else {
+            if (matchingItem) {
+              this.quizIds.push(matchingItem.id);
+            }
           }
         });
       }
     });
   }
-  
+
 
 
   onPageChanged(event: PageEvent) {
@@ -71,7 +87,7 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
     this.getAllQuizzes()
   }
 
-  quizIds: number[] = [];  
+  quizIds: number[] = [];
 
   toggleSelection(row: any): void {
     const index = this.quizIds.indexOf(row.id);
@@ -88,9 +104,9 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
 
   toggleAll(event: any): void {
     if (event.checked) {
-      this.quizIds = this.dataSource.data.map(row => row.id);  
+      this.quizIds = this.dataSource.data.map(row => row.id);
     } else {
-      this.quizIds = []; 
+      this.quizIds = [];
     }
   }
 

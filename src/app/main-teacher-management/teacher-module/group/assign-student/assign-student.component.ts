@@ -21,7 +21,7 @@ export class AssignStudentComponent {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AssignStudentComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { userId: number; roleIds: [{ id: number }] },
+    public data: { userId: number },
     private notificationService: NotificationService,
   ) {
     this.paginatorModel = {

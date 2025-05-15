@@ -56,6 +56,29 @@
         <!-- New Question Button -->
         <button mat-raised-button color="primary" (click)="addNewQuestion()">Reset Form</button>
       </div>
+            <div class="mt-4 news-content">
+        <h4>Saved Questions</h4>
+        <div class="news row">
+          <div class="col-xl-2 col-lg-3 col-sm-4 col-md-3" *ngFor="let item of savedQuestions; let i = index">
+            <div class="news-card">
+              <div class="card-header">
+                <strong><span>{{i+1}}</span></strong>
+                <div>
+                  <button mat-icon-button color="accent" (click)="editQuestion(item.id, i)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="accent" (click)="readMore(item.id)">
+                    <mat-icon>remove_red_eye</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="removeQuestion(item.id, i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <form class="example-container" [formGroup]="questionsForm">
         <div class="row">
           <div class="col-lg-12">

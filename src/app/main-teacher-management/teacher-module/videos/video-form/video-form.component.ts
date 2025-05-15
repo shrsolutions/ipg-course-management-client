@@ -10,6 +10,8 @@ import { LibraryService } from "src/app/services/library.service";
 import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { NotificationService } from "src/app/shared/services/notification.service";
 import { HttpResponse } from "@angular/common/http";
+import { AssignQuizzForSubtopicComponent } from "../../topic/topic-form/subtopic-modal/assign-quizz-for-subtopic/assign-quizz-for-subtopic.component";
+import { MatDialog } from "@angular/material/dialog";
 @Component({
   selector: "app-video-form",
   templateUrl: "./video-form.component.html",
@@ -32,7 +34,8 @@ export class VideoFormComponent implements OnInit {
     private route: ActivatedRoute,
     private adminService: AdminService,
     private notificationService: NotificationService,
-    private libraryService: LibraryService
+    private libraryService: LibraryService,
+     public setRoleDialog: MatDialog,
   ) {}
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -125,4 +128,16 @@ export class VideoFormComponent implements OnInit {
       this.videoForm.markAllAsTouched();
     }
   }
+
+      assignQuizz(){
+        let dialogRef = this.setRoleDialog.open(AssignQuizzForSubtopicComponent, {
+          maxHeight: "95vh",
+          width: "50%",
+          data: { subtopicId: this.subtopicId, type: "view"},
+        });
+    
+        dialogRef.afterClosed().subscribe((result) => {
+           this.onLoadVideos(this.subtopicId);
+        });
+      }
 }
