@@ -80,8 +80,8 @@ export class ViewGroupComponent implements OnInit {
 
     onSetNewStudent() {
       let dialogRef = this.setRoleDialog.open(AssignStudentComponent, {
-        height: "260px",
-        width: "600px",
+        width: "50%",
+      maxHeight: "90vh",
         data: { userId: this.data.groupId },
       });
   
