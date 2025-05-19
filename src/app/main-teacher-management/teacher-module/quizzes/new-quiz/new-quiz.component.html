@@ -21,7 +21,8 @@
           <div class="col-lg-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Rate</mat-label>
-              <mat-select required [(ngModel)]="rateId" [ngModelOptions]="{standalone: true}" (selectionChange)="changeRateId()">
+              <mat-select required [(ngModel)]="rateId" [ngModelOptions]="{standalone: true}"
+                (selectionChange)="changeRateId()">
                 <mat-option [value]="1">Simple</mat-option>
                 <mat-option [value]="2">Middle</mat-option>
                 <mat-option [value]="3">Hard</mat-option>
@@ -46,7 +47,8 @@
       <div class="d-flex justify-content-between mt-3">
         <button mat-stroked-button color="warn"
           routerLink="/main-teacher-management/teacher-module/quizzes">Exit</button>
-        <button mat-raised-button color="primary" (click)="navig('next')" [disabled]="quizForm.invalid || rateId == null">Next</button>
+        <button mat-raised-button color="primary" (click)="navig('next')"
+          [disabled]="quizForm.invalid || rateId == null">Next</button>
       </div>
     </div>
   </mat-tab>
@@ -56,7 +58,7 @@
         <!-- New Question Button -->
         <button mat-raised-button color="primary" (click)="addNewQuestion()">Reset Form</button>
       </div>
-            <div class="mt-4 news-content">
+      <div class="mt-4 news-content">
         <h4>Saved Questions</h4>
         <div class="news row">
           <div class="col-xl-2 col-lg-3 col-sm-4 col-md-3" *ngFor="let item of savedQuestions; let i = index">
@@ -145,29 +147,7 @@
           </div>
         </div>
       </form>
-      <div class="mt-4 news-content">
-        <h4>Saved Questions</h4>
-        <div class="news row">
-          <div class="col-xl-2 col-lg-3 col-sm-4 col-md-3" *ngFor="let item of savedQuestions; let i = index">
-            <div class="news-card">
-              <div class="card-header">
-                <strong><span>{{i+1}}</span></strong>
-                <div>
-                  <button mat-icon-button color="accent" (click)="editQuestion(item.id, i)">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                  <button mat-icon-button color="accent" (click)="readMore(item.id)">
-                    <mat-icon>remove_red_eye</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" (click)="removeQuestion(item.id, i)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <!-- Quizz save section -->
       <div class="row justify-content-between mt-4">
         <div class="col-lg-6">

@@ -200,8 +200,8 @@ export class GroupComponent {
   }
   onSetNewStudent() {
     let dialogRef = this.setRoleDialog.open(AssignStudentComponent, {
-      height: "260px",
-      width: "600px",
+      width: "50%",
+      maxHeight: "90vh",
       data: { userId: this.selectedRow.id, roleIds: this.selectedRow.name },
     });
 

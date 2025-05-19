@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
@@ -53,6 +53,7 @@ import { AssignQuizzComponent } from "./teacher-module/group/assign-quizz/assign
 import { AssignContentComponent } from "./teacher-module/group/assign-content/assign-content.component";
 import { AssignQuizzForSubtopicComponent } from "./teacher-module/topic/topic-form/subtopic-modal/assign-quizz-for-subtopic/assign-quizz-for-subtopic.component";
 import { ViewGroupComponent } from "./teacher-module/group/view-group/view-group.component";
+
 @NgModule({
   declarations: [
     MainHomeComponent,
@@ -105,6 +106,7 @@ import { ViewGroupComponent } from "./teacher-module/group/view-group/view-group
     MatFormFieldModule,MatListModule, MatMenuModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatDatepickerModule,MatPaginatorModule, MatTabsModule
   ],
   exports: [MainHomeComponent],
-  providers: [DatePipe]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [DatePipe, ]
 })
 export class MainTeacherManagementModule {}

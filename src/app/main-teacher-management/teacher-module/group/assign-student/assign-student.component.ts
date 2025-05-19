@@ -13,15 +13,18 @@ import { NotificationService } from "src/app/shared/services/notification.servic
 })
 
 export class AssignStudentComponent {
-  paginatorModel: PaginatorModel;
+ paginatorModel: PaginatorModel;
   roleForm: FormGroup;
-  students: any = [];
+  students: any[] = [];
+  searchControl = new FormControl();
+  lastFilter: string = '';
+  editdata: any[] = [];
+
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AssignStudentComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { userId: number },
+    @Inject(MAT_DIALOG_DATA) public data: { userId: number },
     private notificationService: NotificationService,
   ) {
     this.paginatorModel = {
@@ -31,61 +34,80 @@ export class AssignStudentComponent {
   }
 
   ngOnInit(): void {
-    this.initalForm()
+    this.initalForm();
     this.fillstudentselectBox();
-    this.getbyIdForMembers()
+    this.getbyIdForMembers();
   }
-  editdata: any[] = []
-  initalForm() {
 
+  initalForm() {
     this.roleForm = this.fb.group({
       memberIds: [this.editdata[0] || [], Validators.required],
     });
   }
 
   getbyIdForMembers() {
-
     this.adminService.getByIdGroupMembers(this.data.userId).subscribe({
       next: (response) => {
         if (response.statusCode == 200) {
-          let model: any[] = []
-
+          let model: any[] = [];
           for (let index = 0; index < response.result?.length; index++) {
-            model.push(response.result[index].memberId)
+            model.push(response.result[index].memberId);
           }
-
-          this.editdata.push(model)
-          this.initalForm()
+          this.editdata.push(model);
+          this.initalForm();
         } else {
-          this.notificationService.showError("Any Error happened");
+          this.notificationService.showError("Xəta baş verdi");
         }
       },
     });
   }
-  selectedOptions = [];
+
   handleAutocomp(filter: string) {
     this.lastFilter = filter;
-
     if (filter.length > 0) {
       this.adminService.autocompleteWithFilter(filter).subscribe({
         next: (res) => {
           this.students = res.result;
         },
       });
+    } else {
+      this.fillstudentselectBox();
     }
-
   }
+
   fillstudentselectBox() {
     this.adminService.autocomplete().subscribe({
       next: (response) => {
         this.students = response.result;
-        this.initalForm()
+        this.initalForm();
       },
     });
   }
 
-  onSetRole() {
+  onSelectionChange(event: any, student: any) {
+    const currentMembers = this.roleForm.get('memberIds')?.value || [];
+    if (!currentMembers.includes(student.id)) {
+      this.roleForm.get('memberIds')?.setValue([...currentMembers, student.id]);
+    }
+    this.searchControl.setValue('');
+    event.source.deselect();
+  }
 
+  removeMember(memberId: number) {
+    const currentMembers = this.roleForm.get('memberIds')?.value || [];
+    this.roleForm.get('memberIds')?.setValue(currentMembers.filter((id: number) => id !== memberId));
+  }
+
+  getMemberName(memberId: number): string {
+    const member = this.students.find(s => s.id === memberId);
+    return member ? member.value : '';
+  }
+
+  displayVal(object: any): string {
+    return (object && object.value) || '';
+  }
+
+  onSetRole() {
     if (this.roleForm.invalid) {
       return;
     }
@@ -93,27 +115,16 @@ export class AssignStudentComponent {
     this.adminService.onAddMembers(this.data.userId, this.roleForm.value).subscribe({
       next: (response) => {
         if (response.statusCode == 200) {
-          this.notificationService.showSuccess(
-            response.messages
-          );
-
+          this.notificationService.showSuccess(response.messages);
           this.dialogRef.close({ result: true });
         } else {
-          this.notificationService.showError("Any Error happened");
+          this.notificationService.showError("Xəta baş verdi");
         }
       },
     });
   }
-  displayVal(object: any) {
-    return (object && object.value) || '';
-  }
+
   onClose() {
     this.dialogRef.close({ result: false });
   }
-
-  filteredUsers: Observable<any[]>;
-  lastFilter: string = '';
-
-  visible = true;
-
 }
