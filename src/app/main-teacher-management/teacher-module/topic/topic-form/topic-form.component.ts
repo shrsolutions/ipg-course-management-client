@@ -20,7 +20,7 @@ import { showConfirmAlert } from "src/app/shared/helper/alert";
   styleUrls: ["./topic-form.component.scss"],
 })
 export class TopicFormComponent  {
-  subjectId: number;
+  subjectId: string;
   displayedColumns: string[] = [
     "translation",
     "setSubtopic",
@@ -60,7 +60,7 @@ export class TopicFormComponent  {
     });
   }
 
-  onLoadTopics(subjectId: number): void {
+  onLoadTopics(subjectId: string): void {
     if (subjectId != null && subjectId !== undefined) {
       this.libraryService.fetchTopicsBySubjectId(subjectId,this.paginatorModel).subscribe({
         next: (response) => {

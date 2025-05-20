@@ -38,7 +38,7 @@ export class SubtopicModalComponent implements OnInit, AfterContentChecked {
     private libraryService: LibraryService,
     public dialogRef: MatDialogRef<SubtopicModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { topicId: number },
+    public data: { topicId: string },
     private adminService: AdminService,
     private notificationService: NotificationService,
     private fb: FormBuilder,

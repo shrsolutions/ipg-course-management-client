@@ -305,6 +305,10 @@ export class AdminService {
     );
   }
 
+    onRemoveVideo(id: any, attachmentId: string) {
+    return this.http.delete<Wrapper<any>>(`${this.baseUrl}subtopics/${id}/attachments/${attachmentId}`);
+  }
+
   onDownloadAttachment(attachmentId: number) {
     return this.http.get(
       `${this.baseUrl}${API_SCHEMA.LIBRARIES}/subtopics/attachments/${attachmentId}/download`,

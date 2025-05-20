@@ -18,8 +18,32 @@ export class QuizzesService {
   baseUrl: string = environment.apiUrl;
   constructor(private http: HttpClient) { }
 
-  getAllQuizzes(paginator: PaginatorModel) {
-    return this.http.get<any>(`${this.baseUrl}quizzes${HttpHelper.setPaginatorUrl(paginator)}`);
+getAllQuizzes(
+    paginator: { page: number; count: number },
+    filters?: {
+      SubjectId?: string;
+      TopicId?: string;
+      SubtopicId?: string;
+    }
+  ) {
+    let params = new HttpParams()
+      .set('Page', paginator.page.toString())
+      .set('Count', paginator.count.toString());
+
+    // Əgər filterlər ötürülübsə və varsa, əlavə et
+    if (filters) {
+      if (filters.SubjectId) {
+        params = params.set('SubjectId', filters.SubjectId);
+      }
+      if (filters.TopicId) {
+        params = params.set('TopicId', filters.TopicId);
+      }
+      if (filters.SubtopicId) {
+        params = params.set('SubtopicId', filters.SubtopicId);
+      }
+    }
+
+    return this.http.get<any>(`${this.baseUrl}quizzes`, { params });
   }
 
   getAllQuizzes2(filters: any): Observable<any[]> {

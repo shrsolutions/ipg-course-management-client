@@ -56,9 +56,10 @@
               <i class="bi bi-link-45deg"></i>
             </div>
             <div class="content-info">
-              <a href="{{ item.contentName }}" target="_blank" class="content-link">
+              <a href="{{ item.contentValue }}" [matTooltip]="item.contentValue" target="_blank" class="content-link">
                 {{ item.contentName  }}
               </a>
+              <div class="content-date">Description: {{ item.contentDescription  }}</div>
               <div class="content-date">Added: {{ item.assignDate | date:'mediumDate' }}</div>
             </div>
           </div>

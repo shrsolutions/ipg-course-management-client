@@ -37,7 +37,7 @@ export class TopicComponent implements OnInit {
 
   onLoadSubject(): void {
     const categoryId = this.locaStorageService.getItem<number>("categoryId");
-    this.libraryService.fetchSubjectsByCategoryId(categoryId,this.paginatorModel).subscribe({
+    this.libraryService.fetchSubjectsByCategoryId(categoryId.toString(),this.paginatorModel).subscribe({
       next: (responseData) => {
         const data = responseData.result.data;
         this.dataSource.data = data;

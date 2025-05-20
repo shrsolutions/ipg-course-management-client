@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { PaginatorModel } from 'src/app/main-teacher-management/models/Base/FetchBaseModel';
+import { PaginatorModel, SelectBoxModel } from 'src/app/main-teacher-management/models/Base/FetchBaseModel';
 import { QuizzesService } from 'src/app/services/quizzes.service';
 import { showConfirmAlert, showInfoAlert, showErrorAlert } from 'src/app/shared/helper/alert';
 import { GroupComponent } from '../group.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AdminService } from 'src/app/services/admin.service';
 import { switchMap } from 'rxjs';
+import { LibraryService } from 'src/app/services/library.service';
 
 @Component({
   selector: 'app-assign-quizz',
@@ -22,7 +23,18 @@ export class AssignQuizzComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: { groupId: string },
     private adminService: AdminService,
-  ) {}
+    private libraryService: LibraryService,
+  ) { }
+
+  categories: SelectBoxModel[] = [];
+  subjects: SelectBoxModel[] = [];
+  topics: SelectBoxModel[] = [];
+  subTopics: SelectBoxModel[] = [];
+
+  categorieId: string = null
+  subjectId: string = null
+  topicId: string = null
+  subTopicId: string = null
 
   pageSize = 10;
   currentPage = 1;
@@ -40,12 +52,22 @@ export class AssignQuizzComponent implements OnInit {
     count: this.pageSize,
     page: this.currentPage,
   };
+
+  paginatorModelForSelectBox: PaginatorModel = {
+    count: 9999,
+    page: 1,
+  };
   ngOnInit(): void {
     this.getAllQuizzes()
+    this.fillCategorySelectBox()
   }
 
   getAllQuizzes() {
-    this.quizzService.getAllQuizzes(this.paginatorModel).pipe(
+    this.quizzService.getAllQuizzes(this.paginatorModel, {
+      SubjectId: this.subjectId,
+      TopicId: this.topicId,
+      SubtopicId: this.subTopicId
+    }).pipe(
       switchMap(res => {
         this.dataSource = new MatTableDataSource<any>(res.result.data);
         this.length = res.result.count;
@@ -62,7 +84,7 @@ export class AssignQuizzComponent implements OnInit {
       }
     });
   }
-  
+
 
 
   onPageChanged(event: PageEvent) {
@@ -71,7 +93,7 @@ export class AssignQuizzComponent implements OnInit {
     this.getAllQuizzes()
   }
 
-  quizIds: number[] = [];  
+  quizIds: number[] = [];
 
   toggleSelection(row: any): void {
     const index = this.quizIds.indexOf(row.id);
@@ -88,9 +110,9 @@ export class AssignQuizzComponent implements OnInit {
 
   toggleAll(event: any): void {
     if (event.checked) {
-      this.quizIds = this.dataSource.data.map(row => row.id);  
+      this.quizIds = this.dataSource.data.map(row => row.id);
     } else {
-      this.quizIds = []; 
+      this.quizIds = [];
     }
   }
 
@@ -112,6 +134,51 @@ export class AssignQuizzComponent implements OnInit {
         showErrorAlert('Error', err.message, 'Close')
       }
     })
+  }
+
+  fillCategorySelectBox() {
+    this.libraryService.fetchAllCategories(this.paginatorModelForSelectBox).subscribe({
+      next: ({ result }) => {
+        this.categories = result.data.map((v) => ({
+          key: v.id,
+          value: v.translationInCurrentLanguage,
+        }));
+      },
+    });
+  }
+
+  onLoadSubject(): void {
+    console.log(this.categorieId)
+    this.libraryService.fetchSubjectsByCategoryId(this.categorieId, this.paginatorModelForSelectBox).subscribe({
+      next: (responseData) => {
+        this.subjects = responseData.result.data.map((v) => ({
+          key: v.id,
+          value: v.translationInCurrentLanguage,
+        }));
+      },
+    });
+  }
+
+  onLoadTopics(): void {
+    this.libraryService.fetchTopicsBySubjectId(this.subjectId, this.paginatorModelForSelectBox).subscribe({
+      next: (response) => {
+        this.topics = response.result.data.map((v) => ({
+          key: v.id,
+          value: v.translationInCurrentLanguage,
+        }));
+      },
+    });
+  }
+
+    onLoadSubTopics(): void {
+    this.libraryService.fetchSubTopicsByTopicId(this.topicId, this.paginatorModelForSelectBox).subscribe({
+      next: (response) => {
+        this.subTopics = response.result.data.map((v) => ({
+          key: v.id,
+          value: v.translationInCurrentLanguage,
+        }));
+      },
+    });
   }
 
 }

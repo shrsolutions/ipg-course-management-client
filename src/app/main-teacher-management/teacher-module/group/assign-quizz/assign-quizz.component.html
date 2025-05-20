@@ -1,46 +1,89 @@
 <div class="modal-1 bs-example-modal">
-  <form  class="modal-content">
+  <form class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title align-self-center">Assign Quizz</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dialogRef.close()"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="dialogRef.close()"></button>
     </div>
     <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Categories</mat-label>
+            <mat-select [(ngModel)]="categorieId" [ngModelOptions]="{standalone: true}"
+              (selectionChange)="onLoadSubject()">
+              <mat-option [value]="null" selected>All</mat-option>
+              <mat-option [value]="item.key" *ngFor="let item of categories">{{item.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Subjects</mat-label>
+            <mat-select [(ngModel)]="subjectId" [ngModelOptions]="{standalone: true}"
+              (selectionChange)="getAllQuizzes(); onLoadTopics()">
+              <mat-option [value]="null" selected>All</mat-option>
+              <mat-option [value]="item.key" *ngFor="let item of subjects">{{item.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Topics</mat-label>
+            <mat-select [(ngModel)]="topicId" [ngModelOptions]="{standalone: true}" (selectionChange)="getAllQuizzes(); onLoadSubTopics()">
+              <mat-option [value]="null" selected>All</mat-option>
+              <mat-option [value]="item.key" *ngFor="let item of topics">{{item.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-3">
+                    <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Sub topics</mat-label>
+            <mat-select [(ngModel)]="subTopicId" [ngModelOptions]="{standalone: true}" (selectionChange)="getAllQuizzes()">
+              <mat-option [value]="null" selected>All</mat-option>
+              <mat-option [value]="item.key" *ngFor="let item of subTopics">{{item.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
       <div class=" d-flex justify-content-center p-0" style="padding: 0;">
         <div class=" table-responsive col-lg-12">
+
           <table mat-table [dataSource]="dataSource" matSort class="table table-centered mb-0">
             <ng-container matColumnDef="select">
               <th mat-header-cell *matHeaderCellDef>
-                <mat-checkbox (change)="toggleAll($event)" [checked]="isAllSelected()" [indeterminate]="isIndeterminate()"></mat-checkbox>
+                <mat-checkbox (change)="toggleAll($event)" [checked]="isAllSelected()"
+                  [indeterminate]="isIndeterminate()"></mat-checkbox>
               </th>
               <td mat-cell *matCellDef="let row">
                 <mat-checkbox (change)="toggleSelection(row)" [checked]="isSelected(row)"></mat-checkbox>
               </td>
             </ng-container>
-          
+
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
               <td mat-cell *matCellDef="let row">{{ row.title }}</td>
             </ng-container>
-          
+
             <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
               <td mat-cell *matCellDef="let row">{{ row.description }}</td>
             </ng-container>
-          
+
             <ng-container matColumnDef="questionCount">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Question count</th>
               <td mat-cell *matCellDef="let row">{{ row.questionCount }}</td>
             </ng-container>
-          
+
             <ng-container matColumnDef="durationInMinutes">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Duration (min)</th>
               <td mat-cell *matCellDef="let row">{{ row.durationInMinutes }}</td>
             </ng-container>
-          
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
-          
+
           <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
             (page)="onPageChanged($event)" showFirstLastButtons></mat-paginator>
         </div>

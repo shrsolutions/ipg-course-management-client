@@ -12,6 +12,7 @@ import { NotificationService } from "src/app/shared/services/notification.servic
 import { HttpResponse } from "@angular/common/http";
 import { AssignQuizzForSubtopicComponent } from "../../topic/topic-form/subtopic-modal/assign-quizz-for-subtopic/assign-quizz-for-subtopic.component";
 import { MatDialog } from "@angular/material/dialog";
+import { showConfirmAlert } from "src/app/shared/helper/alert";
 @Component({
   selector: "app-video-form",
   templateUrl: "./video-form.component.html",
@@ -23,7 +24,7 @@ export class VideoFormComponent implements OnInit {
   subtopicId: number;
   editingVideoId: 0;
   subjectId: number;
-  displayedColumns: string[] = [ "value", "description"];
+  displayedColumns: string[] = ["value", "name", "description", "delete"];
   dataSource: MatTableDataSource<VideoLinkList> = new MatTableDataSource<
     VideoLinkList
   >();
@@ -35,8 +36,8 @@ export class VideoFormComponent implements OnInit {
     private adminService: AdminService,
     private notificationService: NotificationService,
     private libraryService: LibraryService,
-     public setRoleDialog: MatDialog,
-  ) {}
+    public setRoleDialog: MatDialog,
+  ) { }
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.subtopicId = params["id"];
@@ -48,6 +49,7 @@ export class VideoFormComponent implements OnInit {
   initForm() {
     this.videoForm = this.fb.group({
       enableCheckbox: [true],
+      name: ["", Validators.required],
       videoLink: ["", Validators.required],
       videoFile: [null, Validators.required],
       description: [""],
@@ -103,13 +105,14 @@ export class VideoFormComponent implements OnInit {
         languageId: 1,
         AttachmentTypeId: this.videoForm.get("enableCheckbox").value ? 2 : 1,
         value: this.videoForm.get("videoLink").value,
+        name: this.videoForm.get("name").value,
         subtopicId: this.subtopicId,
         description: this.videoForm.get("description").value,
-        subtopicAttachmentFile: this.videoForm.get("videoFile").value||0,
+        subtopicAttachmentFile: this.videoForm.get("videoFile").value || 0,
       };
       this.adminService.onAddVideoAttachment(this.subtopicId, subtopicValue).subscribe({
         next: (response) => {
-          if (response.statusCode==200) {
+          if (response.statusCode == 200) {
             this.notificationService.showSuccess(
               response.messages
             );
@@ -121,7 +124,7 @@ export class VideoFormComponent implements OnInit {
         },
       });
 
-      this.videoForm.reset();
+       this.initForm()
     } else {
       this.invalid = false;
       // Mark form controls as touched to display validation messages
@@ -129,15 +132,35 @@ export class VideoFormComponent implements OnInit {
     }
   }
 
-      assignQuizz(){
-        let dialogRef = this.setRoleDialog.open(AssignQuizzForSubtopicComponent, {
-          maxHeight: "95vh",
-          width: "50%",
-          data: { subtopicId: this.subtopicId, type: "view"},
-        });
-    
-        dialogRef.afterClosed().subscribe((result) => {
-           this.onLoadVideos(this.subtopicId);
+  assignQuizz() {
+    let dialogRef = this.setRoleDialog.open(AssignQuizzForSubtopicComponent, {
+      maxHeight: "95vh",
+      width: "50%",
+      data: { subtopicId: this.subtopicId, type: "view" },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.onLoadVideos(this.subtopicId);
+    });
+  }
+
+  onRemoveVideo(videoId: string) {
+    showConfirmAlert('Delete selected row?', '', 'Delete', `Close`).then((result) => {
+      if (result.isConfirmed) {
+        this.adminService.onRemoveVideo(this.subtopicId, videoId).subscribe({
+          next: (responseData) => {
+            if (responseData.statusCode == 200) {
+              this.notificationService.showSuccess(
+                responseData.messages
+              );
+              this.onLoadVideos(this.subtopicId);
+
+            } else {
+              this.notificationService.showError("Any Error happened");
+            }
+          },
         });
       }
+    })
+  }
 }

@@ -12,7 +12,7 @@ import { LibraryService } from "src/app/services/library.service";
   styleUrls: ["./topic-videos.component.scss"],
 })
 export class TopicVideosComponent implements OnInit {
-  subjectId: number;
+  subjectId: string;
   displayedColumns: string[] = [ "translation"];
   dataSource: MatTableDataSource<TopicList> = new MatTableDataSource<
     TopicList
@@ -36,7 +36,7 @@ export class TopicVideosComponent implements OnInit {
     });
   }
 
-  onLoadTopics(subjectId: number): void {
+  onLoadTopics(subjectId: string): void {
     if (subjectId != null && subjectId !== undefined) {
       this.libraryService.fetchTopicsBySubjectId(subjectId,this.paginatorModel).subscribe({
         next: (response) => {

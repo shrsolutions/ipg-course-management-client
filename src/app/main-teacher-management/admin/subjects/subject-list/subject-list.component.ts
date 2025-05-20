@@ -18,7 +18,7 @@ export class SubjectListComponent implements OnInit {
     SubjectList
   >();
   categories: SelectBoxModel[] = [];
-  categoryId = 0;
+  categoryId = null;
   editedSubject;
 
   displayedColumns: string[] = [
@@ -54,7 +54,7 @@ export class SubjectListComponent implements OnInit {
     });
   }
 
-  onLoadSubject(categoryId: number): void {
+  onLoadSubject(categoryId: string): void {
     this.categoryId = categoryId
     this.libraryService.fetchSubjectsByCategoryId(categoryId,this.paginatorModel).subscribe({
       next: (responseData) => {

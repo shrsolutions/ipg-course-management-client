@@ -27,6 +27,7 @@ export class AssignContentComponent implements OnInit {
   length!: number
   displayedColumns: string[] = [
     "select",
+    "name",
     "description",
   ];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();

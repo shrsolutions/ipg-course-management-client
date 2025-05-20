@@ -11,38 +11,48 @@
                                     formControlName="enableCheckbox">
                                 <label for="switch9" data-on-label="Yes" data-off-label="No"></label>
                             </div>
-                            <div class="col-lg-4" *ngIf="videoForm.get('enableCheckbox').value">
+                            <div class="col-lg-2 px-1">
+                                <label for="name" class="visually-hidden">Name</label>
+                                <input type="text" class="form-control " id="name" formControlName="name"
+                                    placeholder="Name">
+                                <div
+                                    *ngIf="videoForm.get('name').invalid && (videoForm.get('name').dirty || videoForm.get('name').touched) && !invalid">
+                                    <small class="text-danger">Name is required.</small>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 px-1" *ngIf="videoForm.get('enableCheckbox').value">
                                 <label for="videolink" class="visually-hidden">Video Link</label>
-                                <input type="text" class="form-control ms-2" id="videolink" formControlName="videoLink"
+                                <input type="text" class="form-control " id="videolink" formControlName="videoLink"
                                     placeholder="Video link">
                                 <div
                                     *ngIf="videoForm.get('videoLink').invalid && (videoForm.get('videoLink').dirty || videoForm.get('videoLink').touched) && !invalid">
                                     <small class="text-danger">Video link is required.</small>
                                 </div>
                             </div>
-                            <div class="col-lg-4" *ngIf="!videoForm.get('enableCheckbox').value">
+                            <div class="col-lg-3 px-1" *ngIf="!videoForm.get('enableCheckbox').value">
                                 <label for="videofile" class="visually-hidden">Video File</label>
-                                <input type="file" class="form-control ms-2" id="videofile"
-                                    (change)="onFileChange($event)">
+                                <input type="file" class="form-control " id="videofile" (change)="onFileChange($event)">
                                 <div
                                     *ngIf="videoForm.get('videoFile').invalid && (videoForm.get('videoFile').dirty || videoForm.get('videoFile').touched)">
                                     <small class="text-danger">Video file is required.</small>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3 px-1">
                                 <label for="description" class="visually-hidden">Description</label>
-                                <textarea class="form-control ms-2" id="description" formControlName="description"
+                                <textarea class="form-control" id="description" formControlName="description"
                                     placeholder="Description"></textarea>
                                 <div
                                     *ngIf="videoForm.get('description').invalid && (videoForm.get('description').dirty || videoForm.get('description').touched)">
                                     <small class="text-danger">Description is required.</small>
                                 </div>
                             </div>
-                            <div class="col-lg-3 d-flex align-items-center justify-content-around">
+                            <div class="col-lg-3 d-flex align-items-center justify-content-around px-1">
                                 <button type="submit" class="btn btn-primary">Add Video
                                     Link</button>
-                                <button type="button" class="btn btn-primary" matTooltip="The quiz added from here will be assigned to that subtopic."
-                                    routerLink="/main-teacher-management/teacher-module/quizzes/quizz" [queryParams]="{ subtopic: subtopicId }">Add
+                                <button type="button" class="btn btn-primary"
+                                    matTooltip="The quiz added from here will be assigned to that subtopic."
+                                    routerLink="/main-teacher-management/teacher-module/quizzes/quizz"
+                                    [queryParams]="{ subtopic: subtopicId }">Add
                                     Quizz</button>
                                 <button type="button" class="btn btn-primary" matTooltip="View quizzes on subtopic"
                                     (click)="assignQuizz()"><i class="bi bi-eye-fill"></i></button>
@@ -79,6 +89,19 @@
                 <ng-container matColumnDef="description">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
                     <td mat-cell *matCellDef="let row">{{row.description ?? "Not Description"}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                    <td mat-cell *matCellDef="let row">{{row.name }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+                    <td mat-cell *matCellDef="let row"> <a class="btn btn-outline-secondary btn-sm remove"
+                            (click)="onRemoveVideo(row.id)" title="Remove">
+                            <i class="fas fa-prescription-bottle" title="Remove"></i>
+                        </a> </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

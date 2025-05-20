@@ -29,7 +29,7 @@ export class LibraryService {
     );
   }
 
-  fetchSubjectsByCategoryId(categoryId: number,paginator?: PaginatorModel) {
+  fetchSubjectsByCategoryId(categoryId: string,paginator?: PaginatorModel) {
     const pagenitorUrl = HttpHelper.setPaginatorUrl(paginator);
 
     return this.http.get<any>(
@@ -37,13 +37,13 @@ export class LibraryService {
     );
   }
 
-  fetchTopicsBySubjectId(subjectId: number,paginator?: PaginatorModel) {
+  fetchTopicsBySubjectId(subjectId: string,paginator?: PaginatorModel) {
     return this.http.get<any>(
       `${this.baseUrl}topics?SubjectId=${subjectId}&Page=${paginator.page}&Count=${paginator.count}`
     );
   }
 
-  fetchSubTopicsByTopicId(topicId: number,paginator?: PaginatorModel) {
+  fetchSubTopicsByTopicId(topicId: string,paginator?: PaginatorModel) {
     return this.http.get<any>(
       `${this.baseUrl}subtopics?TopicId=${topicId}&Page=${paginator.page}&Count=${paginator.count}`
     );

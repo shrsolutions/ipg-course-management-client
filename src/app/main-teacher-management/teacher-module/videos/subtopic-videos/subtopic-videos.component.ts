@@ -18,7 +18,7 @@ export class SubtopicVideosComponent implements OnInit {
 
   categoryId = 0;
   editedSubject;
-  topicId: number;
+  topicId: string;
   displayedColumns: string[] = [ "translation"];
   paginatorModel: PaginatorModel
 
@@ -37,7 +37,7 @@ export class SubtopicVideosComponent implements OnInit {
     });
   }
 
-  onLoadSubtopics(topicId: number) {
+  onLoadSubtopics(topicId: string) {
     this.libraryService.fetchSubTopicsByTopicId(topicId,this.paginatorModel).subscribe({
       next: (response) => {
         const responseData = response.result.data;

@@ -155,8 +155,6 @@ export class GroupComponent {
         });
       } 
     })
-
-
   }
 
   viewGroup(id: number){
@@ -217,7 +215,7 @@ export class GroupComponent {
   assignQuizz(){
     let dialogRef = this.setRoleDialog.open(AssignQuizzComponent, {
       maxHeight: "95vh",
-      width: "50%",
+      width: "60%",
       data: { groupId: this.selectedRow.id},
     });
 
