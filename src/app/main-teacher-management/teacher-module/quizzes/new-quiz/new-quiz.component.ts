@@ -11,6 +11,7 @@ import ResizeModule from "@botom/quill-resize-module";
 import { CanComponentDeactivate } from 'src/app/shared/utility/unsaved-changes.guard';
 import imageCompression from 'browser-image-compression';
 import { AdminService } from 'src/app/services/admin.service';
+import { AssignQuizzToSubtopicComponent } from '../assign-quizz-to-subtopic/assign-quizz-to-subtopic.component';
 
 const Font = Quill.import('attributors/class/font') as any; // TypeScript-ə uyğunlaşdırma
 Font.whitelist = ['Calibri', 'TimesNewRoman', 'Arial', 'Monospace'];
@@ -32,6 +33,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private adminService: AdminService,
+    public assignQuizzDialog: MatDialog,
   ) {
     this.route.params.subscribe((params) => {
       this.quizzId = params["id"];
@@ -211,19 +213,34 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     if (this.quizzId !== undefined) {
       this.getQuizzById()
     }
-    console.log(this.subTopicId)
     if (this.subTopicId) {
       this.adminService.getAssignQuizForSubtopic(this.subTopicId).subscribe({
         next: res => {
-          console.log(res)
           this.quizzIds = {
             quizIds: res.result.map(item => item.quizId)
           };
 
-          console.log(this.quizzIds)
         }
       })
     }
+
+    let dialogRef = this.assignQuizzDialog.open(AssignQuizzToSubtopicComponent, {
+      maxHeight: "95vh",
+      width: "60%",
+      data: { quizId: "res.result" },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+      if (!result) {
+        showInfoAlert('', "Quiz was not assigned to any subtopic.", false, true, 'Close')
+        this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
+      } else {
+        this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
+        showInfoAlert('', "res.messages", false, true, 'Close')
+      }
+
+    });
   }
 
 
@@ -408,8 +425,24 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
               }
             })
           } else {
-            this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
-            showInfoAlert('', res.messages, false, true, 'Close')
+            showConfirmAlert('Do you want to assign the created quiz to a subtopic?', '', 'Assign subtopic', `Close`).then((result) => {
+              if (result.isConfirmed) {
+                let dialogRef = this.assignQuizzDialog.open(AssignQuizzToSubtopicComponent, {
+                  maxHeight: "95vh",
+                  width: "60%",
+                  data: { quizId: res.result },
+                });
+
+                dialogRef.afterClosed().subscribe((result) => {
+                  this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
+                  showInfoAlert('', res.messages, false, true, 'Close')
+                });
+              } else {
+                this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
+                showInfoAlert('', res.messages, false, true, 'Close')
+              }
+            })
+
 
           }
         },

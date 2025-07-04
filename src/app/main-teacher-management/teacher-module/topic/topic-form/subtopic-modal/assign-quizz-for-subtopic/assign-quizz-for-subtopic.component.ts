@@ -32,7 +32,8 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
     "title",
     "description",
     "questionCount",
-    "durationInMinutes",
+    "edit",
+
   ];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 
@@ -40,8 +41,23 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
     count: this.pageSize,
     page: this.currentPage,
   };
+
+    filters = {
+    page: this.currentPage,
+    count: this.pageSize,
+    exactFilters: [],
+    integerRangeFilters: [],
+    sortByProperties: []
+  };
+
+    titleFilter: string = '';
+  questionCountMin: number | null = null;
+  questionCountMax: number | null = null;
+  stateSortDirection: 'ascending' | 'descending'  = 'descending';
   ngOnInit(): void {
-    this.getAllQuizzes()
+    // this.getAllQuizzes()
+    this.fetchQuizzes()
+
   }
 
   viewData: any
@@ -79,12 +95,57 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
     });
   }
 
+  applyFilters() {
+    // ExactFilters
+    this.filters.exactFilters = [];
+    if (this.titleFilter) {
+      this.filters.exactFilters.push({
+        propertyName: 'title',
+        value: this.titleFilter
+      });
+    }
+  
+    // IntegerRangeFilters
+    this.filters.integerRangeFilters = [];
+    if (this.questionCountMin !== null || this.questionCountMax !== null) {
+      this.filters.integerRangeFilters.push({
+        propertyName: 'questionCount',
+        greaterThanOrEqualValue: this.questionCountMin,
+        lessThanOrEqualValue: this.questionCountMax
+      });
+    }
+  
+    // SortByProperties
+    this.filters.sortByProperties = [];
+    if (this.stateSortDirection) {
+      this.filters.sortByProperties.push({
+        propertyName: 'stateId',
+        sortingType: this.stateSortDirection
+      });
+    }
+  
+    this.fetchQuizzes(); // API sorğusunu göndər
+  }
+
+  fetchQuizzes() {
+    this.quizzService.getAllQuizzes2(this.filters).subscribe((res: any) => {
+      this.dataSource = new MatTableDataSource<any>(res.result.data);
+        this.length = res.result.count
+    });
+  }
+  
+  toggleSort(column: string) {
+    this.stateSortDirection = this.stateSortDirection === 'ascending' ? 'descending' : 'ascending';
+    this.applyFilters();
+  }
 
 
   onPageChanged(event: PageEvent) {
     this.paginatorModel.page = event.pageIndex + 1;
     this.paginatorModel.count = event.pageSize;
-    this.getAllQuizzes()
+    // this.getAllQuizzes()
+    this.fetchQuizzes()
+
   }
 
   quizIds: number[] = [];
@@ -131,3 +192,5 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
   }
 
 }
+
+

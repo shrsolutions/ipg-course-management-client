@@ -53,6 +53,7 @@ import { AssignQuizzComponent } from "./teacher-module/group/assign-quizz/assign
 import { AssignContentComponent } from "./teacher-module/group/assign-content/assign-content.component";
 import { AssignQuizzForSubtopicComponent } from "./teacher-module/topic/topic-form/subtopic-modal/assign-quizz-for-subtopic/assign-quizz-for-subtopic.component";
 import { ViewGroupComponent } from "./teacher-module/group/view-group/view-group.component";
+import { AssignQuizzToSubtopicComponent } from "./teacher-module/quizzes/assign-quizz-to-subtopic/assign-quizz-to-subtopic.component";
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { ViewGroupComponent } from "./teacher-module/group/view-group/view-group
     AddStudentComponent,
     QuizzesComponent,
     NewQuizComponent,
-    ReadQuestionsComponent
+    ReadQuestionsComponent,
+    AssignQuizzToSubtopicComponent
   ],
   imports: [
     SharedModule,

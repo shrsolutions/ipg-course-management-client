@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PaginatorModel } from '../../models/Base/FetchBaseModel';
 import { MatTableDataSource } from '@angular/material/table';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { QuizzesService } from 'src/app/services/quizzes.service';
 import { showConfirmAlert, showErrorAlert, showInfoAlert, showSuccessAlert } from 'src/app/shared/helper/alert';
 
@@ -29,6 +29,7 @@ export class QuizzesComponent implements OnInit {
     "remove",
   ];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   paginatorModel: PaginatorModel = {
     count: this.pageSize,
@@ -36,8 +37,8 @@ export class QuizzesComponent implements OnInit {
   };
 
   filters = {
-    page: 1,
-    count: 20,
+    page: this.currentPage,
+    count: this.pageSize,
     exactFilters: [],
     integerRangeFilters: [],
     sortByProperties: []
@@ -47,15 +48,15 @@ export class QuizzesComponent implements OnInit {
   titleFilter: string = '';
   questionCountMin: number | null = null;
   questionCountMax: number | null = null;
-  stateSortDirection: 'ascending' | 'descending'  = 'descending';
+  stateSortDirection: 'ascending' | 'descending' = 'descending';
   ngOnInit(): void {
     // this.getAllQuizzes()
     this.fetchQuizzes()
   }
 
-  getAllQuizzes(){
+  getAllQuizzes() {
     this.quizzService.getAllQuizzes(this.paginatorModel).subscribe({
-      next: res=>{
+      next: res => {
         this.dataSource = new MatTableDataSource<any>(res.result.data);
         this.length = res.result.count
       }
@@ -71,7 +72,7 @@ export class QuizzesComponent implements OnInit {
         value: this.titleFilter
       });
     }
-  
+
     // IntegerRangeFilters
     this.filters.integerRangeFilters = [];
     if (this.questionCountMin !== null || this.questionCountMax !== null) {
@@ -81,7 +82,7 @@ export class QuizzesComponent implements OnInit {
         lessThanOrEqualValue: this.questionCountMax
       });
     }
-  
+
     // SortByProperties
     this.filters.sortByProperties = [];
     if (this.stateSortDirection) {
@@ -90,17 +91,17 @@ export class QuizzesComponent implements OnInit {
         sortingType: this.stateSortDirection
       });
     }
-  
+
     this.fetchQuizzes(); // API sorğusunu göndər
   }
 
   fetchQuizzes() {
     this.quizzService.getAllQuizzes2(this.filters).subscribe((res: any) => {
       this.dataSource = new MatTableDataSource<any>(res.result.data);
-        this.length = res.result.count
+      this.length = res.result.count
     });
   }
-  
+
   toggleSort(column: string) {
     this.stateSortDirection = this.stateSortDirection === 'ascending' ? 'descending' : 'ascending';
     this.applyFilters();
@@ -113,19 +114,19 @@ export class QuizzesComponent implements OnInit {
     // this.loadLanguage();
   }
 
-  removeQuizz(id: number){
+  removeQuizz(id: number) {
     showConfirmAlert('Delete selected row?', '', 'Delete', `Close`).then((result) => {
       if (result.isConfirmed) {
         this.quizzService.removeQuizz(id).subscribe({
           next: (res: any) => {
-              showInfoAlert('', res.messages, false, true, 'Close')
-              this.getAllQuizzes()
+            showInfoAlert('', res.messages, false, true, 'Close')
+            this.fetchQuizzes()
           },
           error: err => {
             showErrorAlert('Error', err.message, 'Close')
           }
         })
-      } 
+      }
     })
   }
 
