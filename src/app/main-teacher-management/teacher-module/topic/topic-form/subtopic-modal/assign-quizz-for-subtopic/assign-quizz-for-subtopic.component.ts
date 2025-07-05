@@ -76,7 +76,41 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
       next: resquizz => {
         resquizz.result.forEach((item: any) => {
           const matchingItem = this.dataSource.data.find(dataItem => dataItem.id === item.quizId);
-          
+
+          if (this.data.type == "view") {
+            this.dataSource = new MatTableDataSource<any>(this.viewData);
+            const filteredData = this.dataSource.data.filter(dataItem =>
+              resquizz.result.some(item => dataItem.id === item.quizId)
+            );
+            this.dataSource.data = filteredData;
+            this.length = filteredData.length
+
+          } else {
+            if (matchingItem) {
+              this.quizIds.push(matchingItem.id);
+            }
+          }
+        });
+      }
+    });
+  }
+
+    fetchQuizzes() {
+    this.quizzService.getAllQuizzes2(this.filters).pipe(
+      switchMap((res:any) => {
+        if (this.data.type !== "view") {
+          this.dataSource = new MatTableDataSource<any>(res.result.data);
+          this.length = res.result.count;
+        }else{
+          this.viewData = res.result.data
+        }
+        return this.adminService.getAssignQuizForSubtopic(this.data.subtopicId);
+      })
+    ).subscribe({
+      next: resquizz => {
+        resquizz.result.forEach((item: any) => {
+          const matchingItem = this.dataSource.data.find(dataItem => dataItem.id === item.quizId);
+
           if (this.data.type == "view") {
             this.dataSource = new MatTableDataSource<any>(this.viewData);
             const filteredData = this.dataSource.data.filter(dataItem =>
@@ -127,12 +161,7 @@ export class AssignQuizzForSubtopicComponent implements OnInit {
     this.fetchQuizzes(); // API sorğusunu göndər
   }
 
-  fetchQuizzes() {
-    this.quizzService.getAllQuizzes2(this.filters).subscribe((res: any) => {
-      this.dataSource = new MatTableDataSource<any>(res.result.data);
-        this.length = res.result.count
-    });
-  }
+
   
   toggleSort(column: string) {
     this.stateSortDirection = this.stateSortDirection === 'ascending' ? 'descending' : 'ascending';

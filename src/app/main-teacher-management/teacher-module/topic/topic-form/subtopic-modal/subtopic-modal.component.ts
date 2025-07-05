@@ -120,18 +120,7 @@ export class SubtopicModalComponent implements OnInit, AfterContentChecked {
   }
 
   onRemoveSubtopic(subtopicId: number, languageId: number): void {
-    // this.adminService.onRemoveSubtopic(subtopicId, languageId).subscribe({
-    //   next: (response) => {
-    //     if (response.statusCode == 200) {
-    //       this.notificationService.showSuccess(
-    //         response.messages
-    //       );
-    //       this.onLoadSubtopics();
-    //     } else {
-    //       this.notificationService.showError("Any Error happened");
-    //     }
-    //   },
-    // });
+
     showConfirmAlert('Delete selected row?', '', 'Delete', `Close`).then((result) => {
       if (result.isConfirmed) {
         this.adminService.onRemoveSubtopic(subtopicId).subscribe({

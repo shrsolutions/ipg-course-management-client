@@ -224,23 +224,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
       })
     }
 
-    let dialogRef = this.assignQuizzDialog.open(AssignQuizzToSubtopicComponent, {
-      maxHeight: "95vh",
-      width: "60%",
-      data: { quizId: "res.result" },
-    });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
-      if (!result) {
-        showInfoAlert('', "Quiz was not assigned to any subtopic.", false, true, 'Close')
-        this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
-      } else {
-        this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
-        showInfoAlert('', "res.messages", false, true, 'Close')
-      }
-
-    });
   }
 
 
@@ -434,9 +418,18 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
                 });
 
                 dialogRef.afterClosed().subscribe((result) => {
-                  this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
-                  showInfoAlert('', res.messages, false, true, 'Close')
+                  console.log(result)
+                  if (!result) {
+                    showInfoAlert('', "Quiz was not assigned to any subtopic.", false, true, 'Close')
+                    this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
+                  } else {
+                    this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
+                    showInfoAlert('',"Added to selected subtopic", false, true, 'Close')
+
+                  }
+
                 });
+
               } else {
                 this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])
                 showInfoAlert('', res.messages, false, true, 'Close')
