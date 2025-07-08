@@ -80,7 +80,6 @@ export class CategoryComponent implements OnInit {
   }
 
   onEditCategory(id: any): void {
-    console.log(id)
     let dialogRef = this.openMatDialog.open(NewCategoryComponent, {
       maxHeight: "95vh",
       width: "40%",

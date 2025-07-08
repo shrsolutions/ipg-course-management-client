@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
 
       },
       error: err => {
-        console.log(err.error)
         showInfoAlert("Info", err.error.messages[0],true, false, '', 'Bağla')
       }
     });

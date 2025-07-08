@@ -60,7 +60,6 @@ getCategoryById() {
           this.existingIconUrl = `http://api.codera.az/api/categories/${this.data.categoryID}/icon-${response.result.iconFileId}`;
           this.hasExistingIcon = true;
         }
-        console.log(this.categoryForm.value)
       }
     });
   }
@@ -116,7 +115,6 @@ removeFile(): void {
       this.isLoading = true;
 
       const formData = new FormData();
-      console.log(this.categoryForm.value.id)
       formData.append('Id', this.categoryForm.value.id);
       formData.append('IconFileId', this.categoryForm.value.iconFileId);
       formData.append('IconFile', this.selectedFile);
