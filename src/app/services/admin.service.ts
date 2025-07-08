@@ -241,7 +241,7 @@ export class AdminService {
     );
   }
 
-  getByIdCategory(categoryId: number) {
+  getByIdCategory(categoryId: string) {
     return this.http.get<any>(
       `${this.baseUrl}categories/${categoryId}`
     );

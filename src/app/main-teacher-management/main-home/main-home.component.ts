@@ -38,6 +38,7 @@ export class MainHomeComponent implements OnInit {
     this.libraryService.fetchAllCategories(this.paginatorModel).subscribe({
       next: (response) => {
         this.categories = response.result.data;
+        console.log(this.categories)
       },
     });
   }
