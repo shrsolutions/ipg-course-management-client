@@ -45,6 +45,10 @@ $my-warn: mat-palette($mat-red);
   height: 38px !important;
 }
 
+.mat-textarea .mat-mdc-text-field-wrapper {
+  height: auto !important;
+}
+
 .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
   top: 19px !important;
 }

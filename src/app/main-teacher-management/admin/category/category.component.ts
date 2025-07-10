@@ -108,9 +108,6 @@ export class CategoryComponent implements OnInit {
       }
     })
 
-    
-
-
   }
   languages: any
   loadLanguage() {

@@ -55,6 +55,9 @@ import { AssignQuizzForSubtopicComponent } from "./teacher-module/topic/topic-fo
 import { ViewGroupComponent } from "./teacher-module/group/view-group/view-group.component";
 import { AssignQuizzToSubtopicComponent } from "./teacher-module/quizzes/assign-quizz-to-subtopic/assign-quizz-to-subtopic.component";
 import { NewCategoryComponent } from "./admin/category/new-category/new-category.component";
+import { AdsComponent } from "./admin/ads/ads.component";
+import { TeachersComponent } from "./admin/teachers/teachers.component";
+import { NewTeacherComponent } from "./admin/teachers/new-teacher/new-teacher.component";
 
 @NgModule({
   declarations: [
@@ -91,7 +94,10 @@ import { NewCategoryComponent } from "./admin/category/new-category/new-category
     NewQuizComponent,
     ReadQuestionsComponent,
     AssignQuizzToSubtopicComponent,
-    NewCategoryComponent
+    NewCategoryComponent,
+    AdsComponent,
+    TeachersComponent,
+    NewTeacherComponent
   ],
   imports: [
     SharedModule,

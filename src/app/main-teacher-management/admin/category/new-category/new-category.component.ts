@@ -106,7 +106,7 @@ removeFile(): void {
   }
 
   saveCategory(): void {
-    if (!this.selectedFile) {
+    if (!this.selectedFile && !this.hasExistingIcon) {
       this.showFileError = true;
       return;
     }

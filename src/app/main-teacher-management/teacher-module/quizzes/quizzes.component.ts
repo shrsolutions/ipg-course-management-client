@@ -111,7 +111,6 @@ export class QuizzesComponent implements OnInit {
     this.filters.page = event.pageIndex + 1;
     this.filters.count = event.pageSize;
     this.fetchQuizzes()
-    // this.loadLanguage();
   }
 
   removeQuizz(id: number) {

@@ -16,7 +16,7 @@
                                 <ul class="metismenu list-unstyled mm-show" id="side-menu">
 
 
-                                    <li >
+                                    <li>
                                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                                             <i class="mdi mdi-speedometer"></i>
                                             <!-- <span class="badge rounded-pill bg-danger float-end">9+</span>  -->
@@ -39,22 +39,32 @@
                                             <span>Admin</span>
                                         </a>
                                         <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                            <li routerLinkActive="mm-active"><a routerLinkActive="active"
+                                                    [routerLink]="['/main-teacher-management/admin/category']">Categories</a>
+                                            </li>
+                                            <li routerLinkActive="mm-active">
+                                                <a [routerLink]="['/main-teacher-management/admin/subject']"
+                                                    routerLinkActive="active">Subjects</a>
+                                            </li>
+                                            <li routerLinkActive="mm-active"><a routerLinkActive="active"
+                                                    [routerLink]="['/main-teacher-management/admin/teachers']">Teachers</a>
+                                            </li>
+                                            <li routerLinkActive="mm-active">
+                                                <a [routerLink]="['/main-teacher-management/admin/ads']"
+                                                    routerLinkActive="active">Ads</a>
+                                            </li>
                                             <li *ngIf="permission?.includes('GetRole') && permission?.includes('AddRole')"
                                                 routerLinkActive="mm-active"><a routerLinkActive="active"
                                                     [routerLink]="['/main-teacher-management/admin/role']">Roles</a>
                                             </li>
                                             <li *ngIf="permission?.includes('GetUsers')" routerLinkActive="mm-active"><a
-                                                    [routerLink]="['/main-teacher-management/admin/user-activate']" routerLinkActive="active">User
+                                                    [routerLink]="['/main-teacher-management/admin/user-activate']"
+                                                    routerLinkActive="active">User
                                                     permission</a></li>
                                             <li><a [routerLink]="['/main-teacher-management/admin/language']"
                                                     routerLinkActive="active">Languages
                                                 </a></li>
-                                            <li routerLinkActive="mm-active"><a routerLinkActive="active"
-                                                    [routerLink]="['/main-teacher-management/admin/category']">Categories</a></li>
-                                            <li routerLinkActive="mm-active">
-                                                <a [routerLink]="['/main-teacher-management/admin/subject']"
-                                                    routerLinkActive="active">Subjects</a>
-                                            </li>
+
                                         </ul>
                                     </li>
                                 </ul>
