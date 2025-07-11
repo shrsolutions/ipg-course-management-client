@@ -107,13 +107,15 @@ $my-warn: mat-palette($mat-red);
   font-size: 16px !important;
 }
 
-.mat-mdc-raised-button.mat-primary{
+.mat-mdc-raised-button.mat-primary {
   background-color: rgb(77 179 230 / 25%) !important;
 }
 
-.mat-mdc-raised-button:not(:disabled){
+.mat-mdc-raised-button:not(:disabled) {
   color: #3682a8 !important;
 }
+
+
 
 .table-responsive table thead tr {
   height: 20px !important;
@@ -130,6 +132,11 @@ $my-warn: mat-palette($mat-red);
   background-color: #f6fafe !important;
 }
 
+.table-responsive table tbody tr.selected {
+  background-color: #d6eaf8 !important;
+  transition: 0.3s;
+}
+
 .table-responsive table tbody tr {
   height: 18px !important;
   transition: 0.3s;
@@ -138,10 +145,7 @@ $my-warn: mat-palette($mat-red);
     padding: 6px 12px !important;
   }
 
-  &:hover {
-    background: #f5f5f5 !important;
-    transition: 0.3s !important;
-  }
+
 }
 
 .general-label .mat-mdc-form-field-subscript-wrapper {
@@ -200,28 +204,28 @@ $text-editor-fonts: 'Calibri', 'TimesNewRoman', 'Arial', 'Monospace';
   color: black;
 }
 
-.ql-toolbar.ql-snow{
+.ql-toolbar.ql-snow {
   border-top-right-radius: 4px !important;
   border-top-left-radius: 4px !important;
   border-bottom: 0px !important;
 }
 
-.ql-container.ql-snow{
+.ql-container.ql-snow {
   border-radius: 4px !important;
 }
 
-.ql-toolbar.ql-snow + .ql-container.ql-snow{
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
   border-top: 1px solid #ccc !important;
 }
 
 
 
 .mat-mdc-icon-button.mat-mdc-button-base {
-    width: 32px !important;
-    height: 32px !important;
-    padding: 0px !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    float: left;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
 }

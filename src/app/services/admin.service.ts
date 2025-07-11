@@ -363,4 +363,40 @@ export class AdminService {
   getTutorImagebyTutorID(tutorId: string, imageId: string){
     return `${this.baseUrl}tutors/${tutorId}/image-${imageId}`
   }
+
+  // ADS SERVICES
+  getAllAds(filters: any): Observable<any[]> {
+    let params = new HttpParams()
+      .set('Page', filters.page.toString())
+      .set('Count', filters.count.toString());
+
+    // ExactFilters
+    filters.exactFilters.forEach((filter: any, index: number) => {
+      params = params
+        .set(`ExactFilters[${index}].propertyName`, filter.propertyName)
+        .set(`ExactFilters[${index}].value`, filter.value);
+    });
+
+    return this.http.get<any[]>(`${this.baseUrl}ads`, { params });
+  }
+
+  getAdById(adId: string) {
+    return this.http.get<any>(`${this.baseUrl}ads/${adId}`);
+  }
+
+  deleteAd(adId: string) {
+    return this.http.delete<any>(`${this.baseUrl}ads/${adId}`);
+  }
+
+  addAd(adData: FormData) {
+    return this.http.post<any>(`${this.baseUrl}ads`, adData);
+  }
+
+  updateAd(adData: FormData, adId:string) {
+    return this.http.put<any>(`${this.baseUrl}ads/${adId}`, adData);
+  }
+
+  getAdImagebyAdID(adId: string, imageId: string){
+    return `${this.baseUrl}ads/${adId}/image-${imageId}`
+  }
 }

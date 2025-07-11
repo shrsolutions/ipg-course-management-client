@@ -58,6 +58,7 @@ import { NewCategoryComponent } from "./admin/category/new-category/new-category
 import { AdsComponent } from "./admin/ads/ads.component";
 import { TeachersComponent } from "./admin/teachers/teachers.component";
 import { NewTeacherComponent } from "./admin/teachers/new-teacher/new-teacher.component";
+import { NewAdComponent } from "./admin/ads/new-ad/new-ad.component";
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { NewTeacherComponent } from "./admin/teachers/new-teacher/new-teacher.co
     NewCategoryComponent,
     AdsComponent,
     TeachersComponent,
-    NewTeacherComponent
+    NewTeacherComponent,
+    NewAdComponent
   ],
   imports: [
     SharedModule,
