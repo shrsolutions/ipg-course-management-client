@@ -25,6 +25,10 @@ export class LoginComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.initialForm();
+    console.log(localStorage.getItem("user"))
+    if (localStorage.getItem("user") !== null) {
+       this.router.navigate(["/main-teacher-management/main-home"])
+    }
   }
 
   initialForm() {
