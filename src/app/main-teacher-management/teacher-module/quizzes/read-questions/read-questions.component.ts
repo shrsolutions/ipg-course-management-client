@@ -12,7 +12,7 @@ export class ReadQuestionsComponent implements OnInit, AfterContentInit {
 
   constructor(
     public dialogRef: MatDialogRef<NewQuizComponent>,
-    @Inject(MAT_DIALOG_DATA) public questionId: string,
+    @Inject(MAT_DIALOG_DATA) public questionData: any,
     private quizzService: QuizzesService,
     private cdr: ChangeDetectorRef
   ) { }
@@ -25,7 +25,7 @@ export class ReadQuestionsComponent implements OnInit, AfterContentInit {
     toolbar: false
   }
   ngOnInit() {
-    this.quizzService.getQuestionById(this.questionId).subscribe({
+    this.quizzService.getQuestionById(this.questionData.id).subscribe({
       next: res => {
         this.question = res.result
         

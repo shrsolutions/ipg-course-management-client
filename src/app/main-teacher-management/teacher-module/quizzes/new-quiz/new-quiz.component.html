@@ -63,13 +63,13 @@
         <div class="news row">
           <div class="col-xl-2 col-lg-3 col-sm-4 col-md-3" *ngFor="let item of savedQuestions; let i = index">
             <div class="news-card">
-              <div class="card-header">
+              <div class="card-header"  [ngClass]="{'editing': selectedQuestionIndex === i}">
                 <strong><span>{{i+1}}</span></strong>
                 <div>
                   <button mat-icon-button color="accent" (click)="editQuestion(item.id, i)">
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-icon-button color="accent" (click)="readMore(item.id)">
+                  <button mat-icon-button color="accent" (click)="readMore(item.id, i)">
                     <mat-icon>remove_red_eye</mat-icon>
                   </button>
                   <button mat-icon-button color="warn" (click)="removeQuestion(item.id, i)">

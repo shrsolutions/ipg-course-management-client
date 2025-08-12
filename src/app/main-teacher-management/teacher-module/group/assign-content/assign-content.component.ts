@@ -36,6 +36,8 @@ export class AssignContentComponent implements OnInit {
     count: this.pageSize,
     page: this.currentPage,
   };
+
+  searchTerm: string = ''; 
   ngOnInit(): void {
     this.getAllAttachmentsLink()
   }
@@ -108,6 +110,17 @@ export class AssignContentComponent implements OnInit {
         showErrorAlert('Error', err.message, 'Close')
       }
     })
+  }
+
+    applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.searchTerm = filterValue.trim().toLowerCase();
+    this.dataSource.filter = this.searchTerm;
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const name = data.name ? data.name.toLowerCase() : '';
+      const description = data.description ? data.description.toLowerCase() : '';
+      return name.includes(filter) || description.includes(filter);
+    };
   }
 
 

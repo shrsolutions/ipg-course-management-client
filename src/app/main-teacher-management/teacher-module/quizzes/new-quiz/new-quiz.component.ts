@@ -381,6 +381,8 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
         showInfoAlert('', 'The operation was completed successfully!', false, true, 'Close')
         this.savedQuestions.splice(index, 1);
         this.savedQuestions = [...this.savedQuestions]
+        this.selectedQuestionIndex = -1
+        this.addNewQuestion()
       }
     })
   }
@@ -461,9 +463,9 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
     this.questionsForm.patchValue({ rateId: this.rateId });
   }
 
-  readMore(id: string) {
+  readMore(id: string, index: number) {
     this.dialog.open(ReadQuestionsComponent, {
-      data: id,
+      data: {id, index},
       width: '80%',
       maxHeight: '95vh'
     })

@@ -99,8 +99,14 @@ export class AssignStudentComponent {
   }
 
   getMemberName(memberId: number): string {
-    const member = this.students.find(s => s.id === memberId);
-    return member ? member.value : '';
+   const member = this.students.find(s => s.id === memberId);
+    console.log(member);
+    if (member) {
+        return member.phoneNumber 
+            ? `${member.value} (+${member.phoneNumber})`
+            : member.value;
+    }
+    return '';
   }
 
   displayVal(object: any): string {
