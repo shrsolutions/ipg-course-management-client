@@ -96,7 +96,6 @@ export class RegisterComponent implements OnInit {
         }
       },
       error: errorData => {
-        console.log(errorData);
       }
     });
   }

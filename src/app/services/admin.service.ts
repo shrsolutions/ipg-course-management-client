@@ -241,7 +241,7 @@ export class AdminService {
     );
   }
 
-  getByIdCategory(categoryId: number) {
+  getByIdCategory(categoryId: string) {
     return this.http.get<any>(
       `${this.baseUrl}categories/${categoryId}`
     );
@@ -305,7 +305,7 @@ export class AdminService {
     );
   }
 
-    onRemoveVideo(id: any, attachmentId: string) {
+  onRemoveVideo(id: any, attachmentId: string) {
     return this.http.delete<Wrapper<any>>(`${this.baseUrl}subtopics/${id}/attachments/${attachmentId}`);
   }
 
@@ -326,5 +326,77 @@ export class AdminService {
     return this.http.get<any>(
       `${this.baseUrl}users/autocomplete?Filter=${filter}`
     );
+  }
+
+  // TUTORS SERVICES
+  getAllTutors(filters: any): Observable<any[]> {
+    let params = new HttpParams()
+      .set('Page', filters.page.toString())
+      .set('Count', filters.count.toString());
+
+    // ExactFilters
+    filters.exactFilters.forEach((filter: any, index: number) => {
+      params = params
+        .set(`ExactFilters[${index}].propertyName`, filter.propertyName)
+        .set(`ExactFilters[${index}].value`, filter.value);
+    });
+
+    return this.http.get<any[]>(`${this.baseUrl}tutors`, { params });
+  }
+
+  getTutorById(tutorId: string) {
+    return this.http.get<any>(`${this.baseUrl}tutors/${tutorId}`);
+  }
+
+  deleteTutor(tutorId: string) {
+    return this.http.delete<any>(`${this.baseUrl}tutors/${tutorId}`);
+  }
+
+  addTutor(tutorData: FormData) {
+    return this.http.post<any>(`${this.baseUrl}tutors`, tutorData);
+  }
+
+  updateTutor(tutorData: FormData, tutorId:string) {
+    return this.http.put<any>(`${this.baseUrl}tutors/${tutorId}`, tutorData);
+  }
+
+  getTutorImagebyTutorID(tutorId: string, imageId: string){
+    return `${this.baseUrl}tutors/${tutorId}/image-${imageId}`
+  }
+
+  // ADS SERVICES
+  getAllAds(filters: any): Observable<any[]> {
+    let params = new HttpParams()
+      .set('Page', filters.page.toString())
+      .set('Count', filters.count.toString());
+
+    // ExactFilters
+    filters.exactFilters.forEach((filter: any, index: number) => {
+      params = params
+        .set(`ExactFilters[${index}].propertyName`, filter.propertyName)
+        .set(`ExactFilters[${index}].value`, filter.value);
+    });
+
+    return this.http.get<any[]>(`${this.baseUrl}ads`, { params });
+  }
+
+  getAdById(adId: string) {
+    return this.http.get<any>(`${this.baseUrl}ads/${adId}`);
+  }
+
+  deleteAd(adId: string) {
+    return this.http.delete<any>(`${this.baseUrl}ads/${adId}`);
+  }
+
+  addAd(adData: FormData) {
+    return this.http.post<any>(`${this.baseUrl}ads`, adData);
+  }
+
+  updateAd(adData: FormData, adId:string) {
+    return this.http.put<any>(`${this.baseUrl}ads/${adId}`, adData);
+  }
+
+  getAdImagebyAdID(adId: string, imageId: string){
+    return `${this.baseUrl}ads/${adId}/image-${imageId}`
   }
 }

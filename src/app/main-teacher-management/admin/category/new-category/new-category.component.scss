@@ -1,0 +1,104 @@
+.modal-1 {
+
+    .row>*{
+        margin-top: 0;
+    }
+
+  .modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .file-upload-container {
+          .upload-title {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.6);
+      }
+      
+      .upload-hint {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.54);
+      }
+    .file-upload-label {
+      display: block;
+      cursor: pointer;
+      
+
+      
+      .upload-area {
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s;
+        
+        &.has-file {
+          border-color: #4CAF50;
+          background-color: rgba(76, 175, 80, 0.05);
+        }
+        
+        .upload-placeholder {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          color: rgba(0, 0, 0, 0.54);
+          
+          .upload-icon {
+            font-size: 48px;
+            height: 48px;
+            width: 48px;
+            margin-bottom: 8px;
+            color: #673ab7;
+          }
+        }
+        
+        .file-preview {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          
+          .preview-image {
+            max-width: 100px;
+            max-height: 100px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+          }
+          
+          .file-info {
+            display: flex;
+            align-items: center;
+            
+            span {
+              margin-right: 8px;
+              max-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            
+            .btn-remove {
+              background: none;
+              border: none;
+              color: #f44336;
+              cursor: pointer;
+              padding: 0;
+              display: flex;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .modal-footer {
+    border-top: 1px solid #e9ecef;
+  }
+}

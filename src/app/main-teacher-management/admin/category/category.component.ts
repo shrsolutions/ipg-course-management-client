@@ -10,6 +10,9 @@ import { PaginatorModel } from "../../models/Base/FetchBaseModel";
 import { MatTableDataSource } from "@angular/material/table";
 import { PageEvent } from "@angular/material/paginator";
 import { showConfirmAlert } from "src/app/shared/helper/alert";
+import { MatDialog } from "@angular/material/dialog";
+import { AssignQuizzToSubtopicComponent } from "../../teacher-module/quizzes/assign-quizz-to-subtopic/assign-quizz-to-subtopic.component";
+import { NewCategoryComponent } from "./new-category/new-category.component";
 
 @Component({
   selector: "app-category",
@@ -37,7 +40,8 @@ export class CategoryComponent implements OnInit {
     private adminService: AdminService,
     private notificationService: NotificationService,
     private libraryService: LibraryService,
-    private saService: SweatAlertService
+       public openMatDialog: MatDialog,
+   
   ) {
     this.paginatorModel = {
       count: this.pageSize,
@@ -76,33 +80,15 @@ export class CategoryComponent implements OnInit {
   }
 
   onEditCategory(id: any): void {
-
-    const editedCategory = this.categoryList.find((c) => c.id === id);
-    if (!editedCategory) return;
-    this.editedCategoryId = editedCategory.id;
-    this.adminService.getByIdCategory(id).subscribe({
-      next: (response) => {
-        if (response.statusCode == 200) {
-          const nonLanguageId1 = response.result.translations.find(
-            translation => translation.languageId !== 1
-          );
-          this.categoryForm.patchValue({
-            category: editedCategory.translationInCurrentLanguage,
-            langId: nonLanguageId1 ? nonLanguageId1.languageId : 1
-          });
-        } else {
-
-          this.notificationService.showError("Xəta baş verdi'");
-        }
-      },
-      error: err => {
-
-        this.notificationService.showError("Xəta baş verdi'");
-      }
-
+    let dialogRef = this.openMatDialog.open(NewCategoryComponent, {
+      maxHeight: "95vh",
+      width: "40%",
+      data: { categoryID: id },
     });
 
-    this.btnAddOrUpdate = "Update Category";
+    dialogRef.afterClosed().subscribe((result) => {
+            this.getAllCategories();
+    });
   }
 
   onRemoveCategory(categoryId: number) {
@@ -122,39 +108,6 @@ export class CategoryComponent implements OnInit {
       }
     })
 
-    // this.adminService.getByIdCategory(categoryId).subscribe({
-    //   next: (response) => {
-    //     if (response.statusCode==200) {
-    //       const nonLanguageId1 = response.result.translations.find(
-    //         translation => translation.languageId !== 1
-    //     );
-    //       this.adminService.onRemoveCategory(categoryId,nonLanguageId1 ? nonLanguageId1.languageId : 1).subscribe({
-    //         next: (responseData) => {
-    //           if (responseData.statusCode==200) {
-    //             this.notificationService.showSuccess(
-    //               responseData.messages
-    //             );
-    //             this.getAllCategories();
-    //           } else {
-
-    //             this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
-    //           }
-    //         }, error: err => {
-
-    //           this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
-    //         }
-    //       });
-    //       this.getAllCategories();
-    //     } else {
-
-    //       this.notificationService.showError("Bu əməliyyatı icra etmək hüququnuz yoxdur'");
-    //     }
-    //   },
-
-
-    // });
-
-
   }
   languages: any
   loadLanguage() {
@@ -166,38 +119,17 @@ export class CategoryComponent implements OnInit {
       },
     });
   }
-  onSubmit(): void {
-    if (this.categoryForm.valid) {
-      const categoryValue = this.categoryForm.get("category").value;
-      const categoryData: any = {
-        id: this.editedCategoryId || null,
-        translation: {
-          languageId: Number(this.categoryForm.get("langId").value),
-          translation: categoryValue,
 
-        },
-      };
 
-      this.adminService.onAddCategory(categoryData).subscribe({
-        next: (response) => {
-          if (response.statusCode == 200) {
-            this.notificationService.showSuccess(
-              response.messages
-            );
+  openDialog() {
+    let dialogRef = this.openMatDialog.open(NewCategoryComponent, {
+      maxHeight: "95vh",
+      width: "40%",
+      data: { categoryID: '' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
             this.getAllCategories();
-          } else {
-            this.notificationService.showError("Any Error happened");
-          }
-        },
-      });
-      this.categoryForm.reset();
-      this.btnAddOrUpdate = "Add Category";
-      this.editedCategoryId = 0;
-    } else {
-      // Mark all form controls as touched to show validation errors
-      Object.keys(this.categoryForm.controls).forEach((key) => {
-        this.categoryForm.get(key)?.markAsTouched();
-      });
-    }
+    });
   }
 }

@@ -205,7 +205,6 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
 
     this.route.queryParams.subscribe(params => {
       this.subTopicId = params['subtopic'];
-      console.log('Gelen subtopicId:', this.subTopicId);
     });
     for (let i = 0; i < 3; i++) {
       this.addAnswer();
@@ -420,7 +419,6 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
                 });
 
                 dialogRef.afterClosed().subscribe((result) => {
-                  console.log(result)
                   if (!result) {
                     showInfoAlert('', "Quiz was not assigned to any subtopic.", false, true, 'Close')
                     this.router.navigate(['/main-teacher-management/teacher-module/quizzes'])

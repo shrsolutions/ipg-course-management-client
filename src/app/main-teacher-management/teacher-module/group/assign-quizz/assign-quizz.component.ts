@@ -148,7 +148,6 @@ export class AssignQuizzComponent implements OnInit {
   }
 
   onLoadSubject(): void {
-    console.log(this.categorieId)
     this.libraryService.fetchSubjectsByCategoryId(this.categorieId, this.paginatorModelForSelectBox).subscribe({
       next: (responseData) => {
         this.subjects = responseData.result.data.map((v) => ({

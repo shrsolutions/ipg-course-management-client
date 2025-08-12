@@ -21,6 +21,8 @@ import { StudentComponent } from "./admin/student/student.component";
 import { QuizzesComponent } from "./teacher-module/quizzes/quizzes.component";
 import { NewQuizComponent } from "./teacher-module/quizzes/new-quiz/new-quiz.component";
 import { UnsavedChangesGuard } from "../shared/utility/unsaved-changes.guard";
+import { TeachersComponent } from "./admin/teachers/teachers.component";
+import { AdsComponent } from "./admin/ads/ads.component";
 
 const userRoutes: Routes = [
   {
@@ -68,7 +70,19 @@ const userRoutes: Routes = [
         component: SubjectsComponent,
         data: { breadcrumb: "New Subject" },
       },
-    
+
+      {
+        path: "admin/teachers",
+        component: TeachersComponent,
+        data: { breadcrumb: "Teachers" },
+      },
+
+            {
+        path: "admin/ads",
+        component: AdsComponent,
+        data: { breadcrumb: "Ads" },
+      },
+
       {
         path: "teacher-module/topics",
         component: TopicComponent,
@@ -129,4 +143,4 @@ const userRoutes: Routes = [
   imports: [CommonModule, [RouterModule.forChild(userRoutes)]],
   exports: [RouterModule],
 })
-export class TeacherRoutingModule {}
+export class TeacherRoutingModule { }

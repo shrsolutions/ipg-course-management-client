@@ -2,25 +2,11 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="card-title">Categories</h5>
         <div class="general-label">
-            <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+            <form >
                 <div class="row row-cols-lg-auto  align-items-center">
-                    <mat-form-field appearance="outline" class="col-lg-4 col-md-3 col-sm-12 ps-0">
-                        <mat-label>Language</mat-label>
-                        <mat-select formControlName="langId">
-                            <mat-option *ngFor="let language of languages" [value]="language.id">
-                                {{language.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" class="col-lg-4 col-sm-6 ps-0">
-                        <mat-label>Category</mat-label>
-                        <input matInput type="text" id="category" formControlName="category"
-                            placeholder="Enter Category">
-                    </mat-form-field>
-                    <div class="col-lg-4 col-sm-5 ps-0">
-                            <button mat-raised-button type="submit" class="w-100"
-                                color="primary">{{btnAddOrUpdate}}</button>
-                    </div>
+
+                        <button mat-raised-button type="button" (click)="openDialog()" class="w-100"
+                            color="primary">{{btnAddOrUpdate}}</button>
                 </div>
             </form>
         </div>

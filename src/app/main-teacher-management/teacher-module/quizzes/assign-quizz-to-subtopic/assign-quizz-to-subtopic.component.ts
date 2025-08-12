@@ -34,7 +34,6 @@ export class AssignQuizzToSubtopicComponent implements OnInit {
   quizzIds: any
 
   ngOnInit() {
-    console.log(this.data.quizId)
     this.getAllCategories()
   }
 
@@ -47,7 +46,6 @@ export class AssignQuizzToSubtopicComponent implements OnInit {
   }
 
   getSubjectbyCategoryId(categoryId: string) {
-    console.log(categoryId)
     this.libraryService.fetchSubjectsByCategoryId(categoryId, this.paginatorModel).subscribe({
       next: (responseData) => {
         this.subjects = responseData.result.data;
@@ -81,7 +79,6 @@ export class AssignQuizzToSubtopicComponent implements OnInit {
         };
         this.quizzIds.quizIds.push(this.data.quizId)
 
-        console.log(this.quizzIds)
       }
     })
   }

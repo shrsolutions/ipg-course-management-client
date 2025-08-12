@@ -25,6 +25,10 @@ export class LoginComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.initialForm();
+    console.log(localStorage.getItem("user"))
+    if (localStorage.getItem("user") !== null) {
+       this.router.navigate(["/main-teacher-management/main-home"])
+    }
   }
 
   initialForm() {
@@ -58,7 +62,6 @@ export class LoginComponent implements OnInit {
 
       },
       error: err => {
-        console.log(err.error)
         showInfoAlert("Info", err.error.messages[0],true, false, '', 'Bağla')
       }
     });
