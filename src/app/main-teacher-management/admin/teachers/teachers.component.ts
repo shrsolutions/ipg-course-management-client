@@ -26,6 +26,7 @@ export class TeachersComponent implements OnInit {
     "name",
     "surname",
     "image",
+    "about",
     "edit",
     "remove",
   ];

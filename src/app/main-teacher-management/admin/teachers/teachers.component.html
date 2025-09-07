@@ -28,13 +28,19 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="about" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 50%F;">
+            About
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.about }}</td>
+        </ng-container>
+
 
         <ng-container matColumnDef="edit">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Edit </th>
-          <td mat-cell *matCellDef="let row"> 
-            <a class="btn btn-outline-secondary btn-sm remove"
-              (click)="openDialog(row.id)" title="edit">
-             <i class="fas fa-pencil-alt" title="Edit"></i>
+          <td mat-cell *matCellDef="let row">
+            <a class="btn btn-outline-secondary btn-sm remove" (click)="openDialog(row.id)" title="edit">
+              <i class="fas fa-pencil-alt" title="Edit"></i>
             </a>
           </td>
         </ng-container>

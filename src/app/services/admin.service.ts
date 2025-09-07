@@ -209,14 +209,14 @@ export class AdminService {
   }
 
   onUserActivate(userId: number) {
-    return this.http.put<Wrapper<any>>(
+    return this.http.post<Wrapper<any>>(
       `${this.baseUrl}users/${userId}/activate`,
       {}
     );
   }
 
   onUserBlock(userId: number) {
-    return this.http.put<Wrapper<any>>(
+    return this.http.post<Wrapper<any>>(
       `${this.baseUrl}users/${userId}/block`,
       {}
     );
