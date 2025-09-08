@@ -121,8 +121,46 @@ export class AdminService {
     return this.http.get<any>(`${this.baseUrl}subtopics/${id}/quizzes`);
   }
 
-  getAllAttachmentsLink(paginator: PaginatorModel) {
-    return this.http.get<any>(`${this.baseUrl}subtopics/attachments/links${HttpHelper.setPaginatorUrl(paginator)}`);
+  // getAllAttachmentsLink(paginator: PaginatorModel) {
+  //   return this.http.get<any>(`${this.baseUrl}subtopics/attachments/links${HttpHelper.setPaginatorUrl(paginator)}`);
+  // }
+
+    getAllAttachmentsLink(filters: any): Observable<any[]>{
+      let params = new HttpParams()
+      .set('Page', filters.page.toString())
+      .set('Count', filters.count.toString());
+
+    // ExactFilters
+    filters.exactFilters.forEach((filter: any, index: number) => {
+      params = params
+        .set(`ExactFilters[${index}].propertyName`, filter.propertyName)
+        .set(`ExactFilters[${index}].value`, filter.value);
+    });
+
+    // DateRangeFilters
+    filters.dateRangeFilters.forEach((filter: any, index: number) => {
+      params = params.set(`DateRangeFilters[${index}].propertyName`, filter.propertyName);
+      if (filter.greaterThanOrEqualValue !== null) {
+        params = params.set(
+          `DateRangeFilters[${index}].greaterThanOrEqualValue`,
+          filter.greaterThanOrEqualValue.toString()
+        );
+      }
+      if (filter.lessThanOrEqualValue !== null) {
+        params = params.set(
+          `DateRangeFilters[${index}].lessThanOrEqualValue`,
+          filter.lessThanOrEqualValue.toString()
+        );
+      }
+    });
+
+    // SortByProperties
+    filters.sortByProperties.forEach((sort: any, index: number) => {
+      params = params
+        .set(`SortByProperties[${index}].propertyName`, sort.propertyName)
+        .set(`SortByProperties[${index}].sortingType`, sort.sortingType);
+    });
+    return this.http.get<any>(`${this.baseUrl}subtopics/attachments/links` , { params });
   }
 
   assignContent(id: string, postData: any) {

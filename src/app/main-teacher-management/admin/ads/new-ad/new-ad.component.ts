@@ -38,7 +38,6 @@ export class NewAdComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.data)
     if (this.data !== null) {
       this.getAdById()
       this.modalTitle = 'Update Ad'

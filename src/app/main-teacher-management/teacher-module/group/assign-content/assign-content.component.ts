@@ -37,14 +37,25 @@ export class AssignContentComponent implements OnInit {
     page: this.currentPage,
   };
 
-  searchTerm: string = ''; 
+    filters = {
+    page: this.currentPage,
+    count: this.pageSize,
+    exactFilters: [],
+    dateRangeFilters: [],
+    sortByProperties: []
+  };
+
+  nameFilter: string = '';
+  descriptionFilter: string = ''; 
+
+
   ngOnInit(): void {
     this.getAllAttachmentsLink()
   }
 
   getAllAttachmentsLink() {
-    this.adminService.getAllAttachmentsLink(this.paginatorModel).pipe(
-      switchMap(res => {
+    this.adminService.getAllAttachmentsLink(this.filters).pipe(
+      switchMap((res: any) => {
         this.dataSource = new MatTableDataSource<any>(res.result.data);
         this.length = res.result.count;
         return this.adminService.getAssignContent(this.data.groupId);
@@ -112,15 +123,23 @@ export class AssignContentComponent implements OnInit {
     })
   }
 
-    applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.searchTerm = filterValue.trim().toLowerCase();
-    this.dataSource.filter = this.searchTerm;
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      const name = data.name ? data.name.toLowerCase() : '';
-      const description = data.description ? data.description.toLowerCase() : '';
-      return name.includes(filter) || description.includes(filter);
-    };
+  applyFilters() {
+    this.filters.exactFilters = [];
+    if (this.nameFilter) {
+      this.filters.exactFilters.push({
+        propertyName: 'name',
+        value: this.nameFilter
+      });
+    }
+        if (this.descriptionFilter) {
+      this.filters.exactFilters.push({
+        propertyName: 'description',
+        value: this.descriptionFilter
+      });
+    }
+
+  
+    this.getAllAttachmentsLink(); 
   }
 
 

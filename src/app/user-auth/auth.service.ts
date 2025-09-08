@@ -33,7 +33,7 @@ export class AuthService {
     private http: HttpClient,
     private localStorageService: LocalStorageService,
     private router: Router
-  ) {}
+  ) { }
 
   signup(registerModel) {
 
@@ -44,20 +44,20 @@ export class AuthService {
         tap((resData) => this.handleAuthentication(resData))
       );
   }
-  addStudent(registerModel:any) {
+  addStudent(registerModel: any) {
     const formData = FormUtility.createFormData(registerModel);
 
     return this.http
       .post<Wrapper<any>>(`${this.baseUrl}users/register/student`, formData)
 
   }
-  editProfile(registerModel:any) {
+  editProfile(registerModel: any) {
 
     return this.http
       .put<any>(`${this.baseUrl}users/profile`, registerModel)
 
   }
-  postProfileImage(image:any) {
+  postProfileImage(image: any) {
 
     return this.http
       .post<any>(`${this.baseUrl}users/profile/image`, image)
@@ -69,11 +69,11 @@ export class AuthService {
       .pipe(tap((resData) => this.handleAuthentication(resData)));
   }
 
-  twoStepVerify(registerModel:any) {
+  twoStepVerify(registerModel: any) {
     return this.http.post<any>(`${this.baseUrl}auth/two-step/verify`, registerModel).pipe(tap((resData) => this.handleAuthenticationTwoStep(resData)));
   }
 
-  resendConfirmCode(key:string) {
+  resendConfirmCode(key: string) {
     return this.http.post<any>(`${this.baseUrl}auth/two-step/resend-confirm-code/${key}`, null)
   }
 
@@ -141,29 +141,33 @@ export class AuthService {
   }
 
   private handleAuthentication(userData: any) {
-    if (userData.result.authenticatedUser.userStatusId == 2) {
-        showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz",true, false, '', 'Bağla')
-        return
+    if (userData.result.authenticatedUser.userType == 2) {
+      showInfoAlert("Info", "You do not have permission to access the system.", true, false, '', 'Close')
+      return
     }
-    if (!userData.result.twoStepAuthRequired ) {
+    if (userData.result.authenticatedUser.userStatusId == 2) {
+      showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz", true, false, '', 'Close')
+      return
+    }
+    if (!userData.result.twoStepAuthRequired) {
       const user = User.createUserInstance(userData.result.authenticatedUser);
       const userPermission = userData.result.authenticatedUser.permissions;
       this.user.next(user);
       this.localStorageService.setItem("user", user);
-      this.localStorageService.setItem("userPermission",userPermission);
+      this.localStorageService.setItem("userPermission", userPermission);
     }
   }
 
   private handleAuthenticationTwoStep(userData: any) {
     if (userData.result.authenticatedUser.userStatusId == 2) {
-      showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz",true, false, '', 'Bağla')
+      showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz", true, false, '', 'Close')
       return
-  }
-      const user = User.createUserInstance(userData.result);
-      const userPermission = userData.result.permissions;
-      this.user.next(user);
-      this.localStorageService.setItem("user", user);
-      this.localStorageService.setItem("userPermission",userPermission);
+    }
+    const user = User.createUserInstance(userData.result);
+    const userPermission = userData.result.permissions;
+    this.user.next(user);
+    this.localStorageService.setItem("user", user);
+    this.localStorageService.setItem("userPermission", userPermission);
   }
 
   private createAuthorizationHeader(token?: string): HttpHeaders {
@@ -172,11 +176,11 @@ export class AuthService {
       Authorization: `Bearer ${token || ""}`,
     });
   }
-   getProfileImage() {
-      return this.http.get(
-        `${this.baseUrl}users/profile/image`, {
+  getProfileImage() {
+    return this.http.get(
+      `${this.baseUrl}users/profile/image`, {
       responseType: 'blob',
     })
 
-    }
+  }
 }

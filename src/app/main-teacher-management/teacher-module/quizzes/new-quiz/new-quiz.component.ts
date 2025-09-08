@@ -88,7 +88,7 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
         if (file) {
           const maxSize = 2 * 1024 * 1024; // 2MB
           if (file.size > maxSize) {
-            showErrorAlert('Şəkil ölçüsü maksimum 2MB ola bilər!', undefined, 'Bağla');
+            showErrorAlert('Şəkil ölçüsü maksimum 2MB ola bilər!', undefined, 'Close');
             return;
           }
 
@@ -123,11 +123,11 @@ export class NewQuizComponent implements OnInit, CanComponentDeactivate {
                   this.questionsForm.controls['text'].setValue(quill.root.innerHTML);
                 }
               } else {
-                showErrorAlert('Şəkil yükləmə uğursuz oldu', undefined, 'Bağla')
+                showErrorAlert('Şəkil yükləmə uğursuz oldu', undefined, 'Close')
               }
             },
             error: err => {
-              showErrorAlert(err, undefined, 'Bağla')
+              showErrorAlert(err, undefined, 'Close')
             }
           });
         }

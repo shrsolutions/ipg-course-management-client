@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
 
       },
       error: err => {
-        showInfoAlert("Info", err.error.messages[0],true, false, '', 'Bağla')
+        showInfoAlert("Info", err.error.messages[0],true, false, '', 'Close')
       }
     });
   }

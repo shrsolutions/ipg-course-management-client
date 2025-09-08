@@ -54,7 +54,6 @@ export class TeachersComponent implements OnInit {
   getAllTutors() {
     this.adminService.getAllTutors(this.filters).subscribe((res: any) => {
       this.dataSource = new MatTableDataSource<any>(res.result.data);
-      console.log(res.result.data)
       this.length = res.result.count
     });
   }

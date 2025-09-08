@@ -48,11 +48,15 @@ export class VideoFormComponent implements OnInit {
 
   initForm() {
     this.videoForm = this.fb.group({
-      enableCheckbox: [true],
+      attachmentTypeId: [true ?2:1],
+      id: [""],
+      languageId: [1],
       name: ["", Validators.required],
-      videoLink: ["", Validators.required],
-      videoFile: [null, Validators.required],
+      value: ["", Validators.required],
+      subtopicAttachmentFile: [0 , Validators.required],
       description: [""],
+      subtopicId: [this.subtopicId],
+
     });
   }
 
@@ -73,14 +77,14 @@ export class VideoFormComponent implements OnInit {
   }
 
   enableCheckboxValidator() {
-    return this.videoForm && this.videoForm.get("enableCheckbox").value
+    return this.videoForm && this.videoForm.get("attachmentTypeId").value
       ? Validators.required
       : null;
   }
   onFileChange(event: any) {
     const file = (event.target as HTMLInputElement).files[0];
     this.videoForm.patchValue({
-      videoFile: file,
+      subtopicAttachmentFile: file,
     });
   }
 
@@ -94,23 +98,24 @@ export class VideoFormComponent implements OnInit {
       });
     }
   }
+
+  getVideoById(row: any) {
+    this.videoForm.patchValue(row)
+    if (row.attachmentTypeId == 1) {
+      this.videoForm.controls['attachmentTypeId'].patchValue(false)
+    }else{
+      this.videoForm.controls['attachmentTypeId'].patchValue(true)
+    }
+    
+  }
+
   onSubmit() {
     if (
-      (!this.videoForm.get("enableCheckbox").value &&
-        this.videoForm.get("videoFile").valid) ||
-      (this.videoForm.get("enableCheckbox").value &&
-        this.videoForm.get("videoLink").valid)
+      (!this.videoForm.get("attachmentTypeId").value &&this.videoForm.get("subtopicAttachmentFile").valid) ||(this.videoForm.get("attachmentTypeId").value && this.videoForm.get("value").valid)
     ) {
-      const subtopicValue: any = {
-        languageId: 1,
-        AttachmentTypeId: this.videoForm.get("enableCheckbox").value ? 2 : 1,
-        value: this.videoForm.get("videoLink").value,
-        name: this.videoForm.get("name").value,
-        subtopicId: this.subtopicId,
-        description: this.videoForm.get("description").value,
-        subtopicAttachmentFile: this.videoForm.get("videoFile").value || 0,
-      };
-      this.adminService.onAddVideoAttachment(this.subtopicId, subtopicValue).subscribe({
+
+      this.videoForm.controls['attachmentTypeId'].patchValue(this.videoForm.controls['attachmentTypeId'].value ? 2 : 1)
+      this.adminService.onAddVideoAttachment(this.subtopicId, this.videoForm.value).subscribe({
         next: (response) => {
           if (response.statusCode == 200) {
             this.notificationService.showSuccess(
@@ -124,7 +129,7 @@ export class VideoFormComponent implements OnInit {
         },
       });
 
-       this.initForm()
+      this.initForm()
     } else {
       this.invalid = false;
       // Mark form controls as touched to display validation messages
@@ -163,4 +168,6 @@ export class VideoFormComponent implements OnInit {
       }
     })
   }
+
+
 }
