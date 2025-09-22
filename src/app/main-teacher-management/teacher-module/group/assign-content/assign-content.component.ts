@@ -20,7 +20,7 @@ export class AssignContentComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: { groupId: string },
     private adminService: AdminService,
-  ) {}
+  ) { }
 
   pageSize = 10;
   currentPage = 1;
@@ -37,7 +37,7 @@ export class AssignContentComponent implements OnInit {
     page: this.currentPage,
   };
 
-    filters = {
+  filters = {
     page: this.currentPage,
     count: this.pageSize,
     exactFilters: [],
@@ -46,7 +46,7 @@ export class AssignContentComponent implements OnInit {
   };
 
   nameFilter: string = '';
-  descriptionFilter: string = ''; 
+  descriptionFilter: string = '';
 
 
   ngOnInit(): void {
@@ -71,7 +71,7 @@ export class AssignContentComponent implements OnInit {
       }
     });
   }
-  
+
 
 
   onPageChanged(event: PageEvent) {
@@ -80,7 +80,7 @@ export class AssignContentComponent implements OnInit {
     this.getAllAttachmentsLink()
   }
 
-  contentIds: number[] = [];  
+  contentIds: number[] = [];
 
   toggleSelection(row: any): void {
     const index = this.contentIds.indexOf(row.id);
@@ -97,9 +97,9 @@ export class AssignContentComponent implements OnInit {
 
   toggleAll(event: any): void {
     if (event.checked) {
-      this.contentIds = this.dataSource.data.map(row => row.id);  
+      this.contentIds = this.dataSource.data.map(row => row.id);
     } else {
-      this.contentIds = []; 
+      this.contentIds = [];
     }
   }
 
@@ -131,15 +131,15 @@ export class AssignContentComponent implements OnInit {
         value: this.nameFilter
       });
     }
-        if (this.descriptionFilter) {
+    if (this.descriptionFilter) {
       this.filters.exactFilters.push({
         propertyName: 'description',
         value: this.descriptionFilter
       });
     }
 
-  
-    this.getAllAttachmentsLink(); 
+
+    this.getAllAttachmentsLink();
   }
 
 

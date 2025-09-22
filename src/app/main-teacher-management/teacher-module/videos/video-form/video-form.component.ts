@@ -21,7 +21,7 @@ import { showConfirmAlert } from "src/app/shared/helper/alert";
 export class VideoFormComponent implements OnInit {
   Yes = true;
   videoForm: FormGroup;
-  subtopicId: number;
+  subtopicId: string;
   editingVideoId: 0;
   subjectId: number;
   displayedColumns: string[] = ["value", "name", "description", "delete"];
@@ -38,6 +38,16 @@ export class VideoFormComponent implements OnInit {
     private libraryService: LibraryService,
     public setRoleDialog: MatDialog,
   ) { }
+
+    filters = {
+    exactFilters: [],
+    dateRangeFilters: [],
+    sortByProperties: []
+  };
+
+    nameFilter: string = '';
+  descriptionFilter: string = '';
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.subtopicId = params["id"];
@@ -88,10 +98,10 @@ export class VideoFormComponent implements OnInit {
     });
   }
 
-  onLoadVideos(subtopicId: number): void {
+  onLoadVideos(subtopicId: string): void {
     if (subtopicId != null && subtopicId !== undefined) {
-      this.libraryService.fetchAttachmentsBySubtopicId(subtopicId).subscribe({
-        next: (response) => {
+      this.libraryService.fetchAttachmentsBySubtopicId(this.filters, subtopicId).subscribe({
+        next: (response: any) => {
           const data = response.result;
           this.dataSource.data = data;
         },
@@ -167,6 +177,25 @@ export class VideoFormComponent implements OnInit {
         });
       }
     })
+  }
+
+    applyFilters() {
+    this.filters.exactFilters = [];
+    if (this.nameFilter) {
+      this.filters.exactFilters.push({
+        propertyName: 'name',
+        value: this.nameFilter
+      });
+    }
+    if (this.descriptionFilter) {
+      this.filters.exactFilters.push({
+        propertyName: 'description',
+        value: this.descriptionFilter
+      });
+    }
+
+
+    this.onLoadVideos(this.subtopicId);
   }
 
 
