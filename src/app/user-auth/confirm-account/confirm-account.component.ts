@@ -31,8 +31,6 @@ export class ConfirmAccountComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.authService.user.subscribe((user) => {
-    });
   }
 
   getDecryptedKey(): string | null {

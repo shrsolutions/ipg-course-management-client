@@ -14,26 +14,28 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(
     private localStorageService: LocalStorageService,
     private router: Router
-  ) {}
-
+  ) { }
+  private excludeSpinnerUrls: string[] = ['send-confirm-code', 'verify', 'resend-confirm-code'];
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const user = this.localStorageService.getItem<any>("user");
+    const excludeSpinner = this.excludeSpinnerUrls.some(url => request.url.includes(url));
+    if (!excludeSpinner) {
+      if (user && user._token) {
+        request = request.clone({
+          setHeaders: {
+            Authorization: `Bearer ${user._token}`,
+          },
+        });
+      }
+      else {
+        this.localStorageService.removeItem("user");
+        this.localStorageService.removeItem("userPermission");
 
-    if (user && user._token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${user._token}`,
-        },
-      });
-    }
-    else{
-      this.localStorageService.removeItem("user");
-      this.localStorageService.removeItem("userPermission");
-
-      this.router.navigate(["/auth/login"]);
+        this.router.navigate(["/auth/login"]);
+      }
     }
 
     return next.handle(request);

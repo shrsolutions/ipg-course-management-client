@@ -12,6 +12,7 @@ import { ConfirmAccountComponent } from "./confirm-account/confirm-account.compo
 import { AuthComponent } from "./auth.component";
 import { IMaskModule } from "angular-imask";
 import { NgOtpInputModule } from "ng-otp-input";
+import { ConfirmForgotPasswordComponent } from "./confirm-forgot-password/confirm-forgot-password.component";
 @NgModule({
   declarations: [
     LoginComponent,
@@ -19,6 +20,7 @@ import { NgOtpInputModule } from "ng-otp-input";
     ForgotPasswordComponent,
     EmailAlertComponent,
     ConfirmAccountComponent,
+    ConfirmForgotPasswordComponent,
     AuthComponent,
   ],
   imports: [

@@ -11,24 +11,22 @@
                         <div class="mb-3">
                             <label class="form-label" for="confirmCode">Confirmation Code</label>
                             <div class="input-group justify-content-center">
-                                <!-- <input type="text" class="form-control" formControlName="confirmCode" id="confirmCode"
-                                    placeholder="Enter your confirmation code" aria-describedby="confirmCodeHelp"
-                                    required> -->
-                                    <ng-otp-input type="text" formControlName="confirmCode" [config]="otpConfig"></ng-otp-input>
+
+                                <ng-otp-input type="text" formControlName="confirmCode"
+                                    [config]="otpConfig"></ng-otp-input>
                             </div>
                             <div id="confirmCodeHelp" class="form-text">Enter the code you received.</div>
-                            <div id="resendCode"
-     class="resendCode"
-     (click)="resendCode()"
-     [class.disabled]="isResendDisabled">
-  Resend code
-  <span *ngIf="isResendDisabled">({{ countdown }}s)</span>
-</div>
+                            <div id="resendCode" class="resendCode" (click)="resendCode()"
+                                [class.disabled]="isResendDisabled">
+                                Resend code
+                                <span *ngIf="isResendDisabled">({{ countdown }}s)</span>
+                            </div>
                         </div>
 
                         <div class="mb-3 row">
                             <div class="col-12 mt-4">
-                                <button [disabled]="confirmCodeForm.invalid" class="btn btn-primary w-100 waves-effect waves-light" type="submit"
+                                <button [disabled]="confirmCodeForm.invalid"
+                                    class="btn btn-primary w-100 waves-effect waves-light" type="submit"
                                     aria-label="Confirm Code">Confirm</button>
                             </div>
                         </div>

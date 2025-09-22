@@ -73,8 +73,22 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUrl}auth/two-step/verify`, registerModel).pipe(tap((resData) => this.handleAuthenticationTwoStep(resData)));
   }
 
+
   resendConfirmCode(key: string) {
     return this.http.post<any>(`${this.baseUrl}auth/two-step/resend-confirm-code/${key}`, null)
+  }
+
+  resendConfirmCodeForgotPassword(key: string) {
+    return this.http.post<any>(`${this.baseUrl}auth/password-change/resend-confirm-code/${key}`, null)
+  }
+
+  sendForgotPasswordCode(postData: any) {
+    return this.http.post<any>(`${this.baseUrl}auth/password-change/send-confirm-code`, postData)
+  }
+
+  
+  verifyForgotPasswordOtp(postData: any) {
+    return this.http.post<any>(`${this.baseUrl}auth/password-change/verify`, postData);
   }
 
   signOut(): void {
