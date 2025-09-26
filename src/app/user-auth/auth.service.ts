@@ -22,6 +22,8 @@ import FormUtility from "../shared/utility/form-utility";
 import { Observable } from 'rxjs'
 import { Wrapper } from "../main-teacher-management/models/Base/FetchBaseModel";
 import { showInfoAlert } from "../shared/helper/alert";
+import * as CryptoJS from 'crypto-js';
+
 @Injectable({
   providedIn: "root",
 })
@@ -36,7 +38,6 @@ export class AuthService {
   ) { }
 
   signup(registerModel) {
-
     return this.http
       .post<any>(`${this.baseUrl}users/register`, registerModel)
       .pipe(
@@ -86,10 +87,14 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUrl}auth/password-change/send-confirm-code`, postData)
   }
 
-  
+
   verifyForgotPasswordOtp(postData: any) {
     return this.http.post<any>(`${this.baseUrl}auth/password-change/verify`, postData);
   }
+
+refreshTokenApi(refreshToken: { activeRefreshToken: string }) {
+  return this.http.post<any>(`${this.baseUrl}auth/refresh-token`, refreshToken);
+}
 
   signOut(): void {
     this.user.next(null);
@@ -155,6 +160,7 @@ export class AuthService {
   }
 
   private handleAuthentication(userData: any) {
+
     if (userData.result.authenticatedUser.userType == 2) {
       showInfoAlert("Info", "You do not have permission to access the system.", true, false, '', 'Close')
       return
@@ -162,6 +168,15 @@ export class AuthService {
     if (userData.result.authenticatedUser.userStatusId == 2) {
       showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz", true, false, '', 'Close')
       return
+    }
+    if (userData.result.twoStepAuthRequired) {
+      this.encryptAndStore(userData.result.twoStepAuthKey)
+      this.router.navigate(["/auth/confirm-account"]);
+    } else {
+      this.router.navigate(["/main-teacher-management/main-home"])
+      setTimeout(() => {
+        location.reload()
+      }, 200);
     }
     if (!userData.result.twoStepAuthRequired) {
       const user = User.createUserInstance(userData.result.authenticatedUser);
@@ -172,11 +187,26 @@ export class AuthService {
     }
   }
 
+  secretKey = 'IPGCOURSERAMZEYRASHAD';
+
+  encryptAndStore(key: string) {
+    const encryptedKey = CryptoJS.AES.encrypt(key, this.secretKey).toString();
+    localStorage.setItem('twoStepAuthKey', encryptedKey);
+  }
+
   private handleAuthenticationTwoStep(userData: any) {
+
     if (userData.result.authenticatedUser.userStatusId == 2) {
       showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz", true, false, '', 'Close')
+      this.router.navigate(["/auth/login"]);
       return
+    } else {
+      this.router.navigate(["/main-teacher-management/main-home"])
+      setTimeout(() => {
+        location.reload()
+      }, 200);
     }
+
     const user = User.createUserInstance(userData.result);
     const userPermission = userData.result.permissions;
     this.user.next(user);

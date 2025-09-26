@@ -16,6 +16,8 @@ export class UserRegisteredComponent {
   hidePassword = true;
   invalid: boolean = false;
   type:number;
+  Yes = true;
+
   constructor(
     private fb: FormBuilder, private router: Router,
     private route: ActivatedRoute,
@@ -28,25 +30,11 @@ export class UserRegisteredComponent {
       name: ["", Validators.required],
       surname: ["", Validators.required],
       patronymic: [""],
-      password: [
-        "",
-        [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{8,}$/)],
-      ],
-      confirmPassword: [""],
       dateOfBirth: ["", Validators.required],
       gender: ["", Validators.required],
+      enableTwoStepAuth: [false, Validators.required],
     });
 
-    // Custom validator to check if password and confirmPassword match
-    this.registrationForm.get("confirmPassword").setValidators((control) => {
-      if (
-        control.value !== this.registrationForm.get("password").value &&
-        this.registrationForm.get("password").touched
-      ) {
-        return { not_matching: true };
-      }
-      return null;
-    });
 
     // Custom validator to check if age is between 18 and 100
     this.registrationForm.get("dateOfBirth").setValidators((control) => {
@@ -80,7 +68,7 @@ export class UserRegisteredComponent {
         patronymic: [ this.editData?.patronymic||"", Validators.required],
         dateOfBirth: [ this.editData?.dateOfBirth ||"2000-01-01", [Validators.required]],
         gender: [this.editData?.gender ||"", Validators.required],
-
+        enableTwoStepAuth: [this.editData?.enableTwoStepAuth || false, Validators.required],
       }
     );
   }
@@ -136,7 +124,6 @@ saveFile(){
     if (this.registrationForm.valid) {
       // Perform registration logic here
       this.registrationForm.value.file=null
-
 
       this.authService.editProfile(this.registrationForm.value).subscribe({
         next: (response) => {

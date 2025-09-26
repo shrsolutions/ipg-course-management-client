@@ -88,12 +88,7 @@ export class RegisterComponent implements OnInit {
 
     this.authService.signup(this.formData).subscribe({
       next: resData => {
-        if (resData.result.twoStepAuthRequired) {
-          this.encryptAndStore(resData.result.twoStepAuthKey)
-          this.router.navigate(["/auth/confirm-account"]);
-        } else {
-          this.router.navigate(["/main-teacher-management/main-home"])
-        }
+
       },
       error: errorData => {
       }

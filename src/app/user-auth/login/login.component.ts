@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.initialForm();
-    console.log(localStorage.getItem("user"))
     if (localStorage.getItem("user") !== null) {
        this.router.navigate(["/main-teacher-management/main-home"])
     }
@@ -49,16 +48,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.authService.signIn(this.signupForm.value).subscribe({
       next: res => {
-        
-        if (res.result.twoStepAuthRequired) {
-          this.encryptAndStore(res.result.twoStepAuthKey)
-          this.router.navigate(["/auth/confirm-account"]);
-        } else {
-          this.router.navigate(["/main-teacher-management/main-home"])
-          setTimeout(() => {
-            location.reload()
-          }, 200);
-        }
+
 
       },
       error: err => {

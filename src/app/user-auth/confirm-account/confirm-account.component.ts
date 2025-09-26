@@ -53,13 +53,7 @@ export class ConfirmAccountComponent implements OnInit {
       this.authService.twoStepVerify(this.confirmCodeForm.value).subscribe({
 
         next: (response) => {
-          if (response) {
-            this.router.navigate(["/main-teacher-management/main-home"])
-            setTimeout(() => {
-              location.reload()
-            }, 200);
 
-          }
         },
         error: (error) => {
           if (error.error.statusCode == 429 || error.error.messages[0] == "InvalidRequestValues") {

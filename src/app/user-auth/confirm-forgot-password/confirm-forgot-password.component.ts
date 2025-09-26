@@ -84,7 +84,6 @@ export class ConfirmForgotPasswordComponent implements OnInit {
 
         next: (response) => {
           if (response) {
-            console.log(response)
             this.router.navigate(["/auth/login"])
 
           }

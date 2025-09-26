@@ -32,7 +32,7 @@ export class UserAcivateComponent implements OnInit {
   UpdateOrAddBtnMessage: string = "Add Role";
   displayedColumns: string[] = [
 
-    "email",
+    "phoneNumber",
     "fullName",
     "userStatusId",
     "setRole",
@@ -112,7 +112,7 @@ export class UserAcivateComponent implements OnInit {
   }
 
   onBlockedOrUnblockedUser(id: number, userStatusId: number) {
-    if (userStatusId == 4) {
+    if (userStatusId == 4 || userStatusId == 2) {
       this.adminService.onUserActivate(id).subscribe({
         next: (response) => {
           if (response.statusCode==200) {

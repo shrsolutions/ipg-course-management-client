@@ -25,7 +25,6 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
         let errorMessage = error.message;
         if (error.status==401) {
           this.localStorageService.removeItem("user");

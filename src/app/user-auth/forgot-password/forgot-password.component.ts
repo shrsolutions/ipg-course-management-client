@@ -27,7 +27,6 @@ export class ForgotPasswordComponent {
     }
     this.authService.sendForgotPasswordCode(postData).subscribe({
       next: res => {
-        console.log(res)
         if (res.result) {
           this.encryptAndStore(res.result)
           this.router.navigate(["/auth/verify"]);

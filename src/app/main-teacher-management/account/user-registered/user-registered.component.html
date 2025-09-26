@@ -3,13 +3,12 @@
 
     </div>
     <div class="card-body">
-        <form [formGroup]="registrationForm" class="userProfile" >
+        <form [formGroup]="registrationForm" class="userProfile">
 
             <div class="row">
                 <p class="col-lg-3">
 
-                    <input type="text" class="form-control" placeholder="First Name"
-                        formControlName="name" >
+                    <input type="text" class="form-control" placeholder="First Name" formControlName="name">
                     <mat-error *ngIf="registrationForm.get('name').hasError('required') && invalid">First
                         Name
                         is
@@ -31,11 +30,12 @@
                         required</mat-error>
 
                 </p>
-           
+
 
                 <p class="col-lg-3">
                     <mat-form-field class="custom-date-range custom-border px-0 w-100" appearance="outline">
-                        <input matInput style="position: relative;" [matDatepicker]="dp3" formControlName="dateOfBirth" placeholder="Date of Birth">
+                        <input matInput style="position: relative;" [matDatepicker]="dp3" formControlName="dateOfBirth"
+                            placeholder="Date of Birth">
                         <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
                         <mat-datepicker #dp3 disabled="false"></mat-datepicker>
 
@@ -47,7 +47,7 @@
                         </mat-error>
                     </mat-form-field>
                 </p>
-                <div class="form-check mb-3 d-flex">
+                <div class="form-check mb-3 d-flex col-lg-3">
                     <div class="mx-2">
                         <input class="form-check-input" formControlName="gender" type="radio" name="gender" id="male"
                             [checked]="editData?.gender==1" value="1">
@@ -66,32 +66,37 @@
                         Please select a gender.
                     </div>
                 </div>
+                <div class="col-lg-3 d-flex">
+                    <input type="checkbox" id="switch9" switch="light" checked="" formControlName="enableTwoStepAuth">
+                    <label for="switch9" data-on-label="Yes" data-off-label="No"></label>
+                    <span style="margin-left: 7px;">Two-step verification</span>
+                    <!-- <mat-checkbox class="example-margin" formControlName="enableTwoStepAuth">Two-step verification</mat-checkbox> -->
+                </div>
 
             </div>
-            <div class="row d-flex justify-content-between" >
+            <div class="row d-flex justify-content-between">
                 <div class="col-lg-6">
-                    <button *ngIf="type!=1" (click)="onSubmit()" class="btn btn-primary waves-effect waves-light custom-btn" type="submit">REGISTER</button>
-            <button *ngIf="type==1" (click)="onSubmit()" class="btn btn-primary waves-effect waves-light custom-btn" type="submit">SAVE</button>
+                    <button *ngIf="type!=1" (click)="onSubmit()"
+                        class="btn btn-primary waves-effect waves-light custom-btn" type="submit">REGISTER</button>
+                    <button *ngIf="type==1" (click)="onSubmit()"
+                        class="btn btn-primary waves-effect waves-light custom-btn" type="submit">SAVE</button>
                 </div>
                 <div class="col-lg-6 d-flex flex-row-reverse">
                     <div class="download">
                         <label class="custom-file-upload">
-                          <input
-                            accept="image/png, image/gif, image/jpeg, application/pdf"
-                            type="file"
-                            (change)="onUpload($event)"
-                          />
-                       Change profil image
-                          
+                            <input accept="image/png, image/gif, image/jpeg, application/pdf" type="file"
+                                (change)="onUpload($event)" />
+                            Change profil image
+
                         </label>
-                      </div>
+                    </div>
                 </div>
             </div>
-            
-          
+
+
 
         </form>
-        
+
 
     </div>
 </div>
