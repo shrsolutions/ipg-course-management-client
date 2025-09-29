@@ -44,7 +44,7 @@ export class AssignQuizzComponent implements OnInit {
     "title",
     "description",
     "questionCount",
-    "durationInMinutes",
+    "stateId"
   ];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 

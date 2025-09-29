@@ -92,9 +92,9 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUrl}auth/password-change/verify`, postData);
   }
 
-refreshTokenApi(refreshToken: { activeRefreshToken: string }) {
-  return this.http.post<any>(`${this.baseUrl}auth/refresh-token`, refreshToken);
-}
+  refreshTokenApi(refreshToken: { activeRefreshToken: string }) {
+    return this.http.post<any>(`${this.baseUrl}auth/refresh-token`, refreshToken);
+  }
 
   signOut(): void {
     this.user.next(null);
@@ -140,6 +140,7 @@ refreshTokenApi(refreshToken: { activeRefreshToken: string }) {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
+    alert(errorRes.error.messages)
     let errorMessage = "An Unknown error occured!";
     if (!errorRes.error) {
       return throwError(() => errorMessage);
@@ -160,24 +161,25 @@ refreshTokenApi(refreshToken: { activeRefreshToken: string }) {
   }
 
   private handleAuthentication(userData: any) {
-
-    if (userData.result.authenticatedUser.userType == 2) {
-      showInfoAlert("Info", "You do not have permission to access the system.", true, false, '', 'Close')
-      return
-    }
-    if (userData.result.authenticatedUser.userStatusId == 2) {
-      showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz", true, false, '', 'Close')
-      return
-    }
+    debugger
     if (userData.result.twoStepAuthRequired) {
       this.encryptAndStore(userData.result.twoStepAuthKey)
       this.router.navigate(["/auth/confirm-account"]);
-    } else {
+    } 
+    else if (userData.result.authenticatedUser.userType == 2 && userData.result.authenticatedUser) {
+      showInfoAlert("Info", "You do not have permission to access the system.", true, false, '', 'Close')
+      return
+    }
+    else if (userData.result.authenticatedUser.userStatusId == 2 && userData.result.authenticatedUser) {
+      showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz", true, false, '', 'Close')
+      return
+    }else {
       this.router.navigate(["/main-teacher-management/main-home"])
       setTimeout(() => {
         location.reload()
       }, 200);
     }
+
     if (!userData.result.twoStepAuthRequired) {
       const user = User.createUserInstance(userData.result.authenticatedUser);
       const userPermission = userData.result.authenticatedUser.permissions;
@@ -196,7 +198,7 @@ refreshTokenApi(refreshToken: { activeRefreshToken: string }) {
 
   private handleAuthenticationTwoStep(userData: any) {
 
-    if (userData.result.authenticatedUser.userStatusId == 2) {
+    if (userData.result.userStatusId == 2) {
       showInfoAlert("Info", "Hesabınız təsdiqləndikdən sonra sistemə giriş edə bilərsiniz", true, false, '', 'Close')
       this.router.navigate(["/auth/login"]);
       return
