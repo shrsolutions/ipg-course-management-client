@@ -161,7 +161,6 @@ export class AuthService {
   }
 
   private handleAuthentication(userData: any) {
-    debugger
     if (userData.result.twoStepAuthRequired) {
       this.encryptAndStore(userData.result.twoStepAuthKey)
       this.router.navigate(["/auth/confirm-account"]);
