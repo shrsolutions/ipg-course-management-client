@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from "@angular/common/http";
-import { BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError } from "rxjs";
+import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, throwError } from "rxjs";
 import { LocalStorageService } from "src/app/shared/services/local-storage.service";
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/user-auth/auth.service";
@@ -17,7 +17,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(
     private localStorageService: LocalStorageService,
     private router: Router,
-        private authService: AuthService,
+    private authService: AuthService,
   ) { }
   private excludeSpinnerUrls: string[] = ['send-confirm-code', 'verify', 'resend-confirm-code', 'register'];
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -29,7 +29,6 @@ export class TokenInterceptor implements HttpInterceptor {
     if (!excludeSpinner && user && user._token) {
       request = this.addTokenHeader(request, user._token);
     }
-
     return next.handle(request).pipe(
       catchError(error => {
         if (error.status === 401 && user && user._refreshToken && !excludeSpinner) {
@@ -56,8 +55,6 @@ export class TokenInterceptor implements HttpInterceptor {
 
       return this.authService.refreshTokenApi({ activeRefreshToken: refreshToken }).pipe(
         switchMap((res: any) => {
-          this.isRefreshing = false;
-
           const newUser = {
             ...this.localStorageService.getItem<any>("user"),
             _token: res.result.newToken,
@@ -69,19 +66,23 @@ export class TokenInterceptor implements HttpInterceptor {
           return next.handle(this.addTokenHeader(request, res.result.newToken));
         }),
         catchError(err => {
-          this.isRefreshing = false;
-          this.localStorageService.removeItem("user");
-          this.localStorageService.removeItem("userPermission");
-          this.router.navigate(["/auth/login"]);
+          if (err.status === 401 || err.status === 403) {
+            this.localStorageService.removeItem("user");
+            this.localStorageService.removeItem("userPermission");
+            this.router.navigate(["/auth/login"]);
+          }
+          this.refreshTokenSubject.error(err);
           return throwError(() => err);
-        })
+        }),
+        finalize(() => this.isRefreshing = false)
       );
     } else {
       return this.refreshTokenSubject.pipe(
         filter(token => token != null),
         take(1),
-        switchMap((token) => next.handle(this.addTokenHeader(request, token!)))
+        switchMap(token => next.handle(this.addTokenHeader(request, token!)))
       );
     }
   }
+
 }

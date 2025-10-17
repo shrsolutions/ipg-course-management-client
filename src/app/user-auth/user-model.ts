@@ -19,7 +19,7 @@ export class User {
   }
 
     get refreshToken() {
-    return this._token;
+    return this._refreshToken;
   }
 
   get fullName() {
