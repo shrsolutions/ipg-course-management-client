@@ -5,7 +5,7 @@
             <div class="navbar-brand-box d-flex justify-content-center align-items-center ">
                 <h1>
 
-                    <a href="index.html">
+                    <a routerLink="/main-teacher-management/main-home">
                         IPG
                     </a>
                 </h1>
@@ -27,7 +27,7 @@
 
 
 
-            <div class="dropdown d-none d-md-block">
+            <!-- <div class="dropdown d-none d-md-block">
                 <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <img class="me-2" src="assets/images/flags/us.jpg" alt="Header Language" height="16"> English
@@ -35,40 +35,35 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
 
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <img src="assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"> <span
                             class="align-middle"> German </span>
                     </a>
 
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"> <span
                             class="align-middle"> Italian </span>
                     </a>
 
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <img src="assets/images/flags/french.jpg" alt="user-image" class="me-1" height="12"> <span
                             class="align-middle"> French </span>
                     </a>
 
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <img src="assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"> <span
                             class="align-middle"> Spanish </span>
                     </a>
 
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <img src="assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12"> <span
                             class="align-middle"> Russian </span>
                     </a>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Notification -->
-            <div class="dropdown d-inline-block">
+            <!-- <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item noti-icon waves-effect notification-step"
                     id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
@@ -204,7 +199,7 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
 
@@ -212,25 +207,22 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect user-step" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="assets/images/users/user-1.jpg"
-                        alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1">Amelia</span>
+                    <img class="rounded-circle header-profile-user" [src]="profileImageUrl" alt="Header Avatar">
+                    <span class="d-none d-xl-inline-block ms-1">{{userFullName}}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" href="#"><i class="dripicons-user d-inline-block text-muted me-2"></i>
+                    <a class="dropdown-item" [routerLink]="['/main-teacher-management/account/user-registered']"
+                        [queryParams]="{type:1}"><i class="fas fa-user d-inline-block text-muted me-2"></i>
                         Profile</a>
-                    <a class="dropdown-item" href="#"><i class="dripicons-wallet d-inline-block text-muted me-2"></i> My
-                        Wallet</a>
-                    <a class="dropdown-item d-block" href="#"><i
-                            class="dripicons-gear d-inline-block text-muted me-2"></i> Settings</a>
-                    <a class="dropdown-item" href="#"><i class="dripicons-lock d-inline-block text-muted me-2"></i>
-                        Lock
-                        screen</a>
+
+
                     <div class="dropdown-divider"></div>
+
+
                     <a class="dropdown-item" (click)="onSignOut()"><i
-                            class="dripicons-exit d-inline-block text-muted me-2"></i>
+                            class="fas fa-sign-out-alt d-inline-block text-muted me-2"></i>
                         Logout</a>
                 </div>
             </div>

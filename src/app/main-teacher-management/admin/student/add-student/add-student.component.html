@@ -1,0 +1,107 @@
+<div class="modal-1 bs-example-modal">
+
+  <form [formGroup]="studentForm" class="modal-content studentContent">
+      <div class="modal-header">
+          <h5 class="modal-title align-self-center">Add Student</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="onClose()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-4 ">
+            <div class="mb-0">
+                <label  for="name">Name</label>
+                <input type="text" class="form-control " id="name" formControlName="name">
+
+            </div>
+        </div>
+        <div class="col-lg-4 ">
+          <div class="mb-0">
+              <label  for="surname">Surname</label>
+              <input type="text" class="form-control " id="surname" formControlName="surname">
+
+          </div>
+      </div>
+      <div class="col-lg-4 ">
+        <div class="mb-0">
+            <label  for="patronymic">Patronymic</label>
+            <input type="text" class="form-control " id="patronymic" formControlName="patronymic">
+
+        </div>
+    </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-lg-6 ">
+            <div class="mb-0">
+                <label  for="email">Email</label>
+                <input type="text" class="form-control " id="email" formControlName="email">
+
+            </div>
+        </div>
+        <div class="col-lg-6 ">
+          <div class="mb-0">
+              <label  for="phone">Phone number</label>
+              <input type="text" class="form-control " id="phone" formControlName="phone">
+
+          </div>
+      </div>
+        </div>
+        <div class="col-lg-6 mt-2 d-inline-block pe-2">
+          <div class="mb-0">
+            <label class="d-block">Password</label>
+            <mat-form-field class="w-100"  appearance="outline">
+              <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'"
+                  formControlName="password" required autocomplete="off">
+              <mat-icon matSuffix (click)="togglePasswordVisibility()">
+                  {{ hidePassword ? 'visibility_off' : 'visibility' }}
+              </mat-icon>
+              <mat-error *ngIf="studentForm.get('password').hasError('required') ">Password
+                  is
+                  required</mat-error>
+              <mat-error
+                  *ngIf="studentForm.get('password').hasError('pattern') && studentForm.get('password').touched">
+                  Password must contain uppercase letters and numbers
+              </mat-error>
+          </mat-form-field>
+        </div>
+        
+        </div>
+        <div class="form-check col-lg-6 mt-2 d-inline-block ">
+          <div class="col-lg-4 d-inline-block mt-3 ps-3">
+            <input class="form-check-input" formControlName="gender" type="radio" name="gender"
+            id="male" checked="" value="1">
+        <label class="form-check-label" for="male">
+            Male
+        </label>
+          </div>
+          <div class="col-lg-4 d-inline-block mt-3">
+            <input class="form-check-input" type="radio" formControlName="gender" name="gender"
+            id="female" checked="" value="2">
+        <label class="form-check-label" for="female">
+            Female
+        </label>
+          </div>
+      
+          <div *ngIf="studentForm.get('gender').hasError('required')"
+              class="text-danger">
+              Please select a gender.
+          </div>
+      </div>
+        <div class="col-lg-12">
+          <label class="d-block">Interested subject</label>
+          <mat-form-field class="w-100"  appearance="outline">
+                  <mat-select formControlName="interestedSubjects" multiple disableRipple>
+                      <mat-option *ngFor="let role of roles" [value]="role.id">{{ role.translationInCurrentLanguage }}</mat-option>
+                  </mat-select>
+          </mat-form-field>
+        </div>
+     
+
+      </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" (click)="addStudent()" [disabled]="studentForm.invalid">{{btnAddOrUpdate}}</button>
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="onClose()">Close</button>
+      </div>
+  </form>
+
+</div>

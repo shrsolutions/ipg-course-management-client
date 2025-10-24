@@ -12,6 +12,7 @@ import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import ValidatorUtility from "src/app/shared/utility/validator-utility";
 import { LoadingService } from "src/app/shared/services/loading.service";
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: "app-register",
@@ -22,7 +23,7 @@ export class RegisterComponent implements OnInit {
   registrationForm: FormGroup;
   hidePassword = true;
   invalid: boolean = false;
-
+  formData = new FormData();
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -37,20 +38,17 @@ export class RegisterComponent implements OnInit {
   initialForm() {
     this.registrationForm = this.fb.group(
       {
-        firstName: ["", Validators.required],
-        lastName: ["", Validators.required],
+        name: ["", Validators.required],
+        surname: ["", Validators.required],
         patronymic: ["", Validators.required],
-        dateOfBirth: ["2000-01-01", [Validators.required]],
-        email: ["", [Validators.required, Validators.email]],
+        dateOfBirth: ["2000-01-01", Validators.required],
+        email: [""],
         gender: ["", Validators.required],
-        password: [
-          "",
-          (Validators.required,
-          Validators.pattern(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d$@$!%*?&]{8,}$/
-          )),
-        ],
+        phoneNumber: ["", Validators.required],
+        password: ["",Validators.required],
         confirmPassword: [null, Validators.required],
+        identifierType: [2],
+        userImage: [""]
       },
       {
         validators: [
@@ -61,30 +59,40 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  onSubmit() {
-    const authModel = {
-      Email: this.registrationForm.get("email").value,
-      Password: this.registrationForm.get("password").value,
-      Name: this.registrationForm.get("firstName").value,
-      Surname: this.registrationForm.get("lastName").value,
-      Patronymic: this.registrationForm.get("patronymic").value,
-      DateOfBirth: this.registrationForm.get("dateOfBirth").value.toISOString(),
-      Gender: this.registrationForm.get("gender").value,
-    };
+    secretKey = 'IPGCOURSERAMZEYRASHAD'; 
+  
+    encryptAndStore(key: string) {
+      const encryptedKey = CryptoJS.AES.encrypt(key, this.secretKey).toString();
+      localStorage.setItem('twoStepAuthKey', encryptedKey);
+    }
 
+  onSubmit() {
+    this.formData = new FormData()
     if (this.registrationForm.invalid) {
       this.invalid = true;
       return;
     }
 
-    this.authService.signup(authModel).subscribe(
-      (resData) => {
-        this.router.navigate(["/auth/confirm-account"]);
-      },
-      (errorData) => {
-        console.log(errorData);
+    Object.keys(this.registrationForm.controls).forEach((key) => {
+      const value = this.registrationForm.get(key)?.value;
+    
+      // `dateOfBirth` sahəsini ISO formatına çevirmək
+      if (key === 'dateOfBirth' && value) {
+        const dateOfBirthISO = new Date(value).toISOString();
+        this.formData.append(key, dateOfBirthISO);
+      } else {
+        this.formData.append(key, value);
       }
-    );
+    });
+
+
+    this.authService.signup(this.formData).subscribe({
+      next: resData => {
+
+      },
+      error: errorData => {
+      }
+    });
   }
 
   togglePasswordVisibility(): void {

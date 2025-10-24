@@ -1,0 +1,67 @@
+<div class="modal-1 bs-example-modal">
+  <form class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title align-self-center">Assign to subtopic</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="dialogRef.close(false)"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Categories</mat-label>
+            <mat-select required>
+              <mat-option *ngFor="let item of categories" [value]="item.id"
+                (click)="getSubjectbyCategoryId(item.id)">{{item.translationInCurrentLanguage}}</mat-option>
+
+            </mat-select>
+            <mat-error>
+              Category is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Subjects</mat-label>
+            <mat-select required>
+              <mat-option *ngFor="let item of subjects" [value]="item.id"
+                (click)="getTopicstbySubjectId(item.id)">{{item.translationInCurrentLanguage}}</mat-option>
+            </mat-select>
+            <mat-error>
+              Subject is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Topics</mat-label>
+            <mat-select required>
+              <mat-option *ngFor="let item of topics" [value]="item.id"
+                (click)="getSubTopicstbyTopicId(item.id)">{{item.translationInCurrentLanguage}}</mat-option>
+            </mat-select>
+            <mat-error>
+              Topic is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+                <div class="col-lg-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Subtopics</mat-label>
+            <mat-select required>
+              <mat-option *ngFor="let item of subTopics" [value]="item.id"
+                (click)="getAssignQuizForSubtopic(item.id)">{{item.translationInCurrentLanguage}}</mat-option>
+            </mat-select>
+            <mat-error>
+              Subtopic is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" (click)="assignToSubtopic()">Assign to subtopic</button>
+      <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+        (click)="dialogRef.close(false)">Close</button>
+    </div>
+  </form>
+</div>

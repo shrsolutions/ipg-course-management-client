@@ -1,5 +1,5 @@
 <div class="row m-0">
-    <div class="col-lg-3 col-md-10 col-sm-10 p-0">
+    <div class="col-lg-6 col-md-10 col-sm-10 p-0">
         <div class="card vh-100 m-0 shadow-none">
             <div class="card-body">
                 <div class="px-2 mt-2">
@@ -10,23 +10,23 @@
 
                         <div class="mb-3">
                             <label class="form-label" for="confirmCode">Confirmation Code</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" formControlName="confirmCode" id="confirmCode"
-                                    placeholder="Enter your confirmation code" aria-describedby="confirmCodeHelp"
-                                    required>
+                            <div class="input-group justify-content-center">
+
+                                <ng-otp-input type="text" formControlName="confirmCode"
+                                    [config]="otpConfig"></ng-otp-input>
                             </div>
                             <div id="confirmCodeHelp" class="form-text">Enter the code you received.</div>
-                            <div *ngIf="confirmCodeForm.get('confirmCode').hasError('required')" class="text-danger">
-                                Confirmation code is required.
-                            </div>
-                            <div *ngIf="confirmCodeForm.get('confirmCode').hasError('minlength')" class="text-danger">
-                                Confirmation code must be at least 6 characters long.
+                            <div id="resendCode" class="resendCode" (click)="resendCode()"
+                                [class.disabled]="isResendDisabled">
+                                Resend code
+                                <span *ngIf="isResendDisabled">({{ countdown }}s)</span>
                             </div>
                         </div>
 
                         <div class="mb-3 row">
                             <div class="col-12 mt-4">
-                                <button class="btn btn-primary w-100 waves-effect waves-light" type="submit"
+                                <button [disabled]="confirmCodeForm.invalid"
+                                    class="btn btn-primary w-100 waves-effect waves-light" type="submit"
                                     aria-label="Confirm Code">Confirm</button>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="col-lg-9 col-md-2 col-sm-2 p-0 vh-100 custom-image d-flex justify-content-center"
+    <div class="col-lg-6 col-md-2 col-sm-2 p-0 vh-100 custom-image d-flex justify-content-center"
         style="background-color:#44a2d2 ;">
     </div>
 </div>

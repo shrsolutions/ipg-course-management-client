@@ -1,0 +1,60 @@
+    <div class="row d-flex justify-content-center">
+        <div class="card-body">
+            <h5 class="card-title" style="margin-left: 10px;">Subject Form</h5>
+            <div class="general-label">
+                <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
+                    <div class="row row-cols-lg-auto g-3">
+                        <div class="col-lg-3  col-md-3 col-sm-12">
+                            <div class="mb-0">
+                                <select class="form-select" formControlName="langId">
+                                    <option selected [value]="0">Select any Language</option>
+                                    <option *ngFor="let language of languages" [value]="language.id">{{ language.name }}
+                                    </option>
+                                </select>
+
+                            </div>
+                            <div style="margin-top: 10px;"
+                                *ngIf="subjectForm.get('langId').hasError('required') && subjectForm.get('langId').touched"
+                                class="text-danger">
+                                Language is required.
+                            </div>
+                        </div>
+                        <div class="col-lg-3  col-md-4 col-sm-12">
+                            <div class="mb-0">
+                                <label for="subject" class="visually-hidden">Subject</label>
+                                <input type="text" class="form-control " id="subject" formControlName="subject"
+                                    placeholder="Informatics, History, etc.">
+
+                            </div>
+                            <div style="margin-left: 10px; margin-top: 10px;" *ngIf=" subjectForm.get('subject').hasError('required') &&
+                                    subjectForm.get('subject').touched" class="text-danger">
+                                Subject is required.
+                            </div>
+
+                        </div>
+                        <div class="col-lg-3  col-md-3 col-sm-12">
+                            <div class="mb-0">
+                                <select class="form-select" formControlName="category">
+                                    <option *ngFor="let category of categories" [value]="category.key">{{ category.value
+                                        }}</option>
+                                </select>
+
+                            </div>
+                            <div style="margin-top: 10px;"
+                                *ngIf="subjectForm.get('category').hasError('required') && subjectForm.get('category').touched"
+                                class="text-danger">
+                                Category is required.
+                            </div>
+                        </div>
+                        <div class="col-lg-3  col-md-4 col-sm-12  ">
+                            <button type="submit" class="btn btn-primary mx-2 " [disabled]="subjectForm.invalid">Add
+                                Subject</button>
+                            <button type="submit" class="btn btn-success" (click)="onShowSubjects()">Show
+                                Subjects</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

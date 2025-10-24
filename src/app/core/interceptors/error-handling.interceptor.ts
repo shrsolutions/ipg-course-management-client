@@ -8,10 +8,16 @@ import {
 } from "@angular/common/http";
 import { Observable, catchError, throwError } from "rxjs";
 import { NotificationService } from "../../shared/services/notification.service";
+import { Router } from "@angular/router";
+import { LocalStorageService } from "src/app/shared/services/local-storage.service";
 
 @Injectable()
 export class ErrorHandlingInterceptor implements HttpInterceptor {
-  constructor(private notificationService: NotificationService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private localStorageService: LocalStorageService,
+    private router: Router
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -19,7 +25,13 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = "An unknown error occurred";
+        let errorMessage = error.message;
+        if (error.status==401) {
+          this.localStorageService.removeItem("user");
+          this.localStorageService.removeItem("userPermission");
+
+          this.router.navigate(["/auth/login"]);
+        }
         let userErrorMessage = "";
 
         if (error.error instanceof ErrorEvent) {
@@ -66,7 +78,7 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
         }
 
         // Rethrow the error to be caught by the calling component or service.
-        return throwError(() => errorMessage);
+        return throwError(() => error);
       })
     );
   }

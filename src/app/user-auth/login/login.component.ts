@@ -7,7 +7,8 @@ import {
 } from "@angular/forms";
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
-
+import * as CryptoJS from 'crypto-js';
+import { showInfoAlert } from "src/app/shared/helper/alert";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -21,42 +22,38 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.initialForm();
+    if (localStorage.getItem("user") !== null) {
+       this.router.navigate(["/main-teacher-management/main-home"])
+    }
   }
 
   initialForm() {
     this.signupForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: [
-        "",
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d$@$!%*?&]{8,}$/
-          ),
-        ],
-      ],
+      identifier: ["", Validators.required],
+      password: ["", Validators.required],
+      identifierType: [2],
     });
   }
 
-  get email() {
-    return this.signupForm.get("email");
-  }
+  secretKey = 'IPGCOURSERAMZEYRASHAD'; 
 
-  get password() {
-    return this.signupForm.get("password");
+  encryptAndStore(key: string) {
+    const encryptedKey = CryptoJS.AES.encrypt(key, this.secretKey).toString();
+    localStorage.setItem('twoStepAuthKey', encryptedKey);
   }
 
   onSubmit() {
-    const loginModel = {
-      Email: this.signupForm.get("email").value,
-      Password: this.signupForm.get("password").value,
-    };
-    this.authService.signIn(loginModel).subscribe((res) => {
-      console.log(this.authService.user);
-      this.router.navigate(["/main-teacher-management/main-home"]);
+    this.authService.signIn(this.signupForm.value).subscribe({
+      next: res => {
+
+
+      },
+      error: err => {
+        showInfoAlert("Info", err.error.messages[0],true, false, '', 'Close')
+      }
     });
   }
   togglePasswordVisibility(): void {

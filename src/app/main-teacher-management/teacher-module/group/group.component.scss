@@ -1,0 +1,61 @@
+
+  
+
+
+.buttonDiff{
+  text-align: end;
+}
+
+.filter-icon {
+  cursor: pointer;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.menu-content {
+  padding: 16px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  ::ng-deep.mat-mdc-form-field-subscript-wrapper{
+      display: none;
+  }
+}
+
+  @media only screen and (max-width: 992px){
+    .form-control,button{
+      margin-bottom: 20px;
+    }
+    .buttonDiff,.buttonDiff button{
+      width: 100%;
+    }
+    }
+
+    
+   .groupForm::ng-deep .mat-datepicker-toggle button {
+      height: 24px!important; /* Kiçik ölçü */
+      width: 24px!important; /* Kiçik ölçü */
+      padding: 0; /* Lazımsız boşluqları azaldın */
+    }
+    
+   .groupForm ::ng-deep.mat-datepicker-toggle svg {
+      height: 16px!important; /* İkonun ölçüsü */
+      width: 16px!important; /* İkonun ölçüsü */
+    }
+   .groupForm ::ng-deep mat-form-field {
+      width: 100%; /* Lazım gələrsə genişliyi təyin edin */
+    }
+    
+   .groupForm ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+      padding: 0;
+    }
+  .groupForm  button.btn-lg {
+      min-width: 120px; /* Düymənin genişliyini təyin edin */
+      margin-right: 0; 
+      height: 37.1px;
+      line-height: 20px;
+  /* Sağ tərəfdə sıfır boşluq */
+    }
+

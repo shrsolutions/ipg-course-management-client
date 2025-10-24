@@ -11,16 +11,20 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ErrorHandlingInterceptor } from "./core/interceptors/error-handling.interceptor";
 import { HttpLoadingInterceptor } from "./core/interceptors/http-loading.interceptor";
 import { TokenInterceptor } from "./core/interceptors/token.interceptor";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     UserAuthModule,
+    MainTeacherManagementModule,
+    SharedModule,
     TeacherRoutingModule,
     ToastrModule.forRoot(),
+    
   ],
   providers: [
     {

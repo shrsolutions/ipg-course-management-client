@@ -1,0 +1,37 @@
+<div class="modal-1 bs-example-modal">
+    <form [formGroup]="roleForm" (ngSubmit)="onSetRole()" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title align-self-center">Assign Student</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="onClose()"></button>
+        </div>
+        <div class="modal-body">
+            <label>Students</label>
+            <mat-form-field class="col-lg-12 col-sm-12" appearance="outline">
+                <input matInput placeholder="Search student..." [matAutocomplete]="auto" [formControl]="searchControl"
+                    (input)="handleAutocomp($event.target.value)">
+
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayVal">
+                    <mat-option *ngFor="let student of students" [value]="student"
+                        (onSelectionChange)="onSelectionChange($event, student)">
+                        {{ student.value }} <small *ngIf="student.phoneNumber">- (+{{student.phoneNumber}})</small>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <!-- Seçilmiş tələbələr -->
+            <div *ngIf="roleForm.get('memberIds')?.value?.length > 0" class="selected-members">
+                <div *ngFor="let member of roleForm.get('memberIds')?.value" class="member-tag">
+                    {{ getMemberName(member) }}
+                    <button mat-icon-button (click)="removeMember(member)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="roleForm.invalid">Assign Student</button>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="onClose()">Close</button>
+        </div>
+    </form>
+</div>

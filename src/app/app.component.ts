@@ -10,9 +10,20 @@ import { LoadingService } from "./shared/services/loading.service";
 export class AppComponent implements OnInit {
   isAuthenticated: boolean = false;
 
-  constructor(public loadingService: LoadingService) {}
+  constructor(
+    private authService: AuthService,
+    public loadingService: LoadingService
+  ) {
+    const autoLogin = this.authService.authoLogin();
+    if (autoLogin) {
+      this.authService.user.subscribe(this.handleUserData);
+    }
+  }
 
   ngOnInit(): void {}
 
-  title = "IpgCourseManagement-App";
+  private handleUserData = (userData: any) => {
+    const isAuthenticated = this.authService.isUserAuthenticated(userData);
+    this.isAuthenticated = isAuthenticated;
+  };
 }

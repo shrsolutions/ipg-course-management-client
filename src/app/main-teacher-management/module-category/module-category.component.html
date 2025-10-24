@@ -1,22 +1,38 @@
 <div class="row d-flex  justify-content-center  align-items-center w-100 h-100  card-container">
-    <div class=" card-item-1  col-md-3 col-lg-3 col-sm-10  " style="cursor: pointer;">
+    <!-- <div class=" card-item-1  col-md-3 col-lg-3 col-sm-10  " style="cursor: pointer;">
         <div class="card text-white bg-primary">
             <div class="card-body d-flex align-items-center justify-content-center ">
                 <h1 class="text-center ">QUIZ</h1>
             </div>
         </div>
     </div>
-    <div class="card-item-2 col-md-3 col-lg-3 col-sm-10 " style="cursor: pointer;" (click)="onNavigate()">
-        <div class="card text-white bg-dark ">
-            <div class="card-body d-flex align-items-center justify-content-center   ">
-                <h1 class="text-center ">Video Dərs</h1>
-            </div>
-        </div>
-    </div>
-    <div class="card-item-2 col-md-3 col-lg-3 col-sm-10 " style="cursor: pointer;">
+    
+    <div class="card-item-2 col-md-3 col-lg-3 col-sm-10 disable " style="cursor: pointer;">
         <div class="card text-white bg-danger  ">
             <div class="card-body d-flex align-items-center justify-content-center   ">
                 <h1 class="text-center ">Sınaq</h1>
+            </div>
+        </div>
+    </div> -->
+    <div class="card-item-2 col-md-3 col-lg-3 col-sm-10 " style="cursor: pointer;" (click)="onNavigate(1)">
+        <div class="card text-white bg-dark ">
+            <div class="card-body d-flex align-items-center justify-content-center   ">
+                <h1 class="text-center ">Videos</h1>
+            </div>
+        </div>
+    </div>
+    <div class="card-item-2 col-md-3 col-lg-3 col-sm-10 " (click)="onNavigate(2)" style="cursor: pointer;">
+        <div class="card text-white bg-success">
+            <div class="card-body d-flex align-items-center justify-content-center   ">
+                <h1 class="text-center ">Topics</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-item-2 col-md-3 col-lg-3 col-sm-10 " (click)="onNavigate(3)" style="cursor: pointer;">
+        <div class="card text-white" style="background-color: #273c75;">
+            <div class="card-body d-flex align-items-center justify-content-center   ">
+                <h1 class="text-center ">Quizzes</h1>
             </div>
         </div>
     </div>

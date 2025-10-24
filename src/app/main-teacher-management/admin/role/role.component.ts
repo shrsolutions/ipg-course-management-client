@@ -8,10 +8,9 @@ import {
   SelectBoxModel,
 } from "../../models/Base/FetchBaseModel";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { RoleData } from "../models/role";
 import { NotificationService } from "src/app/shared/services/notification.service";
-import { OPERATION_MESSAGE } from "src/app/shared/enums/api-enum";
 import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
+import { LocalStorageService } from "src/app/shared/services/local-storage.service";
 
 @Component({
   selector: "app-role",
@@ -21,62 +20,79 @@ import { SweatAlertService } from "src/app/shared/services/sweat-alert.service";
 export class RoleComponent implements OnInit {
   pageSize = 5;
   currentPage = 1;
+  length!: number
   displayedColumns: string[] = [
-    "id",
+
     "name",
-    "selectedSystemServicesString",
     "edit",
     "remove",
-  ]; // Adjust columns accordingly
+  ];
   dataSource: MatTableDataSource<Roles> = new MatTableDataSource<Roles>();
   paginatorModel: PaginatorModel;
+  paginatorModel1: PaginatorModel;
+
   invalid: boolean = false;
   systemServices: SelectBoxModel[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   roleForm: FormGroup;
   editingRoleId;
   UpdateOrAddBtnMessage: string = "Add Role";
+  editData:any
+
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
     private notificationService: NotificationService,
+    private localStorageService: LocalStorageService,
     private saService: SweatAlertService
   ) {
     this.paginatorModel = {
       count: this.pageSize,
       page: this.currentPage,
     };
+    this.paginatorModel1 = {
+      count: 100,
+      page: 1,
+    };
   }
+  permission:any
 
   ngOnInit(): void {
+    const storedPermissions = localStorage.getItem('userPermission');
+    if (storedPermissions) {
+      try {
+        this.permission= JSON.parse(storedPermissions);
+      } catch (e) {
+        console.error('Error parsing permissions:', e);
+        this.permission= [];
+      }
+    }
     this.loadRoles();
     this.initialForm();
     this.fillServicesSelectBox();
   }
-
   initialForm(): void {
     this.roleForm = this.fb.group({
-      name: ["", Validators.required],
-      selectedSystemServices: [[], Validators.required],
+      id: [this.editData?.id||null],
+      name: [this.editData?.name||"", Validators.required],
+      selectedPermissions: [this.editData?.permissions||[], Validators.required],
     });
   }
 
   loadRoles() {
     this.adminService.fetchRoles(this.paginatorModel).subscribe({
       next: (responseData) => {
+
         const data = responseData.result.data;
-        this.dataSource.data = this.formatRolesData(data);
-        this.paginator.pageIndex = this.currentPage;
-        this.paginator.pageSize = responseData.result.count;
-        this.pageSize = responseData.result.count;
-      },
+        this.dataSource.data =data;
+        this.length = responseData.result.count      },
     });
   }
 
   fillServicesSelectBox() {
-    this.adminService.getSystemServices().subscribe({
+    this.adminService.getSystemServices(this.paginatorModel1).subscribe({
       next: (responseData) => {
-        this.systemServices = responseData.result;
+        this.systemServices = responseData.result.data;
       },
     });
   }
@@ -92,28 +108,29 @@ export class RoleComponent implements OnInit {
       this.invalid = true;
       return;
     }
-    const roleData: RoleData = {
-      id: this.editingRoleId || 0,
-      name: this.roleForm.get("name").value,
-      selectedSystemServices: this.roleForm.get("selectedSystemServices").value,
-    };
 
     if (this.editingRoleId) {
-      this.adminService.updateRole(roleData).subscribe({
+      this.adminService.updateRole(this.roleForm.value).subscribe({
         next: (responseData) => {
-          if (responseData.messages.includes(OPERATION_MESSAGE.success)) {
-            this.notificationService.showSuccess("Role updated succesfully");
+          if (responseData.statusCode==200) {
+            this.notificationService.showSuccess(
+              responseData.messages
+            );
             this.loadRoles();
+            this.editingRoleId = 0;
+            this.UpdateOrAddBtnMessage = "Add Role";
           } else {
             this.notificationService.showError("Any Error happened");
           }
         },
       });
     } else {
-      this.adminService.addRole(roleData).subscribe({
+      this.adminService.addRole(this.roleForm.value).subscribe({
         next: (responseData) => {
-          if (responseData.messages.includes(OPERATION_MESSAGE.success)) {
-            this.notificationService.showSuccess("Role added succesfully");
+          if (responseData.statusCode==200) {
+            this.notificationService.showSuccess(
+              responseData.messages
+            );
             this.loadRoles();
           } else {
             this.notificationService.showError("Any Error happened");
@@ -121,39 +138,44 @@ export class RoleComponent implements OnInit {
         },
       });
     }
+    this.roleForm.reset();
   }
 
-  editRole(roleData: Roles) {
-    this.roleForm.patchValue({
-      name: roleData.name,
-      selectedSystemServices: roleData.selectedSystemServices,
-    });
+  editRole(roleData: any) {
 
-    this.editingRoleId = roleData.id;
-    this.UpdateOrAddBtnMessage = "Update Role";
+    this.adminService.getByIdRole(roleData.id).subscribe({
+      next: (response) => {
+        if (response.statusCode==200) {
+          this.editData=response.result
+          this.initialForm()
+          this.editingRoleId = roleData.id;
+          this.UpdateOrAddBtnMessage = "Update Role";
+
+        } else {
+
+          this.notificationService.showError("Xəta baş verdi'");
+        }
+      },
+      error: err => {
+
+        this.notificationService.showError("Xəta baş verdi'");
+      }
+    });
   }
 
   onRemoveRole(id: number) {
-    this.saService.confirmDialog().then((result) => {
-      if (result.isConfirmed) {
+
         this.adminService.removeRole(id).subscribe({
           next: (responseData) => {
-            if (responseData.messages.includes(OPERATION_MESSAGE.success)) {
-              this.notificationService.showSuccess("Role deleted succesfully");
+            if (responseData.statusCode==200) {
+              this.notificationService.showSuccess(
+                responseData.messages
+              );
               this.loadRoles();
             } else {
               this.notificationService.showError("Any Error happened");
             }
           },
         });
-      }
-    });
-  }
-
-  private formatRolesData(data: Roles[]): Roles[] {
-    return data.map((role) => ({
-      ...role,
-      selectedSystemServicesString: role.selectedSystemServices.join(", "),
-    }));
   }
 }

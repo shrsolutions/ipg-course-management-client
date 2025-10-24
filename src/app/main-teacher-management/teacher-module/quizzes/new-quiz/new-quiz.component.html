@@ -1,0 +1,166 @@
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [selectedIndex]="btnNextPrev.index">
+  <mat-tab label="Quizz" id="quizz">
+    <div class="m-3">
+      <form class="example-container" [formGroup]="quizForm">
+        <div class="row">
+          <div class="col-lg-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Title</mat-label>
+              <input matInput required formControlName="title">
+              <mat-error>Title is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Description</mat-label>
+              <input matInput required formControlName="description">
+              <mat-error>Description is required</mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Rate ID -->
+          <div class="col-lg-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Rate</mat-label>
+              <mat-select required [(ngModel)]="rateId" [ngModelOptions]="{standalone: true}"
+                (selectionChange)="changeRateId()">
+                <mat-option [value]="1">Simple</mat-option>
+                <mat-option [value]="2">Middle</mat-option>
+                <mat-option [value]="3">Hard</mat-option>
+              </mat-select>
+              <mat-error>
+                Rate is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select required formControlName="stateId">
+                <mat-option [value]="1">Active</mat-option>
+                <mat-option [value]="2">Draft</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </form>
+      <div class="d-flex justify-content-between mt-3">
+        <button mat-stroked-button color="warn"
+          routerLink="/main-teacher-management/teacher-module/quizzes">Exit</button>
+        <button mat-raised-button color="primary" (click)="navig('next')"
+          [disabled]="quizForm.invalid || rateId == null">Next</button>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Questions" id="question" [disabled]="quizForm.invalid">
+    <div class="m-3">
+      <div class="d-flex justify-content-end mb-3">
+        <!-- New Question Button -->
+        <button mat-raised-button color="primary" (click)="addNewQuestion()">Reset Form</button>
+      </div>
+      <div class="mt-4 news-content">
+        <h4>Saved Questions</h4>
+        <div class="news row">
+          <div class="col-xl-2 col-lg-3 col-sm-4 col-md-3" *ngFor="let item of savedQuestions; let i = index">
+            <div class="news-card">
+              <div class="card-header"  [ngClass]="{'editing': selectedQuestionIndex === i}">
+                <strong><span>{{i+1}}</span></strong>
+                <div>
+                  <button mat-icon-button color="accent" (click)="editQuestion(item.id, i)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="accent" (click)="readMore(item.id, i)">
+                    <mat-icon>remove_red_eye</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="removeQuestion(item.id, i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form class="example-container" [formGroup]="questionsForm">
+        <div class="row">
+          <div class="col-lg-12">
+            <h5>Question</h5>
+            <quill-editor formControlName="text" required (onEditorCreated)="onEditorCreated($event, -1)"
+              [modules]="quillConfig" style="width: 100%;">
+            </quill-editor>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- Question Text -->
+          <!-- Rate ID -->
+          <div class="col-lg-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Rate</mat-label>
+              <mat-select required formControlName="rateId">
+                <mat-option [value]="1">Simple</mat-option>
+                <mat-option [value]="2">Middle</mat-option>
+                <mat-option [value]="3">Hard</mat-option>
+              </mat-select>
+              <mat-error>
+                Rate is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <!-- Answers Section -->
+        <div class="row mt-3" formArrayName="answers">
+          <div class="col-lg-12">
+            <h4>Answers</h4>
+          </div>
+
+          <div class="col-lg-12" *ngFor="let answer of answers.controls; let i = index" [formGroupName]="i">
+            <div class="row align-items-center">
+              <!-- Answer Text -->
+              <div class="col-lg-11">
+                <mat-checkbox formControlName="isCorrect" (change)="toggleCorrectAnswer(i, $event)">Variant {{
+                  ('ABCDE'[i])}}</mat-checkbox>
+                <quill-editor formControlName="text" required (onEditorCreated)="onEditorCreated($event, i)"
+                  [modules]="quillConfig" style="width: 100%;"></quill-editor>
+              </div>
+
+
+              <!-- Remove Answer Button -->
+              <div class="col-lg-1" *ngIf="this.answers.controls.length > 3">
+                <button mat-icon-button color="warn" type="button" (click)="removeAnswer(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <hr>
+
+          </div>
+          <!-- Add Answer Button -->
+          <div class="col-lg-12 mt-3 text-end">
+            <button mat-raised-button type="button" (click)="addAnswer()" *ngIf="this.answers.controls.length < 5">
+              Add Answer
+            </button>
+            <button mat-raised-button color="primary" type="button" class="mx-3" (click)="saveQuestions()"
+              [disabled]="questionsForm.invalid || !selectedIsCorrect">
+              Save Question
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Quizz save section -->
+      <div class="row justify-content-between mt-4">
+        <div class="col-lg-6">
+          <button mat-stroked-button type="button" color="warn" (click)="navig('prev')">Back</button>
+        </div>
+        <div class="col-lg-6 text-end">
+          <button mat-raised-button color="primary" type="button" (click)="saveQuizz()"
+            [disabled]="savedQuestions.length == 0">
+            Save Quizz
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+</mat-tab-group>

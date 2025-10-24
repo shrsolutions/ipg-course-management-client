@@ -4,10 +4,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background: rgba(255, 255, 255, 1); /* Semi-transparent background */
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 99999;
 }
 
 mat-progress-spinner {

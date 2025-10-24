@@ -10,6 +10,9 @@ import { ForgotPasswordComponent } from "./forgot-password/forgot-password.compo
 import { EmailAlertComponent } from "./email-alert/email-alert.component";
 import { ConfirmAccountComponent } from "./confirm-account/confirm-account.component";
 import { AuthComponent } from "./auth.component";
+import { IMaskModule } from "angular-imask";
+import { NgOtpInputModule } from "ng-otp-input";
+import { ConfirmForgotPasswordComponent } from "./confirm-forgot-password/confirm-forgot-password.component";
 @NgModule({
   declarations: [
     LoginComponent,
@@ -17,6 +20,7 @@ import { AuthComponent } from "./auth.component";
     ForgotPasswordComponent,
     EmailAlertComponent,
     ConfirmAccountComponent,
+    ConfirmForgotPasswordComponent,
     AuthComponent,
   ],
   imports: [
@@ -25,6 +29,8 @@ import { AuthComponent } from "./auth.component";
     MatIconModule,
     AuthRoutingModule,
     FormsModule,
+    IMaskModule,
+    NgOtpInputModule
   ],
   exports: [
     LoginComponent,

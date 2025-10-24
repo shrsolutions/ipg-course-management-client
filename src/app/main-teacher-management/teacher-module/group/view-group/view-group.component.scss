@@ -1,0 +1,125 @@
+.group-detail-container {
+    padding: 0 10px;
+    display: flex;           /* Əsas flex container */
+  gap: 20px;
+  }
+  
+  .detail-section {
+    flex: 1;                 /* Bütün bölmələr bərabər genişlikdə */
+  min-width: 0;  
+  }
+  
+  .section-title {
+    color: #3f51b5;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .section-title .bi-plus-circle{
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Members styling */
+  .member-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .member-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .member-avatar {
+    width: 36px;
+    height: 36px;
+    background-color: #3f51b5;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+  .member-name {
+    font-weight: 500;
+  }
+  
+  .member-date {
+    font-size: 0.8rem;
+    color: #666;
+  }
+  
+  /* Quizzes styling */
+  .quiz-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .quiz-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .quiz-icon {
+    color: #ff9800;
+    font-size: 1.2rem;
+  }
+  
+  .quiz-title {
+    font-weight: 500;
+  }
+  
+  .quiz-date {
+    font-size: 0.8rem;
+    color: #666;
+  }
+  
+  /* Content styling */
+  .content-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .content-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .content-icon {
+    color: #4caf50;
+    font-size: 1.2rem;
+  }
+  
+  .content-link {
+    color: #3f51b5;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  
+  .content-link:hover {
+    text-decoration: underline;
+  }
+  
+  .content-date {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  @media (max-width: 768px) {
+    .group-detail-container {
+      flex-direction: column;
+    }
+  }

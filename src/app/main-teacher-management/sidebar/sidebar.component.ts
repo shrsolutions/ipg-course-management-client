@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { LocalStorageService } from "src/app/shared/services/local-storage.service";
 import { AuthService } from "src/app/user-auth/auth.service";
 
 @Component({
@@ -7,19 +8,19 @@ import { AuthService } from "src/app/user-auth/auth.service";
   styleUrls: ["./sidebar.component.scss"],
 })
 export class SidebarComponent implements OnInit {
-  isAuthenticated: boolean = false;
-
-  constructor(private authService: AuthService) {}
-
+  constructor(
+    private localStorageService: LocalStorageService
+  ) {}
+  permission:any
   ngOnInit(): void {
-    const autoLogin = this.authService.authoLogin();
-    if (autoLogin) {
-      this.authService.user.subscribe(this.handleUserData);
-    }
-  }
-
-  private handleUserData = (userData: any) => {
-    const isAuthenticated = this.authService.isUserAuthenticated(userData);
-    this.isAuthenticated = isAuthenticated;
-  };
+     const storedPermissions = localStorage.getItem('userPermission');
+     if (storedPermissions) {
+       try {
+         this.permission= JSON.parse(storedPermissions);
+       } catch (e) {
+         console.error('Error parsing permissions:', e);
+         this.permission= [];
+       }
+     }
+   }
 }

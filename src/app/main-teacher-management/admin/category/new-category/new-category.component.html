@@ -1,0 +1,75 @@
+<div class="modal-1 bs-example-modal">
+  <form class="modal-content" [formGroup]="categoryForm" (ngSubmit)="saveCategory()" enctype="multipart/form-data">
+    <div class="modal-header">
+      <h5 class="modal-title align-self-center">{{modalTitle}}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="dialogRef.close(false)"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row g-3 mt-1">
+        <!-- Dil seçimi -->
+        <!-- <div class="col-6 ">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Language</mat-label>
+            <mat-select formControlName="languageId" required>
+              <mat-option *ngFor="let language of languages" [value]="language.id">
+                {{language.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="categoryForm.get('languageId')?.hasError('required')">
+              Language is required
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+
+        <!-- Kateqoriya adı -->
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Category Name</mat-label>
+            <input matInput type="text" formControlName="translation" required placeholder="Enter category name">
+            <mat-error *ngIf="categoryForm.get('translation')?.hasError('required')">
+              Category name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Icon yükləmə -->
+<div class="col-12">
+ <div class="file-upload-container">
+            <span class="upload-title">Category Icon</span>
+            <span class="upload-hint">(Recommended size: 512x512px)</span>
+            <label class="file-upload-label">
+              <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
+              <div class="upload-area" [class.has-file]="selectedFile || hasExistingIcon">
+                <div *ngIf="!selectedFile && !hasExistingIcon; else filePreview" class="upload-placeholder">
+                  <mat-icon class="upload-icon">cloud_upload</mat-icon>
+                  <span>Click to upload icon</span>
+                </div>
+                <ng-template #filePreview>
+                  <div class="file-preview">
+                    <img [src]="selectedFile ? previewUrl : existingIconUrl" alt="Preview" class="preview-image">
+                    <div class="file-info">
+                      <span>{{ selectedFile ? selectedFile.name : 'Current Icon' }}</span>
+                      <button type="button" class="btn-remove" (click)="removeFile($event)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </label>
+            <mat-error *ngIf="showFileError">Icon is required</mat-error>
+          </div>
+</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid || !hasExistingIcon">
+        <span *ngIf="!isLoading">Save</span>
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+        (click)="dialogRef.close(false)">Close</button>
+    </div>
+  </form>
+</div>

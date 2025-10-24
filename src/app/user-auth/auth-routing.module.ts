@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from "./forgot-password/forgot-password.compo
 import { EmailAlertComponent } from "./email-alert/email-alert.component";
 import { ConfirmAccountComponent } from "./confirm-account/confirm-account.component";
 import { AuthComponent } from "./auth.component";
+import { ConfirmForgotPasswordComponent } from "./confirm-forgot-password/confirm-forgot-password.component";
 
 const userRoutes: Routes = [
   { path: "", redirectTo: "auth", pathMatch: "full" },
@@ -20,6 +21,7 @@ const userRoutes: Routes = [
       { path: "forgot-password", component: ForgotPasswordComponent },
       { path: "email-alert", component: EmailAlertComponent },
       { path: "confirm-account", component: ConfirmAccountComponent },
+      { path: "verify", component: ConfirmForgotPasswordComponent },
     ],
   },
 ];

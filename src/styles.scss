@@ -1,16 +1,21 @@
+@import "~quill/dist/quill.snow.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", serif;
 }
+
 html,
 body {
   height: 100%;
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #f5f5f5 !important;
   font-size: 16px;
 }
+
 @import "@angular/material/theming";
 @import "./assets/styles/mixin";
 @import "ngx-toastr/toastr";
@@ -23,22 +28,204 @@ $my-accent: mat-palette($mat-green, A200, A100, A400);
 
 $my-warn: mat-palette($mat-red);
 
-// Create the theme using your custom colors
-$my-theme: mat-light-theme(
-  (
-    color: (
-      primary: $my-primary,
-      accent: $my-accent,
-    ),
-  )
-);
-
-// Apply the custom theme to the application
-@include angular-material-theme($my-theme);
 
 @include respond-above("sm") {
+
   html,
   body {
     font-size: 12px;
   }
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+  height: 38px !important;
+}
+
+.mat-textarea .mat-mdc-text-field-wrapper {
+  height: auto !important;
+}
+
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+  top: 19px !important;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+  --mat-mdc-form-field-label-transform: translateY(-26.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75)) !important;
+  transform: var(--mat-mdc-form-field-label-transform);
+}
+
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  min-height: 36px !important;
+}
+
+.mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 4px !important;
+  --mdc-outlined-text-field-focus-outline-width: 1px !important
+}
+
+.form-control {
+  height: 36px !important;
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:focus:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:focus:indeterminate~.mdc-checkbox__background {
+  border-color: #3f51b5 !important;
+  background-color: #3f51b5 !important;
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:focus:checked~.mdc-checkbox__ripple {
+  background-color: #3f51b5 !important;
+}
+
+.mat-mdc-paginator {
+  background: transparent !important;
+}
+
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  font-family: "Poppins", serif !important;
+}
+
+.mdc-checkbox {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.mat-mdc-checkbox label {
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  color: black !important;
+  font-size: 16px !important;
+}
+
+.mat-mdc-raised-button.mat-primary {
+  background-color: rgb(77 179 230 / 25%) !important;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+  color: #3682a8 !important;
+}
+
+
+
+.table-responsive table thead tr {
+  height: 20px !important;
+  background-color: rgb(77 179 230 / 18%) !important;
+
+  th {
+    font-size: 17px !important;
+    color: #3682a8 !important;
+    font-weight: 500 !important;
+  }
+}
+
+.table-responsive table tbody tr:nth-child(even) {
+  background-color: #f6fafe !important;
+}
+
+.table-responsive table tbody tr.selected {
+  background-color: #d6eaf8 !important;
+  transition: 0.3s;
+}
+
+.table-responsive table tbody tr {
+  height: 18px !important;
+  transition: 0.3s;
+
+  td {
+    padding: 6px 12px !important;
+  }
+
+
+}
+
+.general-label .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.ql-snow .ql-tooltip {
+  left: 0 !important;
+  top: 0 !important;
+}
+
+.card-title {
+  font-size: 25px !important;
+  margin: 0 !important;
+}
+
+b,
+strong {
+  font-weight: 600 !important;
+}
+
+
+
+.ql-snow .ql-font .ql-picker-options .ql-picker-item {
+  font-family: #{attr(data-value)};
+
+  &::before {
+    content: attr(data-value) !important;
+  }
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+  content: attr(data-value) !important;
+}
+
+$text-editor-fonts: 'Calibri', 'TimesNewRoman', 'Arial', 'Monospace';
+
+@each $text-editor-font in $text-editor-fonts {
+  .ql-font-#{$text-editor-font} {
+    font-family: $text-editor-font;
+  }
+}
+
+.ql-snow .ql-picker.ql-font,
+.ql-snow .ql-picker.ql-size,
+.ql-snow .ql-picker.ql-header {
+  width: fit-content !important;
+}
+
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+  right: inherit !important;
+}
+
+.ql-editor p {
+  color: black;
+}
+
+.ql-toolbar.ql-snow {
+  border-top-right-radius: 4px !important;
+  border-top-left-radius: 4px !important;
+  border-bottom: 0px !important;
+}
+
+.ql-container.ql-snow {
+  border-radius: 4px !important;
+}
+
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
+  border-top: 1px solid #ccc !important;
+}
+
+
+
+.mat-mdc-icon-button.mat-mdc-button-base {
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
 }
