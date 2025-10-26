@@ -57,6 +57,9 @@ export class AssignQuizzComponent implements OnInit {
     count: 9999,
     page: 1,
   };
+
+  selectedQuizzes: { quizId: string; subjectId: string | null }[] = [];
+
   ngOnInit(): void {
     this.getAllQuizzes()
     this.fillCategorySelectBox()
@@ -76,15 +79,14 @@ export class AssignQuizzComponent implements OnInit {
     ).subscribe({
       next: res => {
         res.result.forEach((item: any) => {
-          const matchingItem = this.dataSource.data.find(dataItem => dataItem.id === item.quizId);
-          if (matchingItem) {
-            this.quizIds.push(matchingItem.id);
+          const existing = this.selectedQuizzes.find(q => q.quizId === item.quizId && q.subjectId === (item.subjectId || null));
+          if (!existing) {
+            this.selectedQuizzes.push({ quizId: item.quizId, subjectId: item.subjectId || null });
           }
         });
       }
     });
   }
-
 
 
   onPageChanged(event: PageEvent) {
@@ -93,47 +95,53 @@ export class AssignQuizzComponent implements OnInit {
     this.getAllQuizzes()
   }
 
-  quizIds: number[] = [];
 
   toggleSelection(row: any): void {
-    const index = this.quizIds.indexOf(row.id);
+    const currentSubjectId = this.subjectId;
+    const index = this.selectedQuizzes.findIndex(q => q.quizId === row.id && q.subjectId === currentSubjectId);
     if (index === -1) {
-      this.quizIds.push(row.id); // Add ID to the array
+      this.selectedQuizzes.push({ quizId: row.id, subjectId: currentSubjectId });
     } else {
-      this.quizIds.splice(index, 1); // Remove ID from the array
+      this.selectedQuizzes.splice(index, 1);
     }
   }
 
   isSelected(row: any): boolean {
-    return this.quizIds.indexOf(row.id) !== -1;
+    return this.selectedQuizzes.some(q => q.quizId === row.id && q.subjectId === this.subjectId);
   }
-
   toggleAll(event: any): void {
+    const currentSubjectId = this.subjectId;
     if (event.checked) {
-      this.quizIds = this.dataSource.data.map(row => row.id);
+      this.dataSource.data.forEach(row => {
+        if (!this.selectedQuizzes.some(q => q.quizId === row.id && q.subjectId === currentSubjectId)) {
+          this.selectedQuizzes.push({ quizId: row.id, subjectId: currentSubjectId });
+        }
+      });
     } else {
-      this.quizIds = [];
+      this.selectedQuizzes = this.selectedQuizzes.filter(q => q.subjectId !== currentSubjectId);
     }
   }
 
   isAllSelected(): boolean {
-    return this.dataSource.data.every(row => this.quizIds.indexOf(row.id) !== -1);
+    return this.dataSource.data.every(row => this.isSelected(row));
   }
 
   isIndeterminate(): boolean {
-    return this.quizIds.length > 0 && !this.isAllSelected();
+    const selectedInCurrent = this.selectedQuizzes.filter(q => q.subjectId === this.subjectId).length;
+    return selectedInCurrent > 0 && !this.isAllSelected();
   }
 
   assignQuiz() {
-    this.adminService.assignQuiz(this.data.groupId, { quizIds: this.quizIds }).subscribe({
+    const postData = { quizzes: this.selectedQuizzes };
+    this.adminService.assignQuiz(this.data.groupId, postData).subscribe({
       next: res => {
-        showInfoAlert('', res.messages, false, true, 'Close')
-        this.dialogRef.close()
+        showInfoAlert('', res.messages, false, true, 'Close');
+        this.dialogRef.close();
       },
       error: err => {
-        showErrorAlert('Error', err.message, 'Close')
+        showErrorAlert('Error', err.message, 'Close');
       }
-    })
+    });
   }
 
   fillCategorySelectBox() {
@@ -148,17 +156,45 @@ export class AssignQuizzComponent implements OnInit {
   }
 
   onLoadSubject(): void {
-    this.libraryService.fetchSubjectsByCategoryId(this.categorieId, this.paginatorModelForSelectBox).subscribe({
-      next: (responseData) => {
-        this.subjects = responseData.result.data.map((v) => ({
-          key: v.id,
-          value: v.translationInCurrentLanguage,
-        }));
-      },
-    });
+    this.subjects = []
+    this.topics = []
+    this.subTopics = []
+    this.subjectId = null;
+    if (!this.categorieId) {
+      this.subjectId = null;
+      this.topicId = null
+      this.subTopicId = null
+      this.getAllQuizzes()
+    } else {
+      this.libraryService.fetchSubjectsByCategoryId(this.categorieId, this.paginatorModelForSelectBox).subscribe({
+        next: (responseData) => {
+          this.subjects = responseData.result.data.map((v) => ({
+            key: v.id,
+            value: v.translationInCurrentLanguage,
+          }));
+
+          if (this.data.groupId) {
+            this.adminService.getAssignQuiz(this.data.groupId).subscribe({
+              next: res => {
+                res.result.forEach((item: any) => {
+                  const existing = this.selectedQuizzes.find(q => q.quizId === item.quizId && q.subjectId === (item.subjectId || null));
+                  if (!existing) {
+                    this.selectedQuizzes.push({ quizId: item.quizId, subjectId: item.subjectId || null });
+                  }
+                });
+              }
+            })
+          }
+        },
+      });
+    }
+
   }
 
   onLoadTopics(): void {
+    this.topics = []
+    this.subTopics = []
+    this.topicId = null;
     this.libraryService.fetchTopicsBySubjectId(this.subjectId, this.paginatorModelForSelectBox).subscribe({
       next: (response) => {
         this.topics = response.result.data.map((v) => ({
@@ -169,7 +205,9 @@ export class AssignQuizzComponent implements OnInit {
     });
   }
 
-    onLoadSubTopics(): void {
+  onLoadSubTopics(): void {
+    this.subTopics = []
+    this.subTopicId = null;
     this.libraryService.fetchSubTopicsByTopicId(this.topicId, this.paginatorModelForSelectBox).subscribe({
       next: (response) => {
         this.subTopics = response.result.data.map((v) => ({
@@ -179,5 +217,6 @@ export class AssignQuizzComponent implements OnInit {
       },
     });
   }
+
 
 }
